@@ -106,74 +106,10 @@
     </div>
   </section>
 
-  <!-- VERTICALES PRINCIPALES -->
+  <!-- BOTONES DE USUARIO -->
   <section class="section">
-    <h2 class="section-title">Verticales principales</h2>
-
-    <div class="grid">
-      <div class="card">
-        <h3>🧩 Marketplace (2ª mano)</h3>
-        <p>Compra y vende anuncios de usuarios con chat interno y secciones organizadas.</p>
-        <div class="card-actions">
-          <a class="btn btn-primary" href="marketplace/index.html">Entrar</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>🛒 Tienda Oficial</h3>
-        <p>Productos de Zeletas con catálogo profesional y enfoque premium.</p>
-        <div class="card-actions">
-          <a class="btn btn-primary" href="tienda/index.html">Ver tienda</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>🚗 Vehículos</h3>
-        <p>Nuevo, seminuevo, segunda mano, importación y gestión.</p>
-        <div class="card-actions">
-          <a class="btn btn-primary" href="vehiculos/index.html">Ver sección</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>🏠 Inmobiliaria</h3>
-        <p>Compra/venta, alquiler, inversión y reformas/proyectos.</p>
-        <div class="card-actions">
-          <a class="btn btn-primary" href="inmobiliaria/index.html">Ver sección</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>🛠️ Servicios</h3>
-        <p>Reformas, mantenimiento, gestión de profesionales y presupuestos.</p>
-        <div class="card-actions">
-          <a class="btn btn-primary" href="servicios/index.html">Ver servicios</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>👤 Asesoría / Suscripción</h3>
-        <p>Asesor privado Zeletas: 50€/mes con acompañamiento real.</p>
-        <div class="card-actions">
-          <a class="btn btn-primary" href="asesoria/index.html">Ver asesoría</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>💳 Financiación</h3>
-        <p>Gestión de financiación con terceros: tú solicitas y Zeletas coordina.</p>
-        <div class="card-actions">
-          <a class="btn btn-primary" href="financiacion/index.html">Solicitar</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>📩 Contacto</h3>
-        <p>Cuéntanos qué necesitas y te guiamos con un plan claro.</p>
-        <div class="card-actions">
-          <a class="btn btn-primary" href="contacto/index.html">Contactar</a>
-        </div>
-      </div>
+    <div id="usuarioSection">
+      <!-- Aquí se cargará Iniciar sesión / Registrarse o Mi perfil -->
     </div>
   </section>
 
@@ -191,30 +127,23 @@
   <!-- WhatsApp flotante -->
   <a href="https://wa.me/34632125872" class="whatsapp-float" target="_blank">💬</a>
 
-  <!-- ========================= -->
-  <!-- SCRIPTS COMPLETOS ZELETAS -->
-  <!-- ========================= -->
-
-  <!-- 1️⃣ Supabase JS -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
-
-  <!-- 2️⃣ Supabase Config -->
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="assets/js/supabase.js"></script>
   <script>
-    const SUPABASE_URL = "https://tmiblfkgxzibcpluixxl.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRtaWJsZmtneHppYmNwbHVpeHhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk4NjQ4NjEsImV4cCI6MjA4NTQ0MDg2MX0.86RmLdPT3h1GCxks2yLTKC7aBIz8Wt93IahRQhht4qA";
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  </script>
-
-  <!-- 3️⃣ Gestión usuario en hub -->
-  <script>
+    // =============================
+    // USUARIOS - LOGIN / REGISTRO
+    // =============================
     const navUser = document.getElementById('navUser');
     const menuUserMobile = document.getElementById('menuUserMobile');
 
     async function checkUser() {
       const { data: { user } } = await supabase.auth.getUser();
+
       if(user) {
+        // Usuario logueado
         navUser.innerHTML = `<a href="perfil/index.html">Mi perfil</a> | <a href="#" id="logoutBtn">Cerrar sesión</a>`;
-        menuUserMobile.innerHTML = `<a href="perfil/index.html">Mi perfil</a><a href="#" id="logoutBtnMobile">Cerrar sesión</a>`;
+        menuUserMobile.innerHTML = `<a href="perfil/index.html">Mi perfil</a> <a href="#" id="logoutBtnMobile">Cerrar sesión</a>`;
 
         document.getElementById('logoutBtn')?.addEventListener('click', async () => {
           await supabase.auth.signOut();
@@ -224,43 +153,21 @@
           await supabase.auth.signOut();
           location.reload();
         });
-
       } else {
+        // Usuario NO logueado
         navUser.innerHTML = `<a href="login/index.html">Iniciar sesión</a> | <a href="registro/index.html">Registrarse</a>`;
-        menuUserMobile.innerHTML = `<a href="login/index.html">Iniciar sesión</a><a href="registro/index.html">Registrarse</a>`;
+        menuUserMobile.innerHTML = `<a href="login/index.html">Iniciar sesión</a> <a href="registro/index.html">Registrarse</a>`;
       }
     }
 
+    // Ejecutar al cargar la página
     checkUser();
-    supabase.auth.onAuthStateChange((event, session) => { checkUser(); });
-  </script>
 
-  <!-- 4️⃣ App.js (menu y overlay) -->
-  <script>
-    const hamburger = document.querySelector(".hamburger");
-    const mobileMenu = document.querySelector(".mobile-menu");
-    const overlay = document.querySelector(".overlay");
-
-    function openMenu() {
-      mobileMenu.classList.add("active");
-      overlay.classList.add("active");
-    }
-    function closeMenu() {
-      mobileMenu.classList.remove("active");
-      overlay.classList.remove("active");
-    }
-
-    if (hamburger) {
-      hamburger.addEventListener("click", () => {
-        mobileMenu.classList.contains("active") ? closeMenu() : openMenu();
-      });
-    }
-
-    if (overlay) overlay.addEventListener("click", closeMenu);
-    document.querySelectorAll(".mobile-menu a").forEach((link) => {
-      link.addEventListener("click", closeMenu);
+    // Escuchar cambios de sesión en tiempo real
+    supabase.auth.onAuthStateChange((event, session) => {
+      checkUser();
     });
   </script>
-
+  <script src="assets/js/app.js"></script>
 </body>
 </html>
