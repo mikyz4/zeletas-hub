@@ -5,38 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ZELETAS HUB - Grupo Zeletas</title>
   <link rel="stylesheet" href="assets/css/styles.css" />
-  <style>
-    /* Estilos básicos para modales */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0; top: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
-      justify-content: center;
-      align-items: center;
-    }
-    .modal.active { display: flex; }
-    .modal-content {
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      max-width: 400px;
-      width: 90%;
-      position: relative;
-    }
-    .modal-content h3 { margin-top: 0; }
-    .modal-content input { width: 100%; margin: 8px 0; padding: 8px; }
-    .modal-content button { width: 100%; padding: 10px; margin-top: 10px; }
-    .modal-close {
-      position: absolute;
-      top: 10px; right: 10px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    #mensajeModal { margin-top: 10px; text-align: center; }
-  </style>
 </head>
 <body>
 
@@ -54,7 +22,10 @@
     <a href="asesoria/index.html">👤 Asesoría</a>
     <a href="financiacion/index.html">💳 Financiación</a>
     <a href="contacto/index.html">📩 Contacto</a>
-    <div id="menuUserMobile"></div>
+    <div class="menu-user" id="menuUserMobile">
+      <button id="btnLoginMobile">Iniciar sesión</button>
+      <button id="btnRegistroMobile">Registrarse</button>
+    </div>
   </div>
 
   <!-- HEADER -->
@@ -70,8 +41,8 @@
         <a href="servicios/index.html">Servicios</a>
         <a href="contacto/index.html">Contacto</a>
         <span id="navUser">
-          <a href="#" id="btnLogin">Iniciar sesión</a> | 
-          <a href="#" id="btnRegistro">Registrarse</a>
+          <button id="btnLogin">Iniciar sesión</button>
+          <button id="btnRegistro">Registrarse</button>
         </span>
       </nav>
 
@@ -226,25 +197,25 @@
   <!-- WhatsApp flotante -->
   <a href="https://wa.me/34632125872" class="whatsapp-float" target="_blank">💬</a>
 
-  <!-- MODALES LOGIN Y REGISTRO -->
-  <div class="modal" id="modalLogin">
+  <!-- MODALES LOGIN / REGISTRO -->
+  <div id="modalLogin" class="modal">
     <div class="modal-content">
-      <span class="modal-close" id="closeLogin">&times;</span>
+      <span class="close" id="closeLogin">&times;</span>
       <h3>Iniciar sesión</h3>
-      <input type="email" id="loginEmail" placeholder="Correo electrónico" required>
-      <input type="password" id="loginPassword" placeholder="Contraseña" required>
+      <input type="email" id="loginEmail" placeholder="Correo">
+      <input type="password" id="loginPassword" placeholder="Contraseña">
       <button id="loginBtn">Entrar</button>
       <div id="mensajeModal"></div>
     </div>
   </div>
 
-  <div class="modal" id="modalRegistro">
+  <div id="modalRegistro" class="modal">
     <div class="modal-content">
-      <span class="modal-close" id="closeRegistro">&times;</span>
+      <span class="close" id="closeRegistro">&times;</span>
       <h3>Registrarse</h3>
-      <input type="text" id="regNombre" placeholder="Nombre completo" required>
-      <input type="email" id="regEmail" placeholder="Correo electrónico" required>
-      <input type="password" id="regPassword" placeholder="Contraseña" required>
+      <input type="text" id="regNombre" placeholder="Nombre completo">
+      <input type="email" id="regEmail" placeholder="Correo">
+      <input type="password" id="regPassword" placeholder="Contraseña">
       <button id="registroBtn">Crear cuenta</button>
       <div id="mensajeModalRegistro"></div>
     </div>
@@ -256,20 +227,26 @@
   <script src="assets/js/app.js"></script>
 
   <script>
-    // =============================
-    // LOGIN / REGISTRO MODALES
-    // =============================
+  document.addEventListener('DOMContentLoaded', () => {
     const modalLogin = document.getElementById('modalLogin');
     const modalRegistro = document.getElementById('modalRegistro');
+
     const btnLogin = document.getElementById('btnLogin');
     const btnRegistro = document.getElementById('btnRegistro');
+    const btnLoginMobile = document.getElementById('btnLoginMobile');
+    const btnRegistroMobile = document.getElementById('btnRegistroMobile');
+
     const closeLogin = document.getElementById('closeLogin');
     const closeRegistro = document.getElementById('closeRegistro');
+
     const mensajeModal = document.getElementById('mensajeModal');
     const mensajeModalRegistro = document.getElementById('mensajeModalRegistro');
 
-    btnLogin.addEventListener('click', () => modalLogin.classList.add('active'));
-    btnRegistro.addEventListener('click', () => modalRegistro.classList.add('active'));
+    // Abrir modales
+    [btnLogin, btnLoginMobile].forEach(btn => btn.addEventListener('click', () => modalLogin.classList.add('active')));
+    [btnRegistro, btnRegistroMobile].forEach(btn => btn.addEventListener('click', () => modalRegistro.classList.add('active')));
+
+    // Cerrar modales
     closeLogin.addEventListener('click', () => modalLogin.classList.remove('active'));
     closeRegistro.addEventListener('click', () => modalRegistro.classList.remove('active'));
     window.addEventListener('click', e => {
@@ -277,7 +254,7 @@
       if(e.target === modalRegistro) modalRegistro.classList.remove('active');
     });
 
-    // LOGIN SUPABASE
+    // LOGIN
     document.getElementById('loginBtn').addEventListener('click', async () => {
       const email = document.getElementById('loginEmail').value;
       const password = document.getElementById('loginPassword').value;
@@ -292,7 +269,7 @@
       }
     });
 
-    // REGISTRO SUPABASE
+    // REGISTRO
     document.getElementById('registroBtn').addEventListener('click', async () => {
       const nombre = document.getElementById('regNombre').value;
       const email = document.getElementById('regEmail').value;
@@ -309,18 +286,7 @@
         setTimeout(()=>{ modalRegistro.classList.remove('active'); }, 1500);
       }
     });
-
-    // =============================
-    // MENU MOBILE + OVERLAY
-    // =============================
-    const hamburger = document.querySelector(".hamburger");
-    const mobileMenu = document.querySelector(".mobile-menu");
-    const overlay = document.querySelector(".overlay");
-    function openMenu(){ mobileMenu.classList.add("active"); overlay.classList.add("active"); }
-    function closeMenu(){ mobileMenu.classList.remove("active"); overlay.classList.remove("active"); }
-    if(hamburger) hamburger.addEventListener("click",()=>{ mobileMenu.classList.contains("active")?closeMenu():openMenu(); });
-    if(overlay) overlay.addEventListener("click", closeMenu);
-    document.querySelectorAll(".mobile-menu a").forEach(link=>link.addEventListener("click", closeMenu));
+  });
   </script>
 
 </body>
