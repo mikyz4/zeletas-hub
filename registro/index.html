@@ -8,22 +8,30 @@
 </head>
 <body>
 
+<!-- Hero / Registro -->
 <section class="hero">
   <h2>Crear cuenta en Zeletas Hub</h2>
+  
+  <!-- Formulario de registro -->
   <form id="registroForm">
     <input type="text" id="nombre" placeholder="Nombre completo" required>
     <input type="email" id="email" placeholder="Correo electrónico" required>
     <input type="password" id="password" placeholder="Contraseña" required>
     <label>
-      <input type="checkbox" id="terminos" required> Acepto términos, privacidad y cookies
+      <input type="checkbox" id="terminos" required> Acepto <a href="../legal/terminos.html">términos</a>, <a href="../legal/privacidad.html">privacidad</a> y <a href="../legal/cookies.html">cookies</a>
     </label>
     <button type="submit">Registrarse</button>
   </form>
+
   <p>¿Ya tienes cuenta? <a href="../login/">Iniciar sesión</a></p>
   <div id="mensaje"></div>
 </section>
 
+<!-- Supabase JS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="../assets/js/supabase.js"></script>
+
+<!-- Script de registro -->
 <script>
 const registroForm = document.getElementById('registroForm');
 const mensaje = document.getElementById('mensaje');
@@ -35,10 +43,11 @@ registroForm.addEventListener('submit', async (e) => {
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
 
+  // Crear usuario en Supabase
   const { data, error } = await supabase.auth.signUp({
     email: email,
     password: password,
-    options: { data: { nombre: nombre } }
+    options: { data: { nombre: nombre } } // Guardar nombre en perfil
   });
 
   if (error) {
