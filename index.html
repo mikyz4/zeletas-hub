@@ -22,7 +22,12 @@
     <a href="asesoria/index.html">👤 Asesoría</a>
     <a href="financiacion/index.html">💳 Financiación</a>
     <a href="contacto/index.html">📩 Contacto</a>
-    <div class="menu-user" id="menuUserMobile"></div>
+
+    <!-- BOTONES FÍSICOS LOGIN/REGISTRO MÓVIL -->
+    <div class="menu-user">
+      <a href="login/index.html" class="btn btn-secondary">Iniciar sesión</a>
+      <a href="registro/index.html" class="btn btn-primary">Registrarse</a>
+    </div>
   </div>
 
   <!-- HEADER -->
@@ -37,7 +42,10 @@
         <a href="inmobiliaria/index.html">Inmobiliaria</a>
         <a href="servicios/index.html">Servicios</a>
         <a href="contacto/index.html">Contacto</a>
-        <span id="navUser"></span>
+
+        <!-- BOTONES FÍSICOS LOGIN/REGISTRO DESKTOP -->
+        <a href="login/index.html" class="btn btn-secondary">Iniciar sesión</a>
+        <a href="registro/index.html" class="btn btn-primary">Registrarse</a>
       </nav>
 
       <div class="hamburger" aria-label="Abrir menú">
@@ -56,6 +64,9 @@
     <div class="hero-actions">
       <a class="btn btn-primary" href="marketplace/index.html">Entrar al Marketplace</a>
       <a class="btn btn-secondary" href="tienda/index.html">Ver Tienda Oficial</a>
+      <!-- BOTONES FÍSICOS LOGIN/REGISTRO HERO -->
+      <a class="btn btn-secondary" href="login/index.html">Iniciar sesión</a>
+      <a class="btn btn-primary" href="registro/index.html">Registrarse</a>
     </div>
   </section>
 
@@ -192,36 +203,27 @@
   <a href="https://wa.me/34632125872" class="whatsapp-float" target="_blank">💬</a>
 
   <!-- Scripts -->
-  <script src="assets/js/supabase.js"></script>
   <script src="assets/js/app.js"></script>
   <script>
-    // Mostrar login / registro o perfil según sesión
-    const navUser = document.getElementById('navUser');
-    const menuUserMobile = document.getElementById('menuUserMobile');
+    // Menú móvil
+    const hamburger = document.querySelector(".hamburger");
+    const mobileMenu = document.querySelector(".mobile-menu");
+    const overlay = document.querySelector(".overlay");
 
-    async function checkUser() {
-      const { data: { user } } = await supabase.auth.getUser();
-      if(user) {
-        navUser.innerHTML = `<a href="perfil/index.html">Mi perfil</a> | <a href="#" id="logoutBtn">Cerrar sesión</a>`;
-        menuUserMobile.innerHTML = `<a href="perfil/index.html">Mi perfil</a><a href="#" id="logoutBtnMobile">Cerrar sesión</a>`;
-
-        document.getElementById('logoutBtn')?.addEventListener('click', async () => {
-          await supabase.auth.signOut();
-          location.reload();
-        });
-        document.getElementById('logoutBtnMobile')?.addEventListener('click', async () => {
-          await supabase.auth.signOut();
-          location.reload();
-        });
-
-      } else {
-        navUser.innerHTML = `<a href="login/index.html">Iniciar sesión</a> | <a href="registro/index.html">Registrarse</a>`;
-        menuUserMobile.innerHTML = `<a href="login/index.html">Iniciar sesión</a><a href="registro/index.html">Registrarse</a>`;
-      }
-    }
-
-    checkUser();
-    supabase.auth.onAuthStateChange(() => checkUser());
+    hamburger?.addEventListener("click", () => {
+      mobileMenu.classList.toggle("active");
+      overlay.classList.toggle("active");
+    });
+    overlay?.addEventListener("click", () => {
+      mobileMenu.classList.remove("active");
+      overlay.classList.remove("active");
+    });
+    document.querySelectorAll(".mobile-menu a").forEach(link => {
+      link.addEventListener("click", () => {
+        mobileMenu.classList.remove("active");
+        overlay.classList.remove("active");
+      });
+    });
   </script>
 
 </body>
