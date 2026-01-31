@@ -8,19 +8,27 @@
 </head>
 <body>
 
+<!-- Hero / Login -->
 <section class="hero">
   <h2>Iniciar sesión en Zeletas Hub</h2>
+
+  <!-- Formulario de login -->
   <form id="loginForm">
     <input type="email" id="email" placeholder="Correo electrónico" required>
     <input type="password" id="password" placeholder="Contraseña" required>
-    <button type="submit">Entrar</button>
+    <button type="submit">Iniciar sesión</button>
   </form>
-  <p>¿No tienes cuenta? <a href="../registro/">Regístrate</a></p>
-  <p><a href="../recuperar-password/">Olvidé mi contraseña</a></p>
+
+  <p>¿No tienes cuenta? <a href="../registro/">Registrarse</a></p>
+  <p><a href="../recuperar-password/">¿Olvidaste tu contraseña?</a></p>
   <div id="mensaje"></div>
 </section>
 
+<!-- Supabase JS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="../assets/js/supabase.js"></script>
+
+<!-- Script de login -->
 <script>
 const loginForm = document.getElementById('loginForm');
 const mensaje = document.getElementById('mensaje');
@@ -31,6 +39,7 @@ loginForm.addEventListener('submit', async (e) => {
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
 
+  // Iniciar sesión con Supabase
   const { data, error } = await supabase.auth.signInWithPassword({
     email: email,
     password: password
@@ -40,7 +49,13 @@ loginForm.addEventListener('submit', async (e) => {
     mensaje.textContent = error.message;
     mensaje.style.color = 'red';
   } else {
-    window.location.href = "../perfil/";
+    mensaje.textContent = 'Sesión iniciada. Redirigiendo...';
+    mensaje.style.color = 'green';
+
+    // Redirigir al panel de usuario después de 1 segundo
+    setTimeout(() => {
+      window.location.href = "../perfil/";
+    }, 1000);
   }
 });
 </script>
