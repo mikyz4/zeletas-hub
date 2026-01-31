@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zeletas Marketplace - Inmobiliaria</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+<header>
+  <h1>Marketplace Inmobiliaria</h1>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="general.html">General</a></li>
+      <li><a href="vehiculos.html">Vehículos</a></li>
+      <li><a href="inmobiliaria.html">Inmobiliaria</a></li>
+    </ul>
+    <div class="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+</header>
+
+<section>
+  <h2>Filtrar pisos</h2>
+  <form id="filtros-inmobiliaria">
+    <input type="text" placeholder="Ciudad / Barrio">
+    <input type="number" placeholder="Precio mínimo">
+    <input type="number" placeholder="Precio máximo">
+    <select>
+      <option value="">Tipo</option>
+      <option value="venta">Venta</option>
+      <option value="alquiler">Alquiler</option>
+    </select>
+    <button type="button">Filtrar</button>
+  </form>
+</section>
+
+<section class="grid">
+  <div class="card">
+    <h3>Piso 2 hab. Madrid</h3>
+    <p>Alquiler, reformado, 80 m²</p>
+    <a href="anuncio.html">Ver anuncio</a>
+  </div>
+  <div class="card">
+    <h3>Chalet Valencia</h3>
+    <p>Venta, 250 m², piscina</p>
+    <a href="anuncio.html">Ver anuncio</a>
+  </div>
+</section>
+
+<script src="../assets/js/app.js"></script>
+</body>
+</html>

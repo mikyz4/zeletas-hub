@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zeletas - Ficha de Anuncio</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+<header>
+  <h1>Ficha de Anuncio</h1>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="general.html">Marketplace</a></li>
+    </ul>
+    <div class="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+</header>
+
+<section class="anuncio-detalle">
+  <h2>BMW Serie 3 2019</h2>
+  <p>Segunda mano, 60.000 km, excelente estado, precio 18.500€</p>
+  <div class="imagenes-anuncio">
+    <img src="../assets/img/car1.jpg" alt="Imagen 1">
+    <img src="../assets/img/car2.jpg" alt="Imagen 2">
+  </div>
+  <button onclick="abrirChat()">Abrir chat</button>
+</section>
+
+<script src="../assets/js/app.js"></script>
+<script>
+function abrirChat() {
+  window.location.href = "../chat/index.html";
+}
+</script>
+</body>
+</html>
