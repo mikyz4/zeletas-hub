@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil | Zeletas Hub</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Zeletas Hub</h1>
+        <button id="logoutBtn">Cerrar sesión</button>
+    </header>
+
+    <main class="perfil-container">
+        <h2>Bienvenido, <span id="userEmail"></span></h2>
+        <ul>
+            <li><a href="#">Pedidos</a></li>
+            <li><a href="#">Envíos</a></li>
+            <li><a href="#">Contratos</a></li>
+            <li><a href="#">Facturas</a></li>
+            <li><a href="#">Favoritos</a></li>
+            <li><a href="#">Suscripciones</a></li>
+            <li><a href="#">Chat con agente</a></li>
+            <li><a href="#">Mis anuncios</a></li>
+        </ul>
+    </main>
+
+    <script src="../assets/js/supabase.js"></script>
+    <script>
+        async function checkUser() {
+            const { data: { user } } = await supabase.auth.getUser();
+            if(!user) {
+                window.location.href = "../login/index.html";
+            } else {
+                document.getElementById('userEmail').innerText = user.email;
+            }
+        }
+
+        checkUser();
+
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            await supabase.auth.signOut();
+            window.location.href = "../login/index.html";
+        });
+    </script>
+</body>
+</html>
