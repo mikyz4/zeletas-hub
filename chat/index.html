@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Zeletas</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+<header>
+  <h1>Chat Zeletas</h1>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="../marketplace/general.html">Marketplace</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="chat-container">
+  <div class="chat-box" id="chat-box">
+    <div class="mensaje recibido">Hola, ¿en qué puedo ayudarte?</div>
+  </div>
+  <input type="text" id="chat-input" placeholder="Escribe un mensaje...">
+  <button onclick="enviarMensaje()">Enviar</button>
+</section>
+
+<script src="../assets/js/app.js"></script>
+<script>
+function enviarMensaje() {
+  const input = document.getElementById('chat-input');
+  const chatBox = document.getElementById('chat-box');
+  if(input.value.trim() === '') return;
+  const msg = document.createElement('div');
+  msg.className = 'mensaje enviado';
+  msg.textContent = input.value;
+  chatBox.appendChild(msg);
+  input.value = '';
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+</script>
+</body>
+</html>
