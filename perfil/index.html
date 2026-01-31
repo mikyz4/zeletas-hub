@@ -3,70 +3,59 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Perfil - Zeletas Hub</title>
+  <title>Perfil - Zeletas Hub</title>
   <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body>
 
 <section class="hero">
-  <h2>Bienvenido a tu panel de usuario</h2>
-  <div id="usuarioInfo">
-    <p><strong>Nombre:</strong> <span id="nombreUsuario"></span></p>
+  <h2>Bienvenido a tu panel, <span id="nombreUsuario"></span></h2>
+
+  <div class="perfil-info">
     <p><strong>Email:</strong> <span id="emailUsuario"></span></p>
-    <p><strong>ID de Usuario:</strong> <span id="idUsuario"></span></p>
-    <p><strong>Verificado:</strong> <span id="verificadoUsuario"></span></p>
+    <p><strong>Estado de verificación:</strong> <span id="estadoUsuario"></span></p>
   </div>
 
-  <button id="logoutBtn">Cerrar sesión</button>
-  <div id="mensaje"></div>
+  <div class="acciones">
+    <button id="logoutBtn">Cerrar sesión</button>
+    <a href="../mis-anuncios/">Mis anuncios</a>
+    <a href="../mis-favoritos/">Favoritos</a>
+    <a href="../mis-pedidos/">Pedidos</a>
+    <a href="../mis-servicios/">Servicios</a>
+    <a href="../mis-contratos/">Contratos</a>
+    <a href="../soporte/">Soporte</a>
+  </div>
 </section>
 
-<!-- Supabase JS -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="../assets/js/supabase.js"></script>
-
 <script>
 const nombreUsuario = document.getElementById('nombreUsuario');
 const emailUsuario = document.getElementById('emailUsuario');
-const idUsuario = document.getElementById('idUsuario');
-const verificadoUsuario = document.getElementById('verificadoUsuario');
+const estadoUsuario = document.getElementById('estadoUsuario');
 const logoutBtn = document.getElementById('logoutBtn');
-const mensaje = document.getElementById('mensaje');
 
 async function cargarUsuario() {
   const { data: { user }, error } = await supabase.auth.getUser();
 
-  if (error) {
-    mensaje.textContent = "Error al cargar usuario: " + error.message;
-    mensaje.style.color = 'red';
-    return;
-  }
-
   if (user) {
-    nombreUsuario.textContent = user.user_metadata?.nombre || "Sin nombre";
+    nombreUsuario.textContent = user.user_metadata?.nombre || 'Usuario';
     emailUsuario.textContent = user.email;
-    idUsuario.textContent = user.id;
-    verificadoUsuario.textContent = user.confirmed_at ? "Sí" : "No";
+    estadoUsuario.textContent = user.email_confirmed_at ? 'Verificado' : 'No verificado';
   } else {
-    mensaje.textContent = "No estás logueado. Redirigiendo al login...";
-    mensaje.style.color = 'orange';
-    setTimeout(() => { window.location.href = '../login/'; }, 2000);
+    // Redirigir al login si no hay usuario
+    window.location.href = '../login/';
   }
 }
 
+// Cerrar sesión
 logoutBtn.addEventListener('click', async () => {
   const { error } = await supabase.auth.signOut();
-  if (error) {
-    mensaje.textContent = "Error al cerrar sesión: " + error.message;
-    mensaje.style.color = 'red';
-  } else {
-    mensaje.textContent = "Sesión cerrada correctamente";
-    mensaje.style.color = 'green';
-    setTimeout(() => { window.location.href = '../login/'; }, 1000);
+  if (!error) {
+    window.location.href = '../login/';
   }
 });
 
-// Ejecutar al cargar la página
+// Cargar datos al iniciar
 cargarUsuario();
 </script>
 
