@@ -1,36 +1,45 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recuperar contraseña | Zeletas Hub</title>
-    <link rel="stylesheet" href="../assets/css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recuperar contraseña - Zeletas Hub</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body>
-    <div class="auth-container">
-        <h1>Recuperar contraseña</h1>
-        <form id="resetForm">
-            <label for="email">Correo electrónico</label>
-            <input type="email" id="email" required>
-            <button type="submit">Enviar enlace de recuperación</button>
-        </form>
-        <p><a href="../login/index.html">Volver al login</a></p>
-    </div>
 
-    <script src="../assets/js/supabase.js"></script>
-    <script>
-        const resetForm = document.getElementById('resetForm');
+<section class="hero">
+  <h2>Recuperar contraseña</h2>
+  <form id="resetForm">
+    <input type="email" id="email" placeholder="Correo electrónico" required>
+    <button type="submit">Enviar enlace de recuperación</button>
+  </form>
+  <div id="mensaje"></div>
+</section>
 
-        resetForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const { data, error } = await supabase.auth.resetPasswordForEmail(email);
-            if(error) {
-                alert("Error: " + error.message);
-            } else {
-                alert("Revisa tu correo para restablecer tu contraseña.");
-            }
-        });
-    </script>
+<script src="../assets/js/supabase.js"></script>
+<script>
+const resetForm = document.getElementById('resetForm');
+const mensaje = document.getElementById('mensaje');
+
+resetForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('email').value;
+
+  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: window.location.origin + '/login/'
+  });
+
+  if (error) {
+    mensaje.textContent = error.message;
+    mensaje.style.color = 'red';
+  } else {
+    mensaje.textContent = 'Revisa tu correo electrónico para restablecer la contraseña.';
+    mensaje.style.color = 'green';
+    resetForm.reset();
+  }
+});
+</script>
+
 </body>
 </html>
