@@ -423,3 +423,118 @@ footer {
     font-size: 1.85rem;
   }
     }
+/* ===========================
+   MODALES LOGIN / REGISTRO
+   Estilo ZELETAS premium oscuro
+   =========================== */
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  justify-content: center;
+  align-items: center;
+  z-index: 999999;
+  padding: 16px;
+  backdrop-filter: blur(8px);
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 430px;
+  background: linear-gradient(180deg, rgba(26, 26, 26, 0.96), rgba(18, 18, 18, 0.96));
+  border: 1px solid rgba(0, 200, 83, 0.35);
+  border-radius: 20px;
+  padding: 18px;
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.65);
+  position: relative;
+  animation: zeletasModalPop 0.18s ease;
+}
+
+@keyframes zeletasModalPop {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0px); opacity: 1; }
+}
+
+.modal-content h3 {
+  color: var(--green);
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 12px 14px;
+  margin: 8px 0;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 200, 83, 0.25);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  outline: none;
+  transition: 0.25s;
+}
+
+.modal-content input::placeholder {
+  color: rgba(224, 224, 224, 0.55);
+}
+
+.modal-content input:focus {
+  border-color: rgba(0, 200, 83, 0.65);
+  box-shadow: 0 0 0 4px rgba(0, 200, 83, 0.12);
+}
+
+.modal-content button {
+  width: 100%;
+  padding: 12px 14px;
+  margin-top: 10px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  font-weight: 800;
+  background: var(--green);
+  color: #101010;
+  transition: 0.25s;
+}
+
+.modal-content button:hover {
+  background: var(--green2);
+  transform: translateY(-1px);
+}
+
+.modal-content .close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: 0.25s;
+}
+
+.modal-content .close:hover {
+  border-color: rgba(0, 200, 83, 0.45);
+  color: var(--green);
+}
+
+/* Mensajes de error/ok dentro del modal */
+#mensajeModal,
+#mensajeModalRegistro {
+  margin-top: 10px;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
