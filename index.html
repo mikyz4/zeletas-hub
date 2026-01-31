@@ -223,8 +223,12 @@
 
 <!-- SCRIPTS -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="assets/js/supabase.js"></script>
-<script src="assets/js/app.js"></script>
+<script type="module" src="assets/js/app.js"></script>
+
+<script>
+  // Borra todo el código JS que tenías aquí dentro para evitar que se dupliquen 
+  // las funciones y den error. app.js ya se encarga de todo.
+</script>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
