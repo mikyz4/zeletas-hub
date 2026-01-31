@@ -1,293 +1,318 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ZELETAS HUB - Grupo Zeletas</title>
-  <link rel="stylesheet" href="assets/css/styles.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ZELETAS HUB - Grupo Zeletas</title>
+<link rel="stylesheet" href="assets/css/styles.css" />
+
+<!-- MODALES CSS -->
+<style>
+.modal {
+  display: none;
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+.modal.active { display: flex; }
+.modal-content {
+  background:#fff; padding:20px; border-radius:10px;
+  width:90%; max-width:400px; position: relative;
+}
+.modal-content input { width:100%; padding:10px; margin:5px 0; }
+.modal-content button { width:100%; padding:10px; margin-top:10px; }
+.modal-content .close { position:absolute; top:10px; right:15px; cursor:pointer; font-size:20px; }
+</style>
 </head>
 <body>
 
-  <!-- OVERLAY + MOBILE MENU -->
-  <div class="overlay"></div>
+<!-- OVERLAY + MOBILE MENU -->
+<div class="overlay"></div>
 
-  <div class="mobile-menu">
-    <div class="menu-title">Menú ZELETAS</div>
-    <a href="index.html">🏠 Inicio</a>
-    <a href="marketplace/index.html">🧩 Marketplace (2ª mano)</a>
-    <a href="tienda/index.html">🛒 Tienda Oficial</a>
-    <a href="vehiculos/index.html">🚗 Vehículos</a>
-    <a href="inmobiliaria/index.html">🏠 Inmobiliaria</a>
-    <a href="servicios/index.html">🛠️ Servicios</a>
-    <a href="asesoria/index.html">👤 Asesoría</a>
-    <a href="financiacion/index.html">💳 Financiación</a>
-    <a href="contacto/index.html">📩 Contacto</a>
-    <div class="menu-user" id="menuUserMobile">
-      <button id="btnLoginMobile">Iniciar sesión</button>
-      <button id="btnRegistroMobile">Registrarse</button>
+<div class="mobile-menu">
+  <div class="menu-title">Menú ZELETAS</div>
+  <a href="index.html">🏠 Inicio</a>
+  <a href="marketplace/index.html">🧩 Marketplace (2ª mano)</a>
+  <a href="tienda/index.html">🛒 Tienda Oficial</a>
+  <a href="vehiculos/index.html">🚗 Vehículos</a>
+  <a href="inmobiliaria/index.html">🏠 Inmobiliaria</a>
+  <a href="servicios/index.html">🛠️ Servicios</a>
+  <a href="asesoria/index.html">👤 Asesoría</a>
+  <a href="financiacion/index.html">💳 Financiación</a>
+  <a href="contacto/index.html">📩 Contacto</a>
+  <div class="menu-user" id="menuUserMobile">
+    <button id="btnLoginMobile">Iniciar sesión</button>
+    <button id="btnRegistroMobile">Registrarse</button>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo">ZELETAS <span>Hub</span></div>
+
+    <nav class="nav-desktop">
+      <a href="marketplace/index.html">Marketplace</a>
+      <a href="tienda/index.html">Tienda Oficial</a>
+      <a href="vehiculos/index.html">Vehículos</a>
+      <a href="inmobiliaria/index.html">Inmobiliaria</a>
+      <a href="servicios/index.html">Servicios</a>
+      <a href="contacto/index.html">Contacto</a>
+      <span id="navUser">
+        <button id="btnLogin">Iniciar sesión</button>
+        <button id="btnRegistro">Registrarse</button>
+      </span>
+    </nav>
+
+    <div class="hamburger" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
     </div>
   </div>
+</header>
 
-  <!-- HEADER -->
-  <header>
-    <div class="header-inner">
-      <div class="logo">ZELETAS <span>Hub</span></div>
+<!-- HERO -->
+<section class="hero">
+  <h1>Grupo ZELETAS</h1>
+  <p>
+    Un hub multi-negocio con enfoque premium: marketplace de segunda mano, tienda oficial,
+    vehículos, inmobiliaria, servicios y asesoría profesional.
+  </p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="marketplace/index.html">Entrar al Marketplace</a>
+    <a class="btn btn-secondary" href="tienda/index.html">Ver Tienda Oficial</a>
+  </div>
+</section>
 
-      <nav class="nav-desktop">
-        <a href="marketplace/index.html">Marketplace</a>
-        <a href="tienda/index.html">Tienda Oficial</a>
-        <a href="vehiculos/index.html">Vehículos</a>
-        <a href="inmobiliaria/index.html">Inmobiliaria</a>
-        <a href="servicios/index.html">Servicios</a>
-        <a href="contacto/index.html">Contacto</a>
-        <span id="navUser">
-          <button id="btnLogin">Iniciar sesión</button>
-          <button id="btnRegistro">Registrarse</button>
-        </span>
-      </nav>
+<!-- COMO FUNCIONA -->
+<section class="section">
+  <h2 class="section-title">¿Cómo funciona ZELETAS?</h2>
+  <p class="section-subtitle">
+    ZELETAS combina intermediación, gestión y modelos digitales para operar sin necesidad de stock propio,
+    conectando clientes con soluciones reales y profesionales.
+  </p>
 
-      <div class="hamburger" aria-label="Abrir menú">
-        <span></span><span></span><span></span>
-      </div>
+  <div class="grid">
+    <div class="card">
+      <div class="badge">Modelo</div>
+      <h3>Marketplace (2ª mano)</h3>
+      <p>
+        Usuarios publican anuncios. ZELETAS facilita visibilidad, contacto seguro y soporte.
+        Vehículos e inmuebles van en secciones separadas para máxima claridad.
+      </p>
     </div>
-  </header>
 
-  <!-- HERO -->
-  <section class="hero">
-    <h1>Grupo ZELETAS</h1>
-    <p>
-      Un hub multi-negocio con enfoque premium: marketplace de segunda mano, tienda oficial,
-      vehículos, inmobiliaria, servicios y asesoría profesional.
-    </p>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="marketplace/index.html">Entrar al Marketplace</a>
-      <a class="btn btn-secondary" href="tienda/index.html">Ver Tienda Oficial</a>
+    <div class="card">
+      <div class="badge">Modelo</div>
+      <h3>Tienda Oficial (Dropshipping)</h3>
+      <p>
+        Productos seleccionados por ZELETAS con venta profesional. Tú compras con confianza y nosotros
+        gestionamos el proceso.
+      </p>
     </div>
-  </section>
 
-  <!-- COMO FUNCIONA -->
-  <section class="section">
-    <h2 class="section-title">¿Cómo funciona ZELETAS?</h2>
-    <p class="section-subtitle">
-      ZELETAS combina intermediación, gestión y modelos digitales para operar sin necesidad de stock propio,
-      conectando clientes con soluciones reales y profesionales.
-    </p>
-
-    <div class="grid">
-      <div class="card">
-        <div class="badge">Modelo</div>
-        <h3>Marketplace (2ª mano)</h3>
-        <p>
-          Usuarios publican anuncios. ZELETAS facilita visibilidad, contacto seguro y soporte.
-          Vehículos e inmuebles van en secciones separadas para máxima claridad.
-        </p>
-      </div>
-
-      <div class="card">
-        <div class="badge">Modelo</div>
-        <h3>Tienda Oficial (Dropshipping)</h3>
-        <p>
-          Productos seleccionados por ZELETAS con venta profesional. Tú compras con confianza y nosotros
-          gestionamos el proceso.
-        </p>
-      </div>
-
-      <div class="card">
-        <div class="badge">Servicios</div>
-        <h3>Gestión y coordinación</h3>
-        <p>
-          Reformas, mantenimiento, técnicos, presupuestos y proyectos. ZELETAS organiza el proceso con
-          colaboradores verificados.
-        </p>
-      </div>
-
-      <div class="card">
-        <div class="badge">Asesoría</div>
-        <h3>Suscripción mensual</h3>
-        <p>
-          Acompañamiento privado y profesional para ayudarte en decisiones importantes:
-          compra/venta, inversión, reformas, importaciones y más.
-        </p>
-      </div>
+    <div class="card">
+      <div class="badge">Servicios</div>
+      <h3>Gestión y coordinación</h3>
+      <p>
+        Reformas, mantenimiento, técnicos, presupuestos y proyectos. ZELETAS organiza el proceso con
+        colaboradores verificados.
+      </p>
     </div>
-  </section>
 
-  <!-- VERTICALES PRINCIPALES -->
-  <section class="section">
-    <h2 class="section-title">Verticales principales</h2>
-
-    <div class="grid">
-      <div class="card">
-        <h3>🧩 Marketplace (2ª mano)</h3>
-        <p>Compra y vende anuncios de usuarios con chat interno y secciones organizadas.</p>
-        <div class="card-actions">
-          <a class="btn btn-primary" href="marketplace/index.html">Entrar</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>🛒 Tienda Oficial</h3>
-        <p>Productos de Zeletas con catálogo profesional y enfoque premium.</p>
-        <div class="card-actions">
-          <a class="btn btn-primary" href="tienda/index.html">Ver tienda</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>🚗 Vehículos</h3>
-        <p>Nuevo, seminuevo, segunda mano, importación y gestión.</p>
-        <div class="card-actions">
-          <a class="btn btn-primary" href="vehiculos/index.html">Ver sección</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>🏠 Inmobiliaria</h3>
-        <p>Compra/venta, alquiler, inversión y reformas/proyectos.</p>
-        <div class="card-actions">
-          <a class="btn btn-primary" href="inmobiliaria/index.html">Ver sección</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>🛠️ Servicios</h3>
-        <p>Reformas, mantenimiento, gestión de profesionales y presupuestos.</p>
-        <div class="card-actions">
-          <a class="btn btn-primary" href="servicios/index.html">Ver servicios</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>👤 Asesoría / Suscripción</h3>
-        <p>Asesor privado Zeletas: 50€/mes con acompañamiento real.</p>
-        <div class="card-actions">
-          <a class="btn btn-primary" href="asesoria/index.html">Ver asesoría</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>💳 Financiación</h3>
-        <p>Gestión de financiación con terceros: tú solicitas y Zeletas coordina.</p>
-        <div class="card-actions">
-          <a class="btn btn-primary" href="financiacion/index.html">Solicitar</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>📩 Contacto</h3>
-        <p>Cuéntanos qué necesitas y te guiamos con un plan claro.</p>
-        <div class="card-actions">
-          <a class="btn btn-primary" href="contacto/index.html">Contactar</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div>© 2026 ZELETAS HUB. Todos los derechos reservados.</div>
-    <div class="footer-links">
-      <a href="legal/aviso-legal.html">Aviso legal</a>
-      <a href="legal/privacidad.html">Privacidad</a>
-      <a href="legal/cookies.html">Cookies</a>
-      <a href="legal/terminos.html">Términos</a>
-    </div>
-  </footer>
-
-  <!-- WhatsApp flotante -->
-  <a href="https://wa.me/34632125872" class="whatsapp-float" target="_blank">💬</a>
-
-  <!-- MODALES LOGIN / REGISTRO -->
-  <div id="modalLogin" class="modal">
-    <div class="modal-content">
-      <span class="close" id="closeLogin">&times;</span>
-      <h3>Iniciar sesión</h3>
-      <input type="email" id="loginEmail" placeholder="Correo">
-      <input type="password" id="loginPassword" placeholder="Contraseña">
-      <button id="loginBtn">Entrar</button>
-      <div id="mensajeModal"></div>
+    <div class="card">
+      <div class="badge">Asesoría</div>
+      <h3>Suscripción mensual</h3>
+      <p>
+        Acompañamiento privado y profesional para ayudarte en decisiones importantes:
+        compra/venta, inversión, reformas, importaciones y más.
+      </p>
     </div>
   </div>
+</section>
 
-  <div id="modalRegistro" class="modal">
-    <div class="modal-content">
-      <span class="close" id="closeRegistro">&times;</span>
-      <h3>Registrarse</h3>
-      <input type="text" id="regNombre" placeholder="Nombre completo">
-      <input type="email" id="regEmail" placeholder="Correo">
-      <input type="password" id="regPassword" placeholder="Contraseña">
-      <button id="registroBtn">Crear cuenta</button>
-      <div id="mensajeModalRegistro"></div>
+<!-- VERTICALES PRINCIPALES -->
+<section class="section">
+  <h2 class="section-title">Verticales principales</h2>
+
+  <div class="grid">
+    <div class="card">
+      <h3>🧩 Marketplace (2ª mano)</h3>
+      <p>Compra y vende anuncios de usuarios con chat interno y secciones organizadas.</p>
+      <div class="card-actions">
+        <a class="btn btn-primary" href="marketplace/index.html">Entrar</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🛒 Tienda Oficial</h3>
+      <p>Productos de Zeletas con catálogo profesional y enfoque premium.</p>
+      <div class="card-actions">
+        <a class="btn btn-primary" href="tienda/index.html">Ver tienda</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🚗 Vehículos</h3>
+      <p>Nuevo, seminuevo, segunda mano, importación y gestión.</p>
+      <div class="card-actions">
+        <a class="btn btn-primary" href="vehiculos/index.html">Ver sección</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🏠 Inmobiliaria</h3>
+      <p>Compra/venta, alquiler, inversión y reformas/proyectos.</p>
+      <div class="card-actions">
+        <a class="btn btn-primary" href="inmobiliaria/index.html">Ver sección</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🛠️ Servicios</h3>
+      <p>Reformas, mantenimiento, gestión de profesionales y presupuestos.</p>
+      <div class="card-actions">
+        <a class="btn btn-primary" href="servicios/index.html">Ver servicios</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>👤 Asesoría / Suscripción</h3>
+      <p>Asesor privado Zeletas: 50€/mes con acompañamiento real.</p>
+      <div class="card-actions">
+        <a class="btn btn-primary" href="asesoria/index.html">Ver asesoría</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>💳 Financiación</h3>
+      <p>Gestión de financiación con terceros: tú solicitas y Zeletas coordina.</p>
+      <div class="card-actions">
+        <a class="btn btn-primary" href="financiacion/index.html">Solicitar</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📩 Contacto</h3>
+      <p>Cuéntanos qué necesitas y te guiamos con un plan claro.</p>
+      <div class="card-actions">
+        <a class="btn btn-primary" href="contacto/index.html">Contactar</a>
+      </div>
     </div>
   </div>
+</section>
 
-  <!-- SCRIPTS -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="assets/js/supabase.js"></script>
-  <script src="assets/js/app.js"></script>
+<!-- FOOTER -->
+<footer>
+  <div>© 2026 ZELETAS HUB. Todos los derechos reservados.</div>
+  <div class="footer-links">
+    <a href="legal/aviso-legal.html">Aviso legal</a>
+    <a href="legal/privacidad.html">Privacidad</a>
+    <a href="legal/cookies.html">Cookies</a>
+    <a href="legal/terminos.html">Términos</a>
+  </div>
+</footer>
 
-  <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const modalLogin = document.getElementById('modalLogin');
-    const modalRegistro = document.getElementById('modalRegistro');
+<!-- WhatsApp flotante -->
+<a href="https://wa.me/34632125872" class="whatsapp-float" target="_blank">💬</a>
 
-    const btnLogin = document.getElementById('btnLogin');
-    const btnRegistro = document.getElementById('btnRegistro');
-    const btnLoginMobile = document.getElementById('btnLoginMobile');
-    const btnRegistroMobile = document.getElementById('btnRegistroMobile');
+<!-- MODALES LOGIN/REGISTRO -->
+<div id="modalLogin" class="modal">
+  <div class="modal-content">
+    <span class="close" id="closeLogin">&times;</span>
+    <h3>Iniciar sesión</h3>
+    <input type="email" id="loginEmail" placeholder="Correo">
+    <input type="password" id="loginPassword" placeholder="Contraseña">
+    <button id="loginBtn">Entrar</button>
+    <div id="mensajeModal"></div>
+  </div>
+</div>
 
-    const closeLogin = document.getElementById('closeLogin');
-    const closeRegistro = document.getElementById('closeRegistro');
+<div id="modalRegistro" class="modal">
+  <div class="modal-content">
+    <span class="close" id="closeRegistro">&times;</span>
+    <h3>Registrarse</h3>
+    <input type="text" id="regNombre" placeholder="Nombre completo">
+    <input type="email" id="regEmail" placeholder="Correo">
+    <input type="password" id="regPassword" placeholder="Contraseña">
+    <button id="registroBtn">Crear cuenta</button>
+    <div id="mensajeModalRegistro"></div>
+  </div>
+</div>
 
-    const mensajeModal = document.getElementById('mensajeModal');
-    const mensajeModalRegistro = document.getElementById('mensajeModalRegistro');
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="assets/js/supabase.js"></script>
+<script src="assets/js/app.js"></script>
 
-    // Abrir modales
-    [btnLogin, btnLoginMobile].forEach(btn => btn.addEventListener('click', () => modalLogin.classList.add('active')));
-    [btnRegistro, btnRegistroMobile].forEach(btn => btn.addEventListener('click', () => modalRegistro.classList.add('active')));
+<script>
+// =============================
+// MODALES LOGIN/REGISTRO
+// =============================
+document.addEventListener('DOMContentLoaded', () => {
+  const modalLogin = document.getElementById('modalLogin');
+  const modalRegistro = document.getElementById('modalRegistro');
 
-    // Cerrar modales
-    closeLogin.addEventListener('click', () => modalLogin.classList.remove('active'));
-    closeRegistro.addEventListener('click', () => modalRegistro.classList.remove('active'));
-    window.addEventListener('click', e => {
-      if(e.target === modalLogin) modalLogin.classList.remove('active');
-      if(e.target === modalRegistro) modalRegistro.classList.remove('active');
-    });
+  const btnLogin = document.getElementById('btnLogin');
+  const btnRegistro = document.getElementById('btnRegistro');
+  const btnLoginMobile = document.getElementById('btnLoginMobile');
+  const btnRegistroMobile = document.getElementById('btnRegistroMobile');
 
-    // LOGIN
-    document.getElementById('loginBtn').addEventListener('click', async () => {
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-      if(error){
-        mensajeModal.textContent = error.message;
-        mensajeModal.style.color = 'red';
-      } else {
-        mensajeModal.textContent = '¡Login correcto!';
-        mensajeModal.style.color = 'green';
-        setTimeout(()=>{ location.reload(); }, 1000);
-      }
-    });
+  const closeLogin = document.getElementById('closeLogin');
+  const closeRegistro = document.getElementById('closeRegistro');
 
-    // REGISTRO
-    document.getElementById('registroBtn').addEventListener('click', async () => {
-      const nombre = document.getElementById('regNombre').value;
-      const email = document.getElementById('regEmail').value;
-      const password = document.getElementById('regPassword').value;
-      const { data, error } = await supabase.auth.signUp({
-        email, password, options: { data: { nombre } }
-      });
-      if(error){
-        mensajeModalRegistro.textContent = error.message;
-        mensajeModalRegistro.style.color = 'red';
-      } else {
-        mensajeModalRegistro.textContent = 'Cuenta creada. Revisa tu email.';
-        mensajeModalRegistro.style.color = 'green';
-        setTimeout(()=>{ modalRegistro.classList.remove('active'); }, 1500);
-      }
-    });
+  const mensajeModal = document.getElementById('mensajeModal');
+  const mensajeModalRegistro = document.getElementById('mensajeModalRegistro');
+
+  // Abrir modales
+  btnLogin?.addEventListener('click', ()=>modalLogin.classList.add('active'));
+  btnRegistro?.addEventListener('click', ()=>modalRegistro.classList.add('active'));
+  btnLoginMobile?.addEventListener('click', ()=>modalLogin.classList.add('active'));
+  btnRegistroMobile?.addEventListener('click', ()=>modalRegistro.classList.add('active'));
+
+  // Cerrar modales
+  closeLogin?.addEventListener('click', ()=>modalLogin.classList.remove('active'));
+  closeRegistro?.addEventListener('click', ()=>modalRegistro.classList.remove('active'));
+  window.addEventListener('click', e=>{
+    if(e.target===modalLogin) modalLogin.classList.remove('active');
+    if(e.target===modalRegistro) modalRegistro.classList.remove('active');
   });
-  </script>
+
+  // LOGIN
+  document.getElementById('loginBtn')?.addEventListener('click', async ()=>{
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if(error){
+      mensajeModal.textContent = error.message;
+      mensajeModal.style.color = 'red';
+    } else {
+      mensajeModal.textContent = '¡Login correcto!';
+      mensajeModal.style.color = 'green';
+      setTimeout(()=>{ location.reload(); }, 1000);
+    }
+  });
+
+  // REGISTRO
+  document.getElementById('registroBtn')?.addEventListener('click', async ()=>{
+    const nombre = document.getElementById('regNombre').value;
+    const email = document.getElementById('regEmail').value;
+    const password = document.getElementById('regPassword').value;
+    const { data, error } = await supabase.auth.signUp({ email, password, options:{data:{nombre}}});
+    if(error){
+      mensajeModalRegistro.textContent = error.message;
+      mensajeModalRegistro.style.color='red';
+    } else {
+      mensajeModalRegistro.textContent='Cuenta creada. Revisa tu email.';
+      mensajeModalRegistro.style.color='green';
+      setTimeout(()=>modalRegistro.classList.remove('active'),1500);
+    }
+  });
+});
+</script>
 
 </body>
 </html>
