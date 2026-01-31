@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Zeletas Hub</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+
+<section class="hero">
+  <h2>Iniciar sesión en Zeletas Hub</h2>
+  <form id="loginForm">
+    <input type="email" id="email" placeholder="Correo electrónico" required>
+    <input type="password" id="password" placeholder="Contraseña" required>
+    <button type="submit">Entrar</button>
+  </form>
+  <p>¿No tienes cuenta? <a href="../registro/">Regístrate</a></p>
+  <p><a href="../recuperar-password/">Olvidé mi contraseña</a></p>
+  <div id="mensaje"></div>
+</section>
+
+<script src="../assets/js/supabase.js"></script>
+<script>
+const loginForm = document.getElementById('loginForm');
+const mensaje = document.getElementById('mensaje');
+
+loginForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: email,
+    password: password
+  });
+
+  if (error) {
+    mensaje.textContent = error.message;
+    mensaje.style.color = 'red';
+  } else {
+    window.location.href = "../perfil/";
+  }
+});
+</script>
+
+</body>
+</html>
