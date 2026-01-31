@@ -6,30 +6,36 @@
   <title>ZELETAS HUB - Grupo Zeletas</title>
   <link rel="stylesheet" href="assets/css/styles.css" />
   <style>
-    /* ESTILOS DE LOS MODALES DE LOGIN Y REGISTRO */
+    /* Estilos básicos para modales */
     .modal {
       display: none;
       position: fixed;
-      top: 0; left: 0; right:0; bottom:0;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
       background: rgba(0,0,0,0.6);
       justify-content: center;
       align-items: center;
-      z-index: 1000;
     }
     .modal.active { display: flex; }
     .modal-content {
       background: #fff;
-      padding: 2rem;
-      border-radius: 12px;
-      width: 90%;
+      padding: 20px;
+      border-radius: 10px;
       max-width: 400px;
+      width: 90%;
       position: relative;
     }
-    .modal-content h2 { margin-bottom: 1rem; }
-    .modal-content form input { width: 100%; margin-bottom: 1rem; padding: .5rem; }
-    .modal-content form button { width: 100%; padding: .6rem; background:#007bff;color:#fff;border:none;border-radius:6px;cursor:pointer; }
-    .modal-close { position: absolute; top: 10px; right: 15px; cursor:pointer; font-size: 1.2rem; }
-    #mensajeLogin, #mensajeRegistro { margin-top: 1rem; }
+    .modal-content h3 { margin-top: 0; }
+    .modal-content input { width: 100%; margin: 8px 0; padding: 8px; }
+    .modal-content button { width: 100%; padding: 10px; margin-top: 10px; }
+    .modal-close {
+      position: absolute;
+      top: 10px; right: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    #mensajeModal { margin-top: 10px; text-align: center; }
   </style>
 </head>
 <body>
@@ -48,10 +54,7 @@
     <a href="asesoria/index.html">👤 Asesoría</a>
     <a href="financiacion/index.html">💳 Financiación</a>
     <a href="contacto/index.html">📩 Contacto</a>
-    <div class="menu-user" id="menuUserMobile">
-      <button id="abrirLoginMobile">Iniciar sesión</button>
-      <button id="abrirRegistroMobile">Registrarse</button>
-    </div>
+    <div id="menuUserMobile"></div>
   </div>
 
   <!-- HEADER -->
@@ -67,8 +70,8 @@
         <a href="servicios/index.html">Servicios</a>
         <a href="contacto/index.html">Contacto</a>
         <span id="navUser">
-          <button id="abrirLogin">Iniciar sesión</button>
-          <button id="abrirRegistro">Registrarse</button>
+          <a href="#" id="btnLogin">Iniciar sesión</a> | 
+          <a href="#" id="btnRegistro">Registrarse</a>
         </span>
       </nav>
 
@@ -98,8 +101,114 @@
       ZELETAS combina intermediación, gestión y modelos digitales para operar sin necesidad de stock propio,
       conectando clientes con soluciones reales y profesionales.
     </p>
+
     <div class="grid">
-      <!-- Cards aquí (igual que tu diseño anterior) -->
+      <div class="card">
+        <div class="badge">Modelo</div>
+        <h3>Marketplace (2ª mano)</h3>
+        <p>
+          Usuarios publican anuncios. ZELETAS facilita visibilidad, contacto seguro y soporte.
+          Vehículos e inmuebles van en secciones separadas para máxima claridad.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="badge">Modelo</div>
+        <h3>Tienda Oficial (Dropshipping)</h3>
+        <p>
+          Productos seleccionados por ZELETAS con venta profesional. Tú compras con confianza y nosotros
+          gestionamos el proceso.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="badge">Servicios</div>
+        <h3>Gestión y coordinación</h3>
+        <p>
+          Reformas, mantenimiento, técnicos, presupuestos y proyectos. ZELETAS organiza el proceso con
+          colaboradores verificados.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="badge">Asesoría</div>
+        <h3>Suscripción mensual</h3>
+        <p>
+          Acompañamiento privado y profesional para ayudarte en decisiones importantes:
+          compra/venta, inversión, reformas, importaciones y más.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- VERTICALES PRINCIPALES -->
+  <section class="section">
+    <h2 class="section-title">Verticales principales</h2>
+
+    <div class="grid">
+      <div class="card">
+        <h3>🧩 Marketplace (2ª mano)</h3>
+        <p>Compra y vende anuncios de usuarios con chat interno y secciones organizadas.</p>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="marketplace/index.html">Entrar</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🛒 Tienda Oficial</h3>
+        <p>Productos de Zeletas con catálogo profesional y enfoque premium.</p>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="tienda/index.html">Ver tienda</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🚗 Vehículos</h3>
+        <p>Nuevo, seminuevo, segunda mano, importación y gestión.</p>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="vehiculos/index.html">Ver sección</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🏠 Inmobiliaria</h3>
+        <p>Compra/venta, alquiler, inversión y reformas/proyectos.</p>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="inmobiliaria/index.html">Ver sección</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🛠️ Servicios</h3>
+        <p>Reformas, mantenimiento, gestión de profesionales y presupuestos.</p>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="servicios/index.html">Ver servicios</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>👤 Asesoría / Suscripción</h3>
+        <p>Asesor privado Zeletas: 50€/mes con acompañamiento real.</p>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="asesoria/index.html">Ver asesoría</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>💳 Financiación</h3>
+        <p>Gestión de financiación con terceros: tú solicitas y Zeletas coordina.</p>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="financiacion/index.html">Solicitar</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📩 Contacto</h3>
+        <p>Cuéntanos qué necesitas y te guiamos con un plan claro.</p>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="contacto/index.html">Contactar</a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -117,33 +226,27 @@
   <!-- WhatsApp flotante -->
   <a href="https://wa.me/34632125872" class="whatsapp-float" target="_blank">💬</a>
 
-  <!-- MODAL LOGIN -->
+  <!-- MODALES LOGIN Y REGISTRO -->
   <div class="modal" id="modalLogin">
     <div class="modal-content">
-      <span class="modal-close" id="cerrarLogin">&times;</span>
-      <h2>Iniciar sesión</h2>
-      <form id="loginForm">
-        <input type="email" id="loginEmail" placeholder="Correo electrónico" required>
-        <input type="password" id="loginPassword" placeholder="Contraseña" required>
-        <button type="submit">Iniciar sesión</button>
-      </form>
-      <div id="mensajeLogin"></div>
+      <span class="modal-close" id="closeLogin">&times;</span>
+      <h3>Iniciar sesión</h3>
+      <input type="email" id="loginEmail" placeholder="Correo electrónico" required>
+      <input type="password" id="loginPassword" placeholder="Contraseña" required>
+      <button id="loginBtn">Entrar</button>
+      <div id="mensajeModal"></div>
     </div>
   </div>
 
-  <!-- MODAL REGISTRO -->
   <div class="modal" id="modalRegistro">
     <div class="modal-content">
-      <span class="modal-close" id="cerrarRegistro">&times;</span>
-      <h2>Registrarse</h2>
-      <form id="registroForm">
-        <input type="text" id="regNombre" placeholder="Nombre completo" required>
-        <input type="email" id="regEmail" placeholder="Correo electrónico" required>
-        <input type="password" id="regPassword" placeholder="Contraseña" required>
-        <label><input type="checkbox" id="regTerminos" required> Acepto <a href="legal/terminos.html">términos</a></label>
-        <button type="submit">Registrarse</button>
-      </form>
-      <div id="mensajeRegistro"></div>
+      <span class="modal-close" id="closeRegistro">&times;</span>
+      <h3>Registrarse</h3>
+      <input type="text" id="regNombre" placeholder="Nombre completo" required>
+      <input type="email" id="regEmail" placeholder="Correo electrónico" required>
+      <input type="password" id="regPassword" placeholder="Contraseña" required>
+      <button id="registroBtn">Crear cuenta</button>
+      <div id="mensajeModalRegistro"></div>
     </div>
   </div>
 
@@ -151,97 +254,74 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="assets/js/supabase.js"></script>
   <script src="assets/js/app.js"></script>
+
   <script>
-    // --------------------------
-    // MODALES LOGIN / REGISTRO
-    // --------------------------
+    // =============================
+    // LOGIN / REGISTRO MODALES
+    // =============================
     const modalLogin = document.getElementById('modalLogin');
     const modalRegistro = document.getElementById('modalRegistro');
+    const btnLogin = document.getElementById('btnLogin');
+    const btnRegistro = document.getElementById('btnRegistro');
+    const closeLogin = document.getElementById('closeLogin');
+    const closeRegistro = document.getElementById('closeRegistro');
+    const mensajeModal = document.getElementById('mensajeModal');
+    const mensajeModalRegistro = document.getElementById('mensajeModalRegistro');
 
-    // Abrir modales
-    document.getElementById('abrirLogin')?.addEventListener('click', ()=> modalLogin.classList.add('active'));
-    document.getElementById('abrirLoginMobile')?.addEventListener('click', ()=> modalLogin.classList.add('active'));
-    document.getElementById('abrirRegistro')?.addEventListener('click', ()=> modalRegistro.classList.add('active'));
-    document.getElementById('abrirRegistroMobile')?.addEventListener('click', ()=> modalRegistro.classList.add('active'));
+    btnLogin.addEventListener('click', () => modalLogin.classList.add('active'));
+    btnRegistro.addEventListener('click', () => modalRegistro.classList.add('active'));
+    closeLogin.addEventListener('click', () => modalLogin.classList.remove('active'));
+    closeRegistro.addEventListener('click', () => modalRegistro.classList.remove('active'));
+    window.addEventListener('click', e => {
+      if(e.target === modalLogin) modalLogin.classList.remove('active');
+      if(e.target === modalRegistro) modalRegistro.classList.remove('active');
+    });
 
-    // Cerrar modales
-    document.getElementById('cerrarLogin').addEventListener('click', ()=> modalLogin.classList.remove('active'));
-    document.getElementById('cerrarRegistro').addEventListener('click', ()=> modalRegistro.classList.remove('active'));
-
-    // --------------------------
-    // LOGIN
-    // --------------------------
-    const loginForm = document.getElementById('loginForm');
-    const mensajeLogin = document.getElementById('mensajeLogin');
-
-    loginForm.addEventListener('submit', async (e)=>{
-      e.preventDefault();
+    // LOGIN SUPABASE
+    document.getElementById('loginBtn').addEventListener('click', async () => {
       const email = document.getElementById('loginEmail').value;
       const password = document.getElementById('loginPassword').value;
-
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if(error){
-        mensajeLogin.textContent = error.message;
-        mensajeLogin.style.color='red';
-      } else if(data.user){
-        mensajeLogin.textContent = 'Inicio de sesión correcto';
-        mensajeLogin.style.color='green';
-        modalLogin.classList.remove('active');
-        location.reload();
+        mensajeModal.textContent = error.message;
+        mensajeModal.style.color = 'red';
+      } else {
+        mensajeModal.textContent = '¡Login correcto!';
+        mensajeModal.style.color = 'green';
+        setTimeout(()=>{ location.reload(); }, 1000);
       }
     });
 
-    // --------------------------
-    // REGISTRO
-    // --------------------------
-    const registroForm = document.getElementById('registroForm');
-    const mensajeRegistro = document.getElementById('mensajeRegistro');
-
-    registroForm.addEventListener('submit', async (e)=>{
-      e.preventDefault();
+    // REGISTRO SUPABASE
+    document.getElementById('registroBtn').addEventListener('click', async () => {
       const nombre = document.getElementById('regNombre').value;
       const email = document.getElementById('regEmail').value;
       const password = document.getElementById('regPassword').value;
-
       const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options:{ data:{ nombre } }
+        email, password, options: { data: { nombre } }
       });
-
       if(error){
-        mensajeRegistro.textContent = error.message;
-        mensajeRegistro.style.color='red';
+        mensajeModalRegistro.textContent = error.message;
+        mensajeModalRegistro.style.color = 'red';
       } else {
-        mensajeRegistro.textContent = 'Cuenta creada. Revisa tu email';
-        mensajeRegistro.style.color='green';
-        registroForm.reset();
-        modalRegistro.classList.remove('active');
+        mensajeModalRegistro.textContent = 'Cuenta creada. Revisa tu email.';
+        mensajeModalRegistro.style.color = 'green';
+        setTimeout(()=>{ modalRegistro.classList.remove('active'); }, 1500);
       }
     });
 
-    // --------------------------
-    // ACTUALIZAR BOTONES SEGÚN SESIÓN
-    // --------------------------
-    const navUser = document.getElementById('navUser');
-    const menuUserMobile = document.getElementById('menuUserMobile');
-
-    async function checkUser(){
-      const { data:{ user } } = await supabase.auth.getUser();
-      if(user){
-        navUser.innerHTML = `<a href="perfil/index.html">Mi perfil</a> | <a href="#" id="logoutBtn">Cerrar sesión</a>`;
-        menuUserMobile.innerHTML = `<a href="perfil/index.html">Mi perfil</a><a href="#" id="logoutBtnMobile">Cerrar sesión</a>`;
-        document.getElementById('logoutBtn')?.addEventListener('click', async ()=>{
-          await supabase.auth.signOut(); location.reload();
-        });
-        document.getElementById('logoutBtnMobile')?.addEventListener('click', async ()=>{
-          await supabase.auth.signOut(); location.reload();
-        });
-      }
-    }
-
-    checkUser();
-    supabase.auth.onAuthStateChange(()=>checkUser());
+    // =============================
+    // MENU MOBILE + OVERLAY
+    // =============================
+    const hamburger = document.querySelector(".hamburger");
+    const mobileMenu = document.querySelector(".mobile-menu");
+    const overlay = document.querySelector(".overlay");
+    function openMenu(){ mobileMenu.classList.add("active"); overlay.classList.add("active"); }
+    function closeMenu(){ mobileMenu.classList.remove("active"); overlay.classList.remove("active"); }
+    if(hamburger) hamburger.addEventListener("click",()=>{ mobileMenu.classList.contains("active")?closeMenu():openMenu(); });
+    if(overlay) overlay.addEventListener("click", closeMenu);
+    document.querySelectorAll(".mobile-menu a").forEach(link=>link.addEventListener("click", closeMenu));
   </script>
+
 </body>
 </html>
