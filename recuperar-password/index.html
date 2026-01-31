@@ -3,27 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recuperar Contraseña - Zeletas Hub</title>
+  <title>Recuperar contraseña - Zeletas Hub</title>
   <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body>
 
 <section class="hero">
   <h2>Recuperar contraseña</h2>
-
   <form id="recuperarForm">
-    <input type="email" id="email" placeholder="Introduce tu correo" required>
+    <input type="email" id="email" placeholder="Correo electrónico" required>
     <button type="submit">Enviar enlace de recuperación</button>
   </form>
-
   <p>¿Recordaste tu contraseña? <a href="../login/">Iniciar sesión</a></p>
   <div id="mensaje"></div>
 </section>
 
-<!-- Supabase JS -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="../assets/js/supabase.js"></script>
-
 <script>
 const recuperarForm = document.getElementById('recuperarForm');
 const mensaje = document.getElementById('mensaje');
@@ -41,7 +36,7 @@ recuperarForm.addEventListener('submit', async (e) => {
     mensaje.textContent = error.message;
     mensaje.style.color = 'red';
   } else {
-    mensaje.textContent = 'Correo enviado. Revisa tu bandeja de entrada.';
+    mensaje.textContent = 'Se ha enviado un enlace de recuperación a tu correo.';
     mensaje.style.color = 'green';
     recuperarForm.reset();
   }
