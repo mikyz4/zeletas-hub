@@ -1,11 +1,8 @@
-// /assets/js/app.js
-// ==============================
-// ZELETAS HUB - Login, Registro, UI
-// ==============================
+// assets/js/app.js
+import { supabase } from './supabase.js';
 
-import { supabase, getCurrentUser, logout } from './supabase.js';
+document.addEventListener('DOMContentLoaded', () => {
 
-document.addEventListener('DOMContentLoaded', async () => {
   const modalLogin = document.getElementById('modalLogin');
   const modalRegistro = document.getElementById('modalRegistro');
 
@@ -20,33 +17,20 @@ document.addEventListener('DOMContentLoaded', async () => {
   const mensajeModal = document.getElementById('mensajeModal');
   const mensajeModalRegistro = document.getElementById('mensajeModalRegistro');
 
-  const navUser = document.getElementById('navUser');
-  const menuUserMobile = document.getElementById('menuUserMobile');
-
-  // =============================
   // Abrir modales
-  // =============================
-  [btnLogin, btnLoginMobile].forEach(btn => {
-    btn?.addEventListener('click', () => modalLogin.classList.add('active'));
-  });
-  [btnRegistro, btnRegistroMobile].forEach(btn => {
-    btn?.addEventListener('click', () => modalRegistro.classList.add('active'));
-  });
+  [btnLogin, btnLoginMobile].forEach(btn => btn?.addEventListener('click', () => modalLogin.classList.add('active')));
+  [btnRegistro, btnRegistroMobile].forEach(btn => btn?.addEventListener('click', () => modalRegistro.classList.add('active')));
 
-  // =============================
   // Cerrar modales
-  // =============================
-  closeLogin?.addEventListener('click', ()=>modalLogin.classList.remove('active'));
-  closeRegistro?.addEventListener('click', ()=>modalRegistro.classList.remove('active'));
-  window.addEventListener('click', e=>{
-    if(e.target===modalLogin) modalLogin.classList.remove('active');
-    if(e.target===modalRegistro) modalRegistro.classList.remove('active');
+  closeLogin?.addEventListener('click', () => modalLogin.classList.remove('active'));
+  closeRegistro?.addEventListener('click', () => modalRegistro.classList.remove('active'));
+  window.addEventListener('click', e => {
+    if(e.target === modalLogin) modalLogin.classList.remove('active');
+    if(e.target === modalRegistro) modalRegistro.classList.remove('active');
   });
 
-  // =============================
   // LOGIN
-  // =============================
-  document.getElementById('loginBtn')?.addEventListener('click', async ()=>{
+  document.getElementById('loginBtn')?.addEventListener('click', async () => {
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
 
@@ -57,44 +41,41 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else {
       mensajeModal.textContent = '¡Login correcto!';
       mensajeModal.style.color = 'green';
-      setTimeout(()=>{ location.reload(); }, 1000);
+      setTimeout(() => location.reload(), 1000);
     }
   });
 
-  // =============================
   // REGISTRO
-  // =============================
-  document.getElementById('registroBtn')?.addEventListener('click', async ()=>{
+  document.getElementById('registroBtn')?.addEventListener('click', async () => {
     const nombre = document.getElementById('regNombre').value;
     const email = document.getElementById('regEmail').value;
     const password = document.getElementById('regPassword').value;
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { nombre } }
+    // Crear usuario en Supabase Auth
+    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+      email, password, options: { data: { nombre } }
     });
 
-    if(error){
-      mensajeModalRegistro.textContent = error.message;
-      mensajeModalRegistro.style.color='red';
-    } else {
-      mensajeModalRegistro.textContent='Cuenta creada. Revisa tu email.';
-      mensajeModalRegistro.style.color='green';
-      setTimeout(()=>modalRegistro.classList.remove('active'),1500);
+    if(signUpError){
+      mensajeModalRegistro.textContent = signUpError.message;
+      mensajeModalRegistro.style.color = 'red';
+      return;
     }
+
+    // Crear perfil en tabla profiles
+    const { error: profileError } = await supabase.from('profiles').insert([
+      { id: signUpData.user.id, nombre, email }
+    ]);
+
+    if(profileError){
+      mensajeModalRegistro.textContent = 'Usuario creado, pero no se pudo guardar el perfil: ' + profileError.message;
+      mensajeModalRegistro.style.color = 'orange';
+      return;
+    }
+
+    mensajeModalRegistro.textContent = 'Cuenta creada correctamente. Revisa tu email.';
+    mensajeModalRegistro.style.color = 'green';
+    setTimeout(() => modalRegistro.classList.remove('active'), 1500);
   });
 
-  // =============================
-  // Verificar sesión actual
-  // =============================
-  const user = await getCurrentUser();
-  if(user){
-    // Usuario logueado, mostrar su nombre y botón logout
-    navUser.innerHTML = `<span>👤 ${user.email}</span> <button id="btnLogout">Cerrar sesión</button>`;
-    menuUserMobile.innerHTML = `<span>👤 ${user.email}</span> <button id="btnLogoutMobile">Cerrar sesión</button>`;
-
-    document.getElementById('btnLogout')?.addEventListener('click', logout);
-    document.getElementById('btnLogoutMobile')?.addEventListener('click', logout);
-  }
 });
