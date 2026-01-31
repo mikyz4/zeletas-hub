@@ -106,10 +106,74 @@
     </div>
   </section>
 
-  <!-- BOTONES DE USUARIO -->
+  <!-- VERTICALES PRINCIPALES -->
   <section class="section">
-    <div id="usuarioSection">
-      <!-- Aquí se cargará Iniciar sesión / Registrarse o Mi perfil -->
+    <h2 class="section-title">Verticales principales</h2>
+
+    <div class="grid">
+      <div class="card">
+        <h3>🧩 Marketplace (2ª mano)</h3>
+        <p>Compra y vende anuncios de usuarios con chat interno y secciones organizadas.</p>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="marketplace/index.html">Entrar</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🛒 Tienda Oficial</h3>
+        <p>Productos de Zeletas con catálogo profesional y enfoque premium.</p>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="tienda/index.html">Ver tienda</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🚗 Vehículos</h3>
+        <p>Nuevo, seminuevo, segunda mano, importación y gestión.</p>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="vehiculos/index.html">Ver sección</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🏠 Inmobiliaria</h3>
+        <p>Compra/venta, alquiler, inversión y reformas/proyectos.</p>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="inmobiliaria/index.html">Ver sección</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🛠️ Servicios</h3>
+        <p>Reformas, mantenimiento, gestión de profesionales y presupuestos.</p>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="servicios/index.html">Ver servicios</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>👤 Asesoría / Suscripción</h3>
+        <p>Asesor privado Zeletas: 50€/mes con acompañamiento real.</p>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="asesoria/index.html">Ver asesoría</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>💳 Financiación</h3>
+        <p>Gestión de financiación con terceros: tú solicitas y Zeletas coordina.</p>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="financiacion/index.html">Solicitar</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📩 Contacto</h3>
+        <p>Cuéntanos qué necesitas y te guiamos con un plan claro.</p>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="contacto/index.html">Contactar</a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -127,23 +191,19 @@
   <!-- WhatsApp flotante -->
   <a href="https://wa.me/34632125872" class="whatsapp-float" target="_blank">💬</a>
 
-  <!-- SCRIPTS -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <!-- Scripts -->
   <script src="assets/js/supabase.js"></script>
+  <script src="assets/js/app.js"></script>
   <script>
-    // =============================
-    // USUARIOS - LOGIN / REGISTRO
-    // =============================
+    // Mostrar login / registro o perfil según sesión
     const navUser = document.getElementById('navUser');
     const menuUserMobile = document.getElementById('menuUserMobile');
 
     async function checkUser() {
       const { data: { user } } = await supabase.auth.getUser();
-
       if(user) {
-        // Usuario logueado
         navUser.innerHTML = `<a href="perfil/index.html">Mi perfil</a> | <a href="#" id="logoutBtn">Cerrar sesión</a>`;
-        menuUserMobile.innerHTML = `<a href="perfil/index.html">Mi perfil</a> <a href="#" id="logoutBtnMobile">Cerrar sesión</a>`;
+        menuUserMobile.innerHTML = `<a href="perfil/index.html">Mi perfil</a><a href="#" id="logoutBtnMobile">Cerrar sesión</a>`;
 
         document.getElementById('logoutBtn')?.addEventListener('click', async () => {
           await supabase.auth.signOut();
@@ -153,21 +213,16 @@
           await supabase.auth.signOut();
           location.reload();
         });
+
       } else {
-        // Usuario NO logueado
         navUser.innerHTML = `<a href="login/index.html">Iniciar sesión</a> | <a href="registro/index.html">Registrarse</a>`;
-        menuUserMobile.innerHTML = `<a href="login/index.html">Iniciar sesión</a> <a href="registro/index.html">Registrarse</a>`;
+        menuUserMobile.innerHTML = `<a href="login/index.html">Iniciar sesión</a><a href="registro/index.html">Registrarse</a>`;
       }
     }
 
-    // Ejecutar al cargar la página
     checkUser();
-
-    // Escuchar cambios de sesión en tiempo real
-    supabase.auth.onAuthStateChange((event, session) => {
-      checkUser();
-    });
+    supabase.auth.onAuthStateChange(() => checkUser());
   </script>
-  <script src="assets/js/app.js"></script>
+
 </body>
 </html>
