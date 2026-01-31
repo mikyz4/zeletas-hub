@@ -3,27 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recuperar contraseña - Zeletas Hub</title>
+  <title>Recuperar Contraseña - Zeletas Hub</title>
   <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body>
 
 <section class="hero">
   <h2>Recuperar contraseña</h2>
-  <form id="resetForm">
-    <input type="email" id="email" placeholder="Correo electrónico" required>
+
+  <form id="recuperarForm">
+    <input type="email" id="email" placeholder="Introduce tu correo" required>
     <button type="submit">Enviar enlace de recuperación</button>
   </form>
+
+  <p>¿Recordaste tu contraseña? <a href="../login/">Iniciar sesión</a></p>
   <div id="mensaje"></div>
 </section>
 
+<!-- Supabase JS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="../assets/js/supabase.js"></script>
+
 <script>
-const resetForm = document.getElementById('resetForm');
+const recuperarForm = document.getElementById('recuperarForm');
 const mensaje = document.getElementById('mensaje');
 
-resetForm.addEventListener('submit', async (e) => {
+recuperarForm.addEventListener('submit', async (e) => {
   e.preventDefault();
+
   const email = document.getElementById('email').value;
 
   const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
@@ -34,9 +41,9 @@ resetForm.addEventListener('submit', async (e) => {
     mensaje.textContent = error.message;
     mensaje.style.color = 'red';
   } else {
-    mensaje.textContent = 'Revisa tu correo electrónico para restablecer la contraseña.';
+    mensaje.textContent = 'Correo enviado. Revisa tu bandeja de entrada.';
     mensaje.style.color = 'green';
-    resetForm.reset();
+    recuperarForm.reset();
   }
 });
 </script>
