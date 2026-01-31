@@ -1,23 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>ZELETAS HUB - Grupo Zeletas</title>
-<link rel="stylesheet" href="assets/css/styles.css">
-<style>
-/* MODALES BÁSICOS */
-.modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); justify-content:center; align-items:center; }
-.modal.active { display: flex; }
-.modal-content { background:#fff; padding:20px; border-radius:8px; width:90%; max-width:400px; position:relative; }
-.modal-content .close { position:absolute; top:10px; right:15px; cursor:pointer; font-size:20px; }
-#mensajeModal, #mensajeModalRegistro { margin-top:10px; font-weight:bold; }
-</style>
-</head>
-<body>
-
-<!-- MENÚ MÓVIL Y OVERLAY -->
+<link rel="stylesheet" href="assets/css/styles.css" />
+  
+<!-- OVERLAY + MOBILE MENU -->
 <div class="overlay"></div>
+
 <div class="mobile-menu">
   <div class="menu-title">Menú ZELETAS</div>
   <a href="index.html">🏠 Inicio</a>
@@ -29,7 +20,7 @@
   <a href="asesoria/index.html">👤 Asesoría</a>
   <a href="financiacion/index.html">💳 Financiación</a>
   <a href="contacto/index.html">📩 Contacto</a>
-  <div class="menu-user">
+  <div class="menu-user" id="menuUserMobile">
     <button id="btnLoginMobile">Iniciar sesión</button>
     <button id="btnRegistroMobile">Registrarse</button>
   </div>
@@ -39,6 +30,7 @@
 <header>
   <div class="header-inner">
     <div class="logo">ZELETAS <span>Hub</span></div>
+
     <nav class="nav-desktop">
       <a href="marketplace/index.html">Marketplace</a>
       <a href="tienda/index.html">Tienda Oficial</a>
@@ -51,20 +43,159 @@
         <button id="btnRegistro">Registrarse</button>
       </span>
     </nav>
+
+    <div class="hamburger" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </div>
   </div>
 </header>
 
 <!-- HERO -->
 <section class="hero">
   <h1>Grupo ZELETAS</h1>
-  <p>Hub multi-negocio con enfoque premium: marketplace, tienda, vehículos, inmobiliaria, servicios y asesoría profesional.</p>
+  <p>
+    Un hub multi-negocio con enfoque premium: marketplace de segunda mano, tienda oficial,
+    vehículos, inmobiliaria, servicios y asesoría profesional.
+  </p>
   <div class="hero-actions">
     <a class="btn btn-primary" href="marketplace/index.html">Entrar al Marketplace</a>
     <a class="btn btn-secondary" href="tienda/index.html">Ver Tienda Oficial</a>
   </div>
 </section>
 
-<!-- MODALES LOGIN / REGISTRO -->
+<!-- COMO FUNCIONA -->
+<section class="section">
+  <h2 class="section-title">¿Cómo funciona ZELETAS?</h2>
+  <p class="section-subtitle">
+    ZELETAS combina intermediación, gestión y modelos digitales para operar sin necesidad de stock propio,
+    conectando clientes con soluciones reales y profesionales.
+  </p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="badge">Modelo</div>
+      <h3>Marketplace (2ª mano)</h3>
+      <p>
+        Usuarios publican anuncios. ZELETAS facilita visibilidad, contacto seguro y soporte.
+        Vehículos e inmuebles van en secciones separadas para máxima claridad.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="badge">Modelo</div>
+      <h3>Tienda Oficial (Dropshipping)</h3>
+      <p>
+        Productos seleccionados por ZELETAS con venta profesional. Tú compras con confianza y nosotros
+        gestionamos el proceso.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="badge">Servicios</div>
+      <h3>Gestión y coordinación</h3>
+      <p>
+        Reformas, mantenimiento, técnicos, presupuestos y proyectos. ZELETAS organiza el proceso con
+        colaboradores verificados.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="badge">Asesoría</div>
+      <h3>Suscripción mensual</h3>
+      <p>
+        Acompañamiento privado y profesional para ayudarte en decisiones importantes:
+        compra/venta, inversión, reformas, importaciones y más.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- VERTICALES PRINCIPALES -->
+<section class="section">
+  <h2 class="section-title">Verticales principales</h2>
+
+  <div class="grid">
+    <div class="card">
+      <h3>🧩 Marketplace (2ª mano)</h3>
+      <p>Compra y vende anuncios de usuarios con chat interno y secciones organizadas.</p>
+      <div class="card-actions">
+        <a class="btn btn-primary" href="marketplace/index.html">Entrar</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🛒 Tienda Oficial</h3>
+      <p>Productos de Zeletas con catálogo profesional y enfoque premium.</p>
+      <div class="card-actions">
+        <a class="btn btn-primary" href="tienda/index.html">Ver tienda</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🚗 Vehículos</h3>
+      <p>Nuevo, seminuevo, segunda mano, importación y gestión.</p>
+      <div class="card-actions">
+        <a class="btn btn-primary" href="vehiculos/index.html">Ver sección</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🏠 Inmobiliaria</h3>
+      <p>Compra/venta, alquiler, inversión y reformas/proyectos.</p>
+      <div class="card-actions">
+        <a class="btn btn-primary" href="inmobiliaria/index.html">Ver sección</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🛠️ Servicios</h3>
+      <p>Reformas, mantenimiento, gestión de profesionales y presupuestos.</p>
+      <div class="card-actions">
+        <a class="btn btn-primary" href="servicios/index.html">Ver servicios</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>👤 Asesoría / Suscripción</h3>
+      <p>Asesor privado Zeletas: 50€/mes con acompañamiento real.</p>
+      <div class="card-actions">
+        <a class="btn btn-primary" href="asesoria/index.html">Ver asesoría</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>💳 Financiación</h3>
+      <p>Gestión de financiación con terceros: tú solicitas y Zeletas coordina.</p>
+      <div class="card-actions">
+        <a class="btn btn-primary" href="financiacion/index.html">Solicitar</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📩 Contacto</h3>
+      <p>Cuéntanos qué necesitas y te guiamos con un plan claro.</p>
+      <div class="card-actions">
+        <a class="btn btn-primary" href="contacto/index.html">Contactar</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>© 2026 ZELETAS HUB. Todos los derechos reservados.</div>
+  <div class="footer-links">
+    <a href="legal/aviso-legal.html">Aviso legal</a>
+    <a href="legal/privacidad.html">Privacidad</a>
+    <a href="legal/cookies.html">Cookies</a>
+    <a href="legal/terminos.html">Términos</a>
+  </div>
+</footer>
+
+<!-- WhatsApp flotante -->
+<a href="https://wa.me/34632125872" class="whatsapp-float" target="_blank">💬</a>
+
+<!-- MODALES LOGIN/REGISTRO -->
 <div id="modalLogin" class="modal">
   <div class="modal-content">
     <span class="close" id="closeLogin">&times;</span>
@@ -90,18 +221,21 @@
 
 <!-- SCRIPTS -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-const SUPABASE_URL = "https://tmiblfkgxzibcpluixxl.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRtaWJsZmtneHppYmNwbHVpeHhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk4NjQ4NjEsImV4cCI6MjA4NTQ0MDg2MX0.86RmLdPT3h1GCxks2yLTKC7aBIz8Wt93IahRQhht4qA";
-const supabase = supabaseJs.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+<script src="assets/js/supabase.js"></script>
+<script src="assets/js/app.js"></script>
 
+<script>
+// =============================
+// MODALES LOGIN/REGISTRO
+// =============================
 document.addEventListener('DOMContentLoaded', () => {
-  // Modales
   const modalLogin = document.getElementById('modalLogin');
   const modalRegistro = document.getElementById('modalRegistro');
 
-  const openLoginButtons = [document.getElementById('btnLogin'), document.getElementById('btnLoginMobile')];
-  const openRegistroButtons = [document.getElementById('btnRegistro'), document.getElementById('btnRegistroMobile')];
+  const btnLogin = document.getElementById('btnLogin');
+  const btnRegistro = document.getElementById('btnRegistro');
+  const btnLoginMobile = document.getElementById('btnLoginMobile');
+  const btnRegistroMobile = document.getElementById('btnRegistroMobile');
 
   const closeLogin = document.getElementById('closeLogin');
   const closeRegistro = document.getElementById('closeRegistro');
@@ -110,38 +244,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const mensajeModalRegistro = document.getElementById('mensajeModalRegistro');
 
   // Abrir modales
-  openLoginButtons.forEach(b => b?.addEventListener('click', () => modalLogin.classList.add('active')));
-  openRegistroButtons.forEach(b => b?.addEventListener('click', () => modalRegistro.classList.add('active')));
+  btnLogin?.addEventListener('click', ()=>modalLogin.classList.add('active'));
+  btnRegistro?.addEventListener('click', ()=>modalRegistro.classList.add('active'));
+  btnLoginMobile?.addEventListener('click', ()=>modalLogin.classList.add('active'));
+  btnRegistroMobile?.addEventListener('click', ()=>modalRegistro.classList.add('active'));
 
   // Cerrar modales
-  closeLogin?.addEventListener('click', () => modalLogin.classList.remove('active'));
-  closeRegistro?.addEventListener('click', () => modalRegistro.classList.remove('active'));
-  window.addEventListener('click', e => {
-    if(e.target === modalLogin) modalLogin.classList.remove('active');
-    if(e.target === modalRegistro) modalRegistro.classList.remove('active');
+  closeLogin?.addEventListener('click', ()=>modalLogin.classList.remove('active'));
+  closeRegistro?.addEventListener('click', ()=>modalRegistro.classList.remove('active'));
+  window.addEventListener('click', e=>{
+    if(e.target===modalLogin) modalLogin.classList.remove('active');
+    if(e.target===modalRegistro) modalRegistro.classList.remove('active');
   });
 
   // LOGIN
-  document.getElementById('loginBtn')?.addEventListener('click', async () => {
+  document.getElementById('loginBtn')?.addEventListener('click', async ()=>{
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if(error){
       mensajeModal.textContent = error.message;
-      mensajeModal.style.color='red';
+      mensajeModal.style.color = 'red';
     } else {
-      mensajeModal.textContent='¡Login correcto!';
-      mensajeModal.style.color='green';
-      setTimeout(()=>location.reload(),1000);
+      mensajeModal.textContent = '¡Login correcto!';
+      mensajeModal.style.color = 'green';
+      setTimeout(()=>{ location.reload(); }, 1000);
     }
   });
 
   // REGISTRO
-  document.getElementById('registroBtn')?.addEventListener('click', async () => {
+  document.getElementById('registroBtn')?.addEventListener('click', async ()=>{
     const nombre = document.getElementById('regNombre').value;
     const email = document.getElementById('regEmail').value;
     const password = document.getElementById('regPassword').value;
-    const { data, error } = await supabase.auth.signUp({ email, password, options:{ data:{ nombre } } });
+    const { data, error } = await supabase.auth.signUp({ email, password, options:{data:{nombre}}});
     if(error){
       mensajeModalRegistro.textContent = error.message;
       mensajeModalRegistro.style.color='red';
@@ -153,5 +289,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
+
 </body>
 </html>
