@@ -33,10 +33,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const mensajeModalRegistro = document.getElementById('mensajeModalRegistro');
 
   // Abrir modales
-  btnLogin?.addEventListener('click', ()=>modalLogin.classList.add('active'));
-  btnRegistro?.addEventListener('click', ()=>modalRegistro.classList.add('active'));
-  btnLoginMobile?.addEventListener('click', ()=>modalLogin.classList.add('active'));
-  btnRegistroMobile?.addEventListener('click', ()=>modalRegistro.classList.add('active'));
+  [btnLogin, btnLoginMobile].forEach(btn => {
+    btn?.addEventListener('click', ()=>modalLogin.classList.add('active'));
+  });
+  [btnRegistro, btnRegistroMobile].forEach(btn => {
+    btn?.addEventListener('click', ()=>modalRegistro.classList.add('active'));
+  });
 
   // Cerrar modales
   closeLogin?.addEventListener('click', ()=>modalLogin.classList.remove('active'));
@@ -69,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const email = document.getElementById('regEmail').value;
     const password = document.getElementById('regPassword').value;
 
-    // 1️⃣ Crear usuario en Supabase Auth
+    // Crear usuario en Supabase Auth
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
@@ -82,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // 2️⃣ Crear perfil en la tabla profiles
+    // Crear perfil en tabla profiles
     try {
       const { error: profileError } = await supabase.from('profiles').insert([
         { id: signUpData.user.id, nombre }
