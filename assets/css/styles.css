@@ -538,3 +538,27 @@ footer {
   font-size: 0.95rem;
   color: var(--muted);
 }
+
+/* Asegurarse que los botones del menú móvil se vean */
+.mobile-menu {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.mobile-menu a,
+.mobile-menu button {
+  display: block;
+  margin: 10px 0;
+  font-size: 18px;
+  color: #fff; /* o el color que quieras */
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.mobile-menu button:hover,
+.mobile-menu a:hover {
+  color: #ffd700;
+}
