@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zeletas Marketplace - Vehículos</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+<header>
+  <h1>Marketplace Vehículos</h1>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="general.html">General</a></li>
+      <li><a href="vehiculos.html">Vehículos</a></li>
+      <li><a href="inmobiliaria.html">Inmobiliaria</a></li>
+    </ul>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+</header>
+
+<section>
+  <h2>Filtrar coches</h2>
+  <form id="filtros-vehiculos">
+    <input type="text" placeholder="Marca / Modelo">
+    <input type="number" placeholder="Precio mínimo">
+    <input type="number" placeholder="Precio máximo">
+    <select>
+      <option value="">Estado</option>
+      <option value="nuevo">Nuevo</option>
+      <option value="seminuevo">Seminuevo</option>
+      <option value="segunda-mano">Segunda mano</option>
+    </select>
+    <button type="button">Filtrar</button>
+  </form>
+</section>
+
+<section class="grid">
+  <div class="card">
+    <h3>BMW Serie 3</h3>
+    <p>Segunda mano, 60.000 km, 2019</p>
+    <a href="anuncio.html">Ver anuncio</a>
+  </div>
+  <div class="card">
+    <h3>Toyota Corolla</h3>
+    <p>Nuevo, 2026, garantía oficial</p>
+    <a href="anuncio.html">Ver anuncio</a>
+  </div>
+</section>
+
+<script src="../assets/js/app.js"></script>
+</body>
+</html>

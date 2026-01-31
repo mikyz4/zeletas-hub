@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zeletas Marketplace - General</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+<header>
+  <h1>Zeletas Marketplace</h1>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="general.html">General</a></li>
+      <li><a href="vehiculos.html">Vehículos</a></li>
+      <li><a href="inmobiliaria.html">Inmobiliaria</a></li>
+      <li><a href="../tienda/index.html">Tienda Oficial</a></li>
+    </ul>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <h2>Marketplace Zeletas</h2>
+  <p>Encuentra productos de segunda mano de usuarios y particulares.</p>
+</section>
+
+<section>
+  <h2>Filtrar anuncios</h2>
+  <form id="filtros-general">
+    <input type="text" placeholder="Buscar..." id="busqueda">
+    <select id="categoria">
+      <option value="">Todas las categorías</option>
+      <option value="vehiculos">Vehículos</option>
+      <option value="inmobiliaria">Inmobiliaria</option>
+      <option value="tecnologia">Tecnología</option>
+      <option value="servicios">Servicios</option>
+    </select>
+    <button type="button" onclick="filtrarAnuncios()">Filtrar</button>
+  </form>
+</section>
+
+<section class="grid" id="anuncios-grid">
+  <div class="card">
+    <h3>Coche Seat Ibiza 2018</h3>
+    <p>Segunda mano, buen estado, 45.000 km.</p>
+    <a href="anuncio.html">Ver anuncio</a>
+  </div>
+  <div class="card">
+    <h3>Piso 3 habitaciones</h3>
+    <p>Alquiler en Madrid centro, reformado.</p>
+    <a href="anuncio.html">Ver anuncio</a>
+  </div>
+  <div class="card">
+    <h3>Portátil reacondicionado</h3>
+    <p>MacBook Air M1, estado 9/10.</p>
+    <a href="anuncio.html">Ver anuncio</a>
+  </div>
+</section>
+
+<script src="../assets/js/app.js"></script>
+<script>
+function filtrarAnuncios() {
+  alert("Filtro aplicado (demo). En fases posteriores conectaremos con backend y filtros reales.");
+}
+</script>
+</body>
+</html>
