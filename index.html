@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>ZELETAS HUB - Grupo Zeletas</title>
 <link rel="stylesheet" href="assets/css/styles.css" />
-  
+</head>
+<body>
+
 <!-- OVERLAY + MOBILE MENU -->
 <div class="overlay"></div>
 
@@ -30,7 +32,6 @@
 <header>
   <div class="header-inner">
     <div class="logo">ZELETAS <span>Hub</span></div>
-
     <nav class="nav-desktop">
       <a href="marketplace/index.html">Marketplace</a>
       <a href="tienda/index.html">Tienda Oficial</a>
@@ -43,7 +44,6 @@
         <button id="btnRegistro">Registrarse</button>
       </span>
     </nav>
-
     <div class="hamburger" aria-label="Abrir menú">
       <span></span><span></span><span></span>
     </div>
@@ -202,7 +202,7 @@
     <h3>Iniciar sesión</h3>
     <input type="email" id="loginEmail" placeholder="Correo">
     <input type="password" id="loginPassword" placeholder="Contraseña">
-    <button id="loginBtn">Entrar</button>
+    <button id="loginBtnModal">Entrar</button>
     <div id="mensajeModal"></div>
   </div>
 </div>
@@ -214,7 +214,7 @@
     <input type="text" id="regNombre" placeholder="Nombre completo">
     <input type="email" id="regEmail" placeholder="Correo">
     <input type="password" id="regPassword" placeholder="Contraseña">
-    <button id="registroBtn">Crear cuenta</button>
+    <button id="registroBtnModal">Crear cuenta</button>
     <div id="mensajeModalRegistro"></div>
   </div>
 </div>
@@ -225,9 +225,6 @@
 <script src="assets/js/app.js"></script>
 
 <script>
-// =============================
-// MODALES LOGIN/REGISTRO
-// =============================
 document.addEventListener('DOMContentLoaded', () => {
   const modalLogin = document.getElementById('modalLogin');
   const modalRegistro = document.getElementById('modalRegistro');
@@ -244,21 +241,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const mensajeModalRegistro = document.getElementById('mensajeModalRegistro');
 
   // Abrir modales
-  btnLogin?.addEventListener('click', ()=>modalLogin.classList.add('active'));
-  btnRegistro?.addEventListener('click', ()=>modalRegistro.classList.add('active'));
-  btnLoginMobile?.addEventListener('click', ()=>modalLogin.classList.add('active'));
-  btnRegistroMobile?.addEventListener('click', ()=>modalRegistro.classList.add('active'));
+  [btnLogin, btnLoginMobile].forEach(btn => btn?.addEventListener('click', () => modalLogin.classList.add('active')));
+  [btnRegistro, btnRegistroMobile].forEach(btn => btn?.addEventListener('click', () => modalRegistro.classList.add('active')));
 
   // Cerrar modales
-  closeLogin?.addEventListener('click', ()=>modalLogin.classList.remove('active'));
-  closeRegistro?.addEventListener('click', ()=>modalRegistro.classList.remove('active'));
-  window.addEventListener('click', e=>{
-    if(e.target===modalLogin) modalLogin.classList.remove('active');
-    if(e.target===modalRegistro) modalRegistro.classList.remove('active');
+  closeLogin?.addEventListener('click', () => modalLogin.classList.remove('active'));
+  closeRegistro?.addEventListener('click', () => modalRegistro.classList.remove('active'));
+  window.addEventListener('click', e => {
+    if(e.target === modalLogin) modalLogin.classList.remove('active');
+    if(e.target === modalRegistro) modalRegistro.classList.remove('active');
   });
 
   // LOGIN
-  document.getElementById('loginBtn')?.addEventListener('click', async ()=>{
+  document.getElementById('loginBtnModal')?.addEventListener('click', async () => {
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
@@ -268,12 +263,12 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       mensajeModal.textContent = '¡Login correcto!';
       mensajeModal.style.color = 'green';
-      setTimeout(()=>{ location.reload(); }, 1000);
+      setTimeout(()=> location.reload(), 1000);
     }
   });
 
   // REGISTRO
-  document.getElementById('registroBtn')?.addEventListener('click', async ()=>{
+  document.getElementById('registroBtnModal')?.addEventListener('click', async () => {
     const nombre = document.getElementById('regNombre').value;
     const email = document.getElementById('regEmail').value;
     const password = document.getElementById('regPassword').value;
@@ -284,7 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       mensajeModalRegistro.textContent='Cuenta creada. Revisa tu email.';
       mensajeModalRegistro.style.color='green';
-      setTimeout(()=>modalRegistro.classList.remove('active'),1500);
+      setTimeout(()=> modalRegistro.classList.remove('active'),1500);
     }
   });
 });
