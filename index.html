@@ -22,7 +22,7 @@
     <a href="asesoria/index.html">👤 Asesoría</a>
     <a href="financiacion/index.html">💳 Financiación</a>
     <a href="contacto/index.html">📩 Contacto</a>
-    <div class="menu-user" id="menuUserMobile"></div>
+    <div id="menuUserMobile"></div>
   </div>
 
   <!-- HEADER -->
@@ -234,7 +234,6 @@
 
     checkUser();
 
-    // Escuchar cambios de sesión en tiempo real
     supabase.auth.onAuthStateChange((event, session) => {
       checkUser();
     });
