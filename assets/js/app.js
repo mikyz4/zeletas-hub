@@ -1,88 +1,100 @@
-// =============================
-// ZELETAS HUB - APP JS (FASE 1)
-// =============================
+// /assets/js/app.js
+// ==============================
+// ZELETAS HUB - Login, Registro, UI
+// ==============================
 
-// MENU MOBILE
-const hamburger = document.querySelector(".hamburger");
-const mobileMenu = document.querySelector(".mobile-menu");
-const overlay = document.querySelector(".overlay");
+import { supabase, getCurrentUser, logout } from './supabase.js';
 
-function openMenu() {
-  mobileMenu.classList.add("active");
-  overlay.classList.add("active");
-}
+document.addEventListener('DOMContentLoaded', async () => {
+  const modalLogin = document.getElementById('modalLogin');
+  const modalRegistro = document.getElementById('modalRegistro');
 
-function closeMenu() {
-  mobileMenu.classList.remove("active");
-  overlay.classList.remove("active");
-}
+  const btnLogin = document.getElementById('btnLogin');
+  const btnRegistro = document.getElementById('btnRegistro');
+  const btnLoginMobile = document.getElementById('btnLoginMobile');
+  const btnRegistroMobile = document.getElementById('btnRegistroMobile');
 
-if (hamburger) {
-  hamburger.addEventListener("click", () => {
-    if (mobileMenu.classList.contains("active")) {
-      closeMenu();
+  const closeLogin = document.getElementById('closeLogin');
+  const closeRegistro = document.getElementById('closeRegistro');
+
+  const mensajeModal = document.getElementById('mensajeModal');
+  const mensajeModalRegistro = document.getElementById('mensajeModalRegistro');
+
+  const navUser = document.getElementById('navUser');
+  const menuUserMobile = document.getElementById('menuUserMobile');
+
+  // =============================
+  // Abrir modales
+  // =============================
+  [btnLogin, btnLoginMobile].forEach(btn => {
+    btn?.addEventListener('click', () => modalLogin.classList.add('active'));
+  });
+  [btnRegistro, btnRegistroMobile].forEach(btn => {
+    btn?.addEventListener('click', () => modalRegistro.classList.add('active'));
+  });
+
+  // =============================
+  // Cerrar modales
+  // =============================
+  closeLogin?.addEventListener('click', ()=>modalLogin.classList.remove('active'));
+  closeRegistro?.addEventListener('click', ()=>modalRegistro.classList.remove('active'));
+  window.addEventListener('click', e=>{
+    if(e.target===modalLogin) modalLogin.classList.remove('active');
+    if(e.target===modalRegistro) modalRegistro.classList.remove('active');
+  });
+
+  // =============================
+  // LOGIN
+  // =============================
+  document.getElementById('loginBtn')?.addEventListener('click', async ()=>{
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if(error){
+      mensajeModal.textContent = error.message;
+      mensajeModal.style.color = 'red';
     } else {
-      openMenu();
+      mensajeModal.textContent = '¡Login correcto!';
+      mensajeModal.style.color = 'green';
+      setTimeout(()=>{ location.reload(); }, 1000);
     }
   });
-}
 
-if (overlay) {
-  overlay.addEventListener("click", closeMenu);
-}
+  // =============================
+  // REGISTRO
+  // =============================
+  document.getElementById('registroBtn')?.addEventListener('click', async ()=>{
+    const nombre = document.getElementById('regNombre').value;
+    const email = document.getElementById('regEmail').value;
+    const password = document.getElementById('regPassword').value;
 
-// Cerrar menú al clicar un enlace
-document.querySelectorAll(".mobile-menu a").forEach((link) => {
-  link.addEventListener("click", closeMenu);
-});
-
-// =================================
-// USUARIOS - LOGIN / REGISTRO
-// =================================
-
-const navUser = document.getElementById('navUser');
-const menuUserMobile = document.getElementById('menuUserMobile');
-
-async function checkUser() {
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if(user) {
-    // Usuario logueado
-    navUser.innerHTML = `
-      <a href="perfil/index.html">Mi perfil</a> | 
-      <a href="#" id="logoutBtn">Cerrar sesión</a>
-    `;
-    menuUserMobile.innerHTML = `
-      <a href="perfil/index.html">Mi perfil</a>
-      <a href="#" id="logoutBtnMobile">Cerrar sesión</a>
-    `;
-
-    document.getElementById('logoutBtn')?.addEventListener('click', async () => {
-      await supabase.auth.signOut();
-      location.reload();
-    });
-    document.getElementById('logoutBtnMobile')?.addEventListener('click', async () => {
-      await supabase.auth.signOut();
-      location.reload();
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: { nombre } }
     });
 
-  } else {
-    // Usuario NO logueado
-    navUser.innerHTML = `
-      <a href="login/index.html">Iniciar sesión</a> | 
-      <a href="registro/index.html">Registrarse</a>
-    `;
-    menuUserMobile.innerHTML = `
-      <a href="login/index.html">Iniciar sesión</a>
-      <a href="registro/index.html">Registrarse</a>
-    `;
+    if(error){
+      mensajeModalRegistro.textContent = error.message;
+      mensajeModalRegistro.style.color='red';
+    } else {
+      mensajeModalRegistro.textContent='Cuenta creada. Revisa tu email.';
+      mensajeModalRegistro.style.color='green';
+      setTimeout(()=>modalRegistro.classList.remove('active'),1500);
+    }
+  });
+
+  // =============================
+  // Verificar sesión actual
+  // =============================
+  const user = await getCurrentUser();
+  if(user){
+    // Usuario logueado, mostrar su nombre y botón logout
+    navUser.innerHTML = `<span>👤 ${user.email}</span> <button id="btnLogout">Cerrar sesión</button>`;
+    menuUserMobile.innerHTML = `<span>👤 ${user.email}</span> <button id="btnLogoutMobile">Cerrar sesión</button>`;
+
+    document.getElementById('btnLogout')?.addEventListener('click', logout);
+    document.getElementById('btnLogoutMobile')?.addEventListener('click', logout);
   }
-}
-
-// Ejecutar al cargar la página
-checkUser();
-
-// Escuchar cambios de sesión en tiempo real (login/logout)
-supabase.auth.onAuthStateChange((event, session) => {
-  checkUser();
 });
