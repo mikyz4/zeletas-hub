@@ -563,3 +563,14 @@ footer {
 .mobile-menu a:hover {
   color: #ffd700;
 }
+
+/* ===========================
+   ZELETAS HUB - STYLES (FASE 1)
+   Tema oscuro premium + verde
+   =========================== */
+
+/* ---------- SOLO AGREGAR SCROLL MÓVIL ---------- */
+.mobile-menu {
+  overflow-y: auto;                /* Permite desplazamiento vertical */
+  -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
+}
