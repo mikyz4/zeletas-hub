@@ -6,60 +6,78 @@
     <title>Acceso - Zeletas Hub</title>
     <style>
         body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #f4f4f4; }
-        .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; }
-        .btn { background: #4285F4; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 16px; }
+        .card { background: white; padding: 2.5rem; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 90%; max-width: 400px; }
+        h2 { color: #333; margin-bottom: 10px; }
+        #status { color: #666; margin-bottom: 25px; font-size: 14px; min-height: 20px; }
+        .btn { background: #4285F4; color: white; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; transition: background 0.3s; }
+        .btn:active { background: #3367d6; }
     </style>
 </head>
 <body>
 
 <div class="card">
     <h2>Zeletas Hub</h2>
-    <p id="status">Cargando sistema...</p>
-    <button id="googleBtn" class="btn">Entrar con Google</button>
+    <div id="status">Iniciando sistema...</div>
+    <button id="googleBtn" class="btn">ENTRAR CON GOOGLE</button>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.js"></script>
 
 <script>
-    // 1. CONFIGURACIÓN
+    // Variables de conexión
     const SUPABASE_URL = "https://sbqpkfdcznulwpxlxiwu.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    let supabaseClient;
 
     const statusEl = document.getElementById('status');
+    const googleBtn = document.getElementById('googleBtn');
 
-    // 2. DETECTAR SESIÓN (Al volver de Google)
-    async function detectarSesion() {
-        statusEl.textContent = "Verificando identidad...";
-        
-        const { data: { session }, error } = await supabase.auth.getSession();
-
-        if (session) {
-            statusEl.textContent = "¡Bienvenido! Redirigiendo...";
-            // Limpia la URL del token
-            window.history.replaceState({}, document.title, window.location.pathname);
-            // Salto al perfil
-            setTimeout(() => {
-                window.location.href = "../perfil/index.html";
-            }, 500);
-        } else {
-            statusEl.textContent = "Por favor, inicia sesión.";
+    // Función principal de arranque
+    function iniciar() {
+        try {
+            // Inicialización compatible con UMD (el script de arriba)
+            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            statusEl.textContent = "Sistema listo. Pulsa el botón.";
+            
+            // Verificamos si ya hay una sesión activa (por si venimos de Google)
+            verificarSesion();
+        } catch (err) {
+            statusEl.textContent = "Error al cargar el motor: " + err.message;
+            statusEl.style.color = "red";
         }
     }
 
-    // 3. LOGICA DEL BOTÓN
-    document.getElementById('googleBtn').onclick = async () => {
+    async function verificarSesion() {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (session) {
+            statusEl.textContent = "¡Sesión detectada! Entrando...";
+            // Limpia el token de la URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+            // Redirige al perfil
+            window.location.href = "../perfil/";
+        }
+    }
+
+    // Evento del botón
+    googleBtn.onclick = async () => {
         statusEl.textContent = "Conectando con Google...";
-        const { error } = await supabase.auth.signInWithOAuth({
-            provider: 'google',
-            options: {
-                // Esto asegura que Google te devuelva a esta misma página
-                redirectTo: window.location.origin + window.location.pathname
-            }
-        });
+        try {
+            const { error } = await supabaseClient.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: window.location.origin + window.location.pathname
+                }
+            });
+            if (error) throw error;
+        } catch (err) {
+            alert("Error de inicio: " + err.message);
+            statusEl.textContent = "Error al conectar.";
+        }
     };
 
-    detectarSesion();
+    // Lanzamos todo cuando el script de Supabase esté cargado
+    window.onload = iniciar;
 </script>
 </body>
 </html>
