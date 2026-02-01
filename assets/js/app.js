@@ -1,3 +1,24 @@
+import { supabase } from '../assets/js/supabase.js';
+
+document.addEventListener('DOMContentLoaded', async () => {
+    
+    // 1. Comprobar si el usuario acaba de entrar
+    const { data: { session } } = await supabase.auth.getSession();
+
+    if (session) {
+        console.log("¡Sesión detectada!", session.user);
+        // Limpiamos la URL (quita el token de la vista)
+        window.history.replaceState({}, document.title, window.location.pathname);
+        
+        // Redirigimos al perfil tras 1 segundo de cortesía
+        setTimeout(() => {
+            window.location.href = "../perfil/"; 
+        }, 1000);
+    }
+    
+    // ... resto de tu código de botones ...
+});
+
 import { supabase } from './supabase.js';
 
 document.addEventListener('DOMContentLoaded', () => {
