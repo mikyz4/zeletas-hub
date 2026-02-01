@@ -191,6 +191,20 @@
   
 <!-- Scripts -->
 <script type="module" src="assets/js/ui.js"></script>
+
+<script>
+  // Escuchamos el click en el botón del modal
+  document.getElementById('googleBtn').onclick = function() {
+    // En lugar de intentar loguear aquí, lo mandamos a la página que YA FUNCIONA
+    window.location.href = "/acceso/index.html";
+  };
+
+  // Si tienes el botón Mi Cuenta fuera del modal y quieres que también lleve allí:
+  document.getElementById('btnCuenta').onclick = function() {
+    window.location.href = "/acceso/index.html";
+  };
+</script>
 </body>
 </html>
+
 
