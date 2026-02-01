@@ -61,14 +61,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
       if(error){
+        console.error("Error login:", error);
         mensajeModal.textContent = error.message;
         mensajeModal.style.color = 'red';
       } else {
+        console.log("Login correcto:", data);
         mensajeModal.textContent = '¡Login correcto!';
         mensajeModal.style.color = 'green';
         setTimeout(() => location.reload(), 1000);
       }
-    } catch(e){ console.error("Error login:", e); }
+    } catch(e){ console.error("Error login catch:", e); }
   });
 
   // =============================
@@ -88,30 +90,36 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       if(signUpError){
+        console.error("Error signUp:", signUpError);
         mensajeModalRegistro.textContent = signUpError.message;
         mensajeModalRegistro.style.color = 'red';
         return;
       }
 
-      // ✅ Si signUpData.user.id no existe, generamos un UUID en frontend
+      console.log("Usuario Auth creado:", signUpData.user);
+
+      // ✅ Asegurarnos que haya un UUID válido
       const userId = signUpData.user?.id || crypto.randomUUID();
 
       // Insertar perfil en profiles
-      const { error: profileError } = await supabase
+      const { data: profileData, error: profileError } = await supabase
         .from('profiles')
         .insert([{ id: userId, nombre, email, rol: 'usuario' }]);
 
       if(profileError){
+        console.error("Error insert profile:", profileError);
         mensajeModalRegistro.textContent = 'Usuario creado, pero no se pudo guardar el perfil: ' + profileError.message;
         mensajeModalRegistro.style.color = 'orange';
         return;
       }
 
+      console.log("Perfil insertado correctamente:", profileData);
+
       mensajeModalRegistro.textContent = 'Cuenta creada correctamente. Revisa tu email.';
       mensajeModalRegistro.style.color = 'green';
       setTimeout(() => modalRegistro.classList.remove('active'), 1500);
 
-    } catch(e){ console.error("Error registro:", e); }
+    } catch(e){ console.error("Error registro catch:", e); }
   });
 
 });
