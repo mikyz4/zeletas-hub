@@ -3,81 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso - Zeletas Hub</title>
+    <title>Acceso Seguro - Zeletas Hub</title>
     <style>
         body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #f4f4f4; }
         .card { background: white; padding: 2.5rem; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 90%; max-width: 400px; }
-        h2 { color: #333; margin-bottom: 10px; }
-        #status { color: #666; margin-bottom: 25px; font-size: 14px; min-height: 20px; }
-        .btn { background: #4285F4; color: white; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; transition: background 0.3s; }
-        .btn:active { background: #3367d6; }
+        .btn { background: #4285F4; color: white; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; }
     </style>
 </head>
 <body>
 
 <div class="card">
     <h2>Zeletas Hub</h2>
-    <div id="status">Iniciando sistema...</div>
-    <button id="googleBtn" class="btn">ENTRAR CON GOOGLE</button>
+    <div id="status">Verificando sistema V7...</div>
+    <button id="googleBtn" class="btn">ENTRAR V.7 - NETLIFY</button>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-    // Variables de conexión
-    const SUPABASE_URL = "https://sbqpkfdcznulwpxlxiwu.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
+    // 1. Definimos las constantes aquí, sin importar archivos externos
+    const S_URL = "https://sbqpkfdcznulwpxlxiwu.supabase.co";
+    const S_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
     
-    let supabaseClient;
+    // 2. Creamos el cliente directamente
+    const supabaseClient = supabase.createClient(S_URL, S_KEY);
 
     const statusEl = document.getElementById('status');
     const googleBtn = document.getElementById('googleBtn');
 
-    // Función principal de arranque
-    function iniciar() {
-        try {
-            // Inicialización compatible con UMD (el script de arriba)
-            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            statusEl.textContent = "Sistema listo. Pulsa el botón.";
-            
-            // Verificamos si ya hay una sesión activa (por si venimos de Google)
-            verificarSesion();
-        } catch (err) {
-            statusEl.textContent = "Error al cargar el motor: " + err.message;
-            statusEl.style.color = "red";
-        }
-    }
-
-    async function verificarSesion() {
+    async function revisar() {
         const { data: { session } } = await supabaseClient.auth.getSession();
         if (session) {
-            statusEl.textContent = "¡Sesión detectada! Entrando...";
-            // Limpia el token de la URL
-            window.history.replaceState({}, document.title, window.location.pathname);
-            // Redirige al perfil
-            window.location.href = "../perfil/";
+            window.location.href = "https://zeletas.netlify.app/perfil/";
+        } else {
+            statusEl.textContent = "Listo para conectar.";
         }
     }
 
-    // Evento del botón
-        googleBtn.onclick = async () => {
-    // Si este alert NO dice NETLIFY, estás cargando el código viejo
-    alert("Voy a intentar ir a: NETLIFY"); 
-    
-    try {
-        await supabaseClient.auth.signInWithOAuth({
+    googleBtn.onclick = async () => {
+        statusEl.textContent = "Redirigiendo a Google...";
+        
+        // 3. AQUÍ FORZAMOS EL REDIRECT_TO SINlocalhost
+        const { error } = await supabaseClient.auth.signInWithOAuth({
             provider: 'google',
             options: {
                 redirectTo: "https://zeletas.netlify.app/acceso/"
             }
         });
-    } catch (err) {
-        alert("Error: " + err.message);
-    }
-};
+        
+        if (error) alert("Error: " + error.message);
+    };
 
-    // Lanzamos todo cuando el script de Supabase esté cargado
-    window.onload = iniciar;
+    revisar();
 </script>
 </body>
 </html>
