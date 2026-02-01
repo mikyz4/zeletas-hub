@@ -51,12 +51,12 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =============================
-  // LOGIN
+  // LOGIN (EMAIL + PASSWORD)
   // =============================
   document.getElementById('loginBtn')?.addEventListener('click', async () => {
     try {
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
 
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
@@ -66,24 +66,51 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         mensajeModal.textContent = '¡Login correcto!';
         mensajeModal.style.color = 'green';
-        setTimeout(() => location.reload(), 1000);
+        setTimeout(() => location.reload(), 800);
       }
-    } catch(e){ console.error("Error login:", e); }
+    } catch(e){
+      console.error("Error login:", e);
+      mensajeModal.textContent = "Error inesperado en login.";
+      mensajeModal.style.color = "red";
+    }
   });
 
   // =============================
-  // REGISTRO
+  // LOGIN CON GOOGLE (OAuth)
+  // =============================
+  document.getElementById('googleLoginBtn')?.addEventListener('click', async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: "https://zeletas.netlify.app"
+        }
+      });
+
+      if(error){
+        mensajeModal.textContent = error.message;
+        mensajeModal.style.color = "red";
+      }
+    } catch(e){
+      console.error("Error Google OAuth:", e);
+      mensajeModal.textContent = "Error inesperado con Google.";
+      mensajeModal.style.color = "red";
+    }
+  });
+
+  // =============================
+  // REGISTRO (EMAIL + PASSWORD)
   // =============================
   document.getElementById('registroBtn')?.addEventListener('click', async () => {
     try {
-      const nombre = document.getElementById('regNombre').value;
-      const email = document.getElementById('regEmail').value;
-      const password = document.getElementById('regPassword').value;
+      const nombre = document.getElementById('regNombre').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const password = document.getElementById('regPassword').value.trim();
 
       // Crear usuario Auth
       const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-        email, 
-        password, 
+        email,
+        password,
         options: { data: { nombre } }
       });
 
@@ -93,22 +120,36 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Insertar perfil en profiles SIN mandar id (la base de datos generará UUID automáticamente)
+      // ID REAL del usuario Auth (OBLIGATORIO)
+      const userId = signUpData.user?.id;
+
+      if(!userId){
+        mensajeModalRegistro.textContent = "Usuario creado pero no se recibió ID. Intenta iniciar sesión.";
+        mensajeModalRegistro.style.color = "orange";
+        return;
+      }
+
+      // Insertar perfil en profiles con id = auth.user.id
       const { error: profileError } = await supabase
         .from('profiles')
-        .insert([{ nombre, email, rol: 'usuario' }]);
+        .insert([{ id: userId, nombre, email, rol: 'usuario' }]);
 
       if(profileError){
-        mensajeModalRegistro.textContent = 'Usuario creado, pero no se pudo guardar el perfil: ' + profileError.message;
+        mensajeModalRegistro.textContent =
+          'Usuario creado, pero no se pudo guardar el perfil: ' + profileError.message;
         mensajeModalRegistro.style.color = 'orange';
         return;
       }
 
-      mensajeModalRegistro.textContent = 'Cuenta creada correctamente. Revisa tu email.';
+      mensajeModalRegistro.textContent = 'Cuenta creada correctamente. Ya puedes iniciar sesión.';
       mensajeModalRegistro.style.color = 'green';
-      setTimeout(() => modalRegistro.classList.remove('active'), 1500);
+      setTimeout(() => modalRegistro.classList.remove('active'), 1200);
 
-    } catch(e){ console.error("Error registro:", e); }
+    } catch(e){
+      console.error("Error registro:", e);
+      mensajeModalRegistro.textContent = "Error inesperado en registro.";
+      mensajeModalRegistro.style.color = "red";
+    }
   });
 
 });
