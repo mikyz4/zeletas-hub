@@ -1,0 +1,35 @@
+<!-- callback.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Conectando...</title>
+</head>
+<body>
+  <p>Conectando con Google...</p>
+  <script type="module">
+    import { supabase } from './supabase.js';
+
+    // Recoge la sesión devuelta por Supabase
+    async function handleAuth() {
+      const { data: { session }, error } = await supabase.auth.getSession();
+      if (error) {
+        console.error(error);
+        document.body.innerHTML = "<p>Error al iniciar sesión.</p>";
+        return;
+      }
+
+      if (session) {
+        // Guardar sesión si quieres o redirigir
+        localStorage.setItem('sb_session', JSON.stringify(session));
+        window.location.href = '/index.html'; // Redirige al inicio con sesión activa
+      } else {
+        // Si no hay sesión, redirigir a login
+        window.location.href = '/acceso/';
+      }
+    }
+
+    handleAuth();
+  </script>
+</body>
+</html>
