@@ -97,6 +97,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       console.log("Usuario Auth creado:", signUpData.user);
+      console.log("signUpData:", signUpData);
+console.log("signUpError:", signUpError);
 
       // ✅ Asegurarnos que haya un UUID válido
       const userId = signUpData.user?.id || crypto.randomUUID();
