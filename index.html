@@ -158,30 +158,34 @@
 <!-- WhatsApp flotante -->
 <a href="https://wa.me/34632125872" class="whatsapp-float" target="_blank">💬</a>
 
-<!-- MODALES LOGIN/REGISTRO -->
+<!-- MODAL LOGIN -->
 <div id="modalLogin" class="modal">
   <div class="modal-content">
     <span class="close" id="closeLogin">&times;</span>
     <h3>Iniciar sesión</h3>
-    <input type="email" id="loginEmail" placeholder="Correo">
-    <input type="password" id="loginPassword" placeholder="Contraseña">
-    <button id="loginBtn">Entrar</button>
-    <div id="mensajeModal"></div>
-  </div>
-</div>
 
-<div id="modalRegistro" class="modal">
-  <div class="modal-content">
-    <span class="close" id="closeRegistro">&times;</span>
-    <h3>Registrarse</h3>
-    <input type="text" id="regNombre" placeholder="Nombre completo">
-    <input type="email" id="regEmail" placeholder="Correo">
-    <input type="password" id="regPassword" placeholder="Contraseña">
-    <button id="registroBtn">Crear cuenta</button>
-    <div id="mensajeModalRegistro"></div>
+    <!-- LOGIN GOOGLE -->
+    <button id="googleLoginBtn" class="btn btn-google" style="margin-bottom:10px;">Iniciar sesión con Google</button>
+
+    <hr>
+
+    <!-- LOGIN TELÉFONO -->
+    <div class="phone-login" style="margin-bottom:10px;">
+      <label for="loginPhone">Número de teléfono:</label>
+      <input type="text" id="loginPhone" placeholder="+34 612 345 678">
+      <button id="phoneLoginBtn" class="btn">Enviar código</button>
+    </div>
+
+    <!-- VERIFICAR CÓDIGO SMS -->
+    <div class="verify-code" style="margin-top:10px; display:none;">
+      <label for="verifyCode">Código recibido:</label>
+      <input type="text" id="verifyCode" placeholder="123456">
+      <button id="verifyCodeBtn" class="btn">Verificar código</button>
+    </div>
+
+    <div id="mensajeModal" style="margin-top:10px;"></div>
   </div>
 </div>
-<button id="googleLoginBtn" type="button">Continuar con Google</button>
   
 <!-- Scripts -->
 <script type="module" src="assets/js/app.js"></script>
