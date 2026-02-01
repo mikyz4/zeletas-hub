@@ -61,21 +61,20 @@
 
     // Evento del botón
         googleBtn.onclick = async () => {
-        statusEl.textContent = "Conectando con Google...";
-        try {
-            const { error } = await supabaseClient.auth.signInWithOAuth({
-                provider: 'google',
-                options: {
-                    // AQUÍ ESTÁ EL CAMBIO: Forzamos la URL de Netlify a mano
-                    redirectTo: "https://zeletas.netlify.app/acceso/"
-                }
-            });
-            if (error) throw error;
-        } catch (err) {
-            alert("Error de inicio: " + err.message);
-            statusEl.textContent = "Error al conectar.";
-        }
-    };
+    // Si este alert NO dice NETLIFY, estás cargando el código viejo
+    alert("Voy a intentar ir a: NETLIFY"); 
+    
+    try {
+        await supabaseClient.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo: "https://zeletas.netlify.app/acceso/"
+            }
+        });
+    } catch (err) {
+        alert("Error: " + err.message);
+    }
+};
 
     // Lanzamos todo cuando el script de Supabase esté cargado
     window.onload = iniciar;
