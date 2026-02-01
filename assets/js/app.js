@@ -24,18 +24,18 @@ document.addEventListener('DOMContentLoaded', () => {
   } catch(e){ console.error("Error menú:", e); }
 
   // =============================
-  // MODAL LOGIN
+  // MODAL CUENTA
   // =============================
-  const modalLogin = document.getElementById('modalLogin');
-  const btnLoginMobile = document.getElementById('btnLoginMobile');
-btnLoginMobile?.addEventListener('click', () => modalLogin.classList.add('active'));
-  const btnLogin = document.getElementById('btnLogin');
-  const closeLogin = document.getElementById('closeLogin');
+  const modalCuenta = document.getElementById('modalCuenta');
+  const btnCuenta = document.getElementById('btnCuenta');
+  const btnCuentaMobile = document.getElementById('btnCuentaMobile');
+  const closeCuenta = document.getElementById('closeCuenta');
   const mensajeModal = document.getElementById('mensajeModal');
 
-  btnLogin?.addEventListener('click', () => modalLogin.classList.add('active'));
-  closeLogin?.addEventListener('click', () => modalLogin.classList.remove('active'));
-  window.addEventListener('click', e => { if(e.target === modalLogin) modalLogin.classList.remove('active'); });
+  btnCuenta?.addEventListener('click', () => modalCuenta.classList.add('active'));
+  btnCuentaMobile?.addEventListener('click', () => modalCuenta.classList.add('active'));
+  closeCuenta?.addEventListener('click', () => modalCuenta.classList.remove('active'));
+  window.addEventListener('click', e => { if(e.target === modalCuenta) modalCuenta.classList.remove('active'); });
 
   // =============================
   // GOOGLE LOGIN
