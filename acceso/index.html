@@ -55,37 +55,34 @@
 <script type="module">
   import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-  // Configuración directa
   const SUPABASE_URL = "https://sbqpkfdcznulwpxlxiwu.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  // 1. DETECCIÓN DE TOKEN Y REDIRECCIÓN (Lo que te fallaba)
+  // ESTO NOS DIRÁ SI EL CÓDIGO ARRANCA
+  alert("El script ha cargado correctamente");
+
   async function checkAuth() {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session) {
-      window.history.replaceState({}, document.title, window.location.pathname);
-      window.location.href = "../perfil/index.html";
+    try {
+      const { data: { session }, error } = await supabase.auth.getSession();
+      
+      if (error) {
+        alert("Error de Supabase: " + error.message);
+        return;
+      }
+
+      if (session) {
+        alert("¡Sesión detectada para: " + session.user.email);
+        window.location.href = "../perfil/index.html";
+      } else {
+        alert("No hay sesión activa todavía. El token está en la URL pero Supabase no lo ha validado.");
+      }
+    } catch (err) {
+      alert("Error crítico: " + err.message);
     }
   }
+
   checkAuth();
-
-  // 2. BOTONES DE GOOGLE
-  const loginWithGoogle = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: { redirectTo: window.location.origin + window.location.pathname }
-    });
-  };
-
-  document.getElementById('googleLoginBtn')?.addEventListener('click', loginWithGoogle);
-  document.getElementById('googleLoginBtnModal')?.addEventListener('click', loginWithGoogle);
-
-  // 3. CONTROL DE MODALES
-  const modal = document.getElementById('modalCuenta');
-  document.getElementById('closeCuenta')?.addEventListener('click', () => modal.classList.remove('active'));
-  window.onclick = (e) => { if (e.target == modal) modal.classList.remove('active'); };
-
 </script>
 
 </body>
