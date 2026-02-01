@@ -36,54 +36,57 @@
 <!-- =========================
      Supabase + Vonage
 ========================= -->
-
-<!-- Supabase CDN para OAuth -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
-<script type="module">
-  import { Vonage } from "https://cdn.jsdelivr.net/npm/@vonage/server-sdk/dist/vonage.js";
+<script src="https://cdn.jsdelivr.net/npm/@vonage/server-sdk/dist/vonage.js"></script>
 
-  // ============================
-  // CONFIGURACIÓN
-  // ============================
+<script>
+  // ----------------------------
+  // CONFIGURACIÓN SUPABASE
+  // ----------------------------
   const SUPABASE_URL = "https://tmiblfkgxzibcpluixxl.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_KcGGtPAUTe1hTs85t15u-A_lphYRfNJ";
   const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+  // ----------------------------
+  // ELEMENTOS
+  // ----------------------------
   const mensaje = document.getElementById("mensaje");
   const phoneInput = document.getElementById("loginPhone");
   const codeInput = document.getElementById("verifyCode");
   const verifyDiv = document.querySelector(".verify-code");
 
-  const vonage = new Vonage({
-    apiKey: "TU_VONAGE_API_KEY",
-    apiSecret: "TU_VONAGE_API_SECRET"
-  });
-
-  // ============================
+  // ----------------------------
   // LOGIN GOOGLE
-  // ============================
+  // ----------------------------
   document.getElementById("googleLoginBtn").addEventListener("click", async () => {
     try {
-      // ✅ La URL debe coincidir EXACTAMENTE con la registrada en Supabase
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: "https://zeletas.netlify.app/acceso/"
+          redirectTo: "https://zeletas.netlify.app/acceso/" // tu URL registrada en Supabase
         }
       });
-      if (error) throw error;
-    } catch (e) {
+      if(error) throw error;
+    } catch(e) {
       mensaje.textContent = "Error Google: " + e.message;
       mensaje.style.color = "red";
     }
   });
 
-  // ============================
+  // ----------------------------
+  // CONFIGURACIÓN VONAGE
+  // ----------------------------
+  const vonage = new Vonage({
+    apiKey: "TU_VONAGE_API_KEY",
+    apiSecret: "TU_VONAGE_API_SECRET"
+  });
+
+  // ----------------------------
   // LOGIN TELÉFONO - ENVIAR CÓDIGO
-  // ============================
+  // ----------------------------
   document.getElementById("phoneLoginBtn").addEventListener("click", async () => {
     const phoneNumber = phoneInput.value.trim();
-    if (!phoneNumber) {
+    if(!phoneNumber){
       mensaje.textContent = "Introduce un número de teléfono válido.";
       mensaje.style.color = "red";
       return;
@@ -95,21 +98,21 @@
       mensaje.textContent = "Código enviado. Revisa tu teléfono.";
       mensaje.style.color = "green";
       verifyDiv.style.display = "block";
-    } catch (e) {
+    } catch(e) {
       mensaje.textContent = "Error enviando código: " + e.message;
       mensaje.style.color = "red";
     }
   });
 
-  // ============================
+  // ----------------------------
   // LOGIN TELÉFONO - VERIFICAR CÓDIGO
-  // ============================
+  // ----------------------------
   document.getElementById("verifyCodeBtn").addEventListener("click", async () => {
     const code = codeInput.value.trim();
     const requestId = window.localStorage.getItem("vonageRequestId");
     const phoneNumber = phoneInput.value.trim();
 
-    if (!code || !requestId) {
+    if(!code || !requestId){
       mensaje.textContent = "Introduce el código recibido.";
       mensaje.style.color = "red";
       return;
@@ -117,19 +120,17 @@
 
     try {
       const resp = await vonage.verify.check(requestId, code);
-      if (resp.status === "0") {
+      if(resp.status === "0"){
         mensaje.textContent = "Teléfono verificado. Creando sesión...";
         mensaje.style.color = "green";
 
-        // ============================
         // CREAR O INICIAR USUARIO EN SUPABASE
-        // ============================
         const { data: userData, error: signInError } = await supabase.auth.signInWithOtp({
           phone: phoneNumber,
           options: { createUser: true }
         });
 
-        if (signInError) {
+        if(signInError){
           mensaje.textContent = "Error creando sesión: " + signInError.message;
           mensaje.style.color = "red";
           return;
@@ -137,13 +138,14 @@
 
         mensaje.textContent = "Sesión iniciada correctamente.";
         mensaje.style.color = "green";
+
         setTimeout(() => window.location.href = "../perfil/", 1000);
 
       } else {
         mensaje.textContent = "Código incorrecto.";
         mensaje.style.color = "red";
       }
-    } catch (e) {
+    } catch(e) {
       mensaje.textContent = "Error verificando código: " + e.message;
       mensaje.style.color = "red";
     }
