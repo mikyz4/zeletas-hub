@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acceso - Zeletas Hub</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+
+<section class="hero">
+  <h2>Accede a Zeletas Hub</h2>
+
+  <!-- LOGIN GOOGLE -->
+  <button id="googleLoginBtn" class="btn btn-google">Iniciar sesión con Google</button>
+
+  <hr>
+
+  <!-- LOGIN TELÉFONO -->
+  <div class="phone-login">
+    <label for="loginPhone">Número de teléfono:</label>
+    <input type="text" id="loginPhone" placeholder="+34 612 345 678">
+    <button id="phoneLoginBtn" class="btn">Enviar código</button>
+  </div>
+
+  <!-- VERIFICAR CÓDIGO SMS -->
+  <div class="verify-code" style="margin-top:10px; display:none;">
+    <label for="verifyCode">Código recibido:</label>
+    <input type="text" id="verifyCode" placeholder="123456">
+    <button id="verifyCodeBtn" class="btn">Verificar código</button>
+  </div>
+
+  <div id="mensaje" style="margin-top:10px;"></div>
+</section>
+
+<!-- Supabase JS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="../assets/js/supabase.js"></script>
+
+<script type="module">
+import { Vonage } from "https://cdn.jsdelivr.net/npm/@vonage/server-sdk/dist/vonage.js";
+
+// ============================
+// CONFIGURACIÓN
+// ============================
+const vonage = new Vonage({
+  apiKey: "TU_VONAGE_API_KEY",
+  apiSecret: "TU_VONAGE_API_SECRET"
+});
+
+const mensaje = document.getElementById("mensaje");
+const phoneInput = document.getElementById("loginPhone");
+const codeInput = document.getElementById("verifyCode");
+const verifyDiv = document.querySelector(".verify-code");
+
+// ============================
+// LOGIN GOOGLE
+// ============================
+document.getElementById("googleLoginBtn").addEventListener("click", async () => {
+  try {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: "https://zeletas.netlify.app" }
+    });
+    if (error) throw error;
+  } catch (e) {
+    mensaje.textContent = "Error Google: " + e.message;
+    mensaje.style.color = "red";
+  }
+});
+
+// ============================
+// LOGIN TELÉFONO - ENVIAR CÓDIGO
+// ============================
+document.getElementById("phoneLoginBtn").addEventListener("click", async () => {
+  const phoneNumber = phoneInput.value.trim();
+  if (!phoneNumber) {
+    mensaje.textContent = "Introduce un número de teléfono válido.";
+    mensaje.style.color = "red";
+    return;
+  }
+
+  try {
+    const resp = await vonage.verify.start({ number: phoneNumber, brand: "Zeletas" });
+    window.localStorage.setItem("vonageRequestId", resp.request_id);
+    mensaje.textContent = "Código enviado. Revisa tu teléfono.";
+    mensaje.style.color = "green";
+    verifyDiv.style.display = "block";
+  } catch (e) {
+    mensaje.textContent = "Error enviando código: " + e.message;
+    mensaje.style.color = "red";
+  }
+});
+
+// ============================
+// LOGIN TELÉFONO - VERIFICAR CÓDIGO
+// ============================
+document.getElementById("verifyCodeBtn").addEventListener("click", async () => {
+  const code = codeInput.value.trim();
+  const requestId = window.localStorage.getItem("vonageRequestId");
+  const phoneNumber = phoneInput.value.trim();
+
+  if (!code || !requestId) {
+    mensaje.textContent = "Introduce el código recibido.";
+    mensaje.style.color = "red";
+    return;
+  }
+
+  try {
+    const resp = await vonage.verify.check(requestId, code);
+    if (resp.status === "0") {
+      mensaje.textContent = "Teléfono verificado. Creando sesión...";
+      mensaje.style.color = "green";
+
+      // ============================
+      // CREAR O INICIAR USUARIO EN SUPABASE
+      // ============================
+      const { data: userData, error: signInError } = await supabase.auth.signInWithOtp({
+        phone: phoneNumber,
+        options: { createUser: true } // Si no existe, crea el usuario
+      });
+
+      if (signInError) {
+        mensaje.textContent = "Error creando sesión: " + signInError.message;
+        mensaje.style.color = "red";
+        return;
+      }
+
+      mensaje.textContent = "Sesión iniciada correctamente.";
+      mensaje.style.color = "green";
+
+      // Redirigir a perfil
+      setTimeout(() => window.location.href = "../perfil/", 1000);
+
+    } else {
+      mensaje.textContent = "Código incorrecto.";
+      mensaje.style.color = "red";
+    }
+  } catch (e) {
+    mensaje.textContent = "Error verificando código: " + e.message;
+    mensaje.style.color = "red";
+  }
+});
+</script>
+
+</body>
+</html>
