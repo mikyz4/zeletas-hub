@@ -1,37 +1,26 @@
 import { supabase } from '../assets/js/supabase.js';
 
-document.addEventListener('DOMContentLoaded', async () => {
-    
-    // ==========================================
-    // 1. DETECCIÓN DE SESIÓN (AUTO-LOGIN)
-    // ==========================================
-    // Esto se ejecuta nada más cargar la página de /acceso/
-    const { data: { session } } = await supabase.auth.getSession();
+// --- 1. DETECCIÓN INMEDIATA ---
+async function handleAuth() {
+    const { data: { session }, error } = await supabase.auth.getSession();
 
     if (session) {
-        console.log("¡Sesión detectada!", session.user);
-        
-        // 1. Limpiamos la URL (quita el access_token feo de la vista)
+        // Limpiamos la URL (quita el token de la vista)
         window.history.replaceState({}, document.title, window.location.pathname);
         
-        // 2. Mensaje visual opcional si tienes un elemento 'mensajeModal'
-        const mensajeModal = document.getElementById('mensajeModal');
-        if(mensajeModal) {
-            mensajeModal.textContent = "Bienvenido, redirigiendo...";
-            mensajeModal.style.color = "green";
-        }
-        
-        // 3. Redirigimos al perfil tras 1 segundo
-        setTimeout(() => {
-            window.location.href = "../perfil/"; 
-        }, 1000);
-        
-        return; // Detenemos la ejecución del resto del código si ya hay sesión
+        // Redirigimos al perfil
+        window.location.href = "../perfil/"; 
     }
+}
 
-    // ==========================================
-    // 2. MODAL MI CUENTA
-    // ==========================================
+// Ejecutamos la detección de inmediato
+handleAuth();
+
+// --- 2. LÓGICA DE LA PÁGINA (Botones y Modales) ---
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("Diseño cargado, configurando botones...");
+
+    // MODAL MI CUENTA
     const modalCuenta = document.getElementById('modalCuenta');
     const btnCuenta = document.getElementById('btnCuenta');
     const btnCuentaMobile = document.getElementById('btnCuentaMobile');
@@ -46,9 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if(e.target === modalCuenta) modalCuenta.classList.remove('active'); 
     });
 
-    // ==========================================
-    // 3. GOOGLE LOGIN
-    // ==========================================
+    // GOOGLE LOGIN
     document.querySelectorAll('#googleLoginBtn, #googleLoginBtnModal').forEach(btn => {
         btn.addEventListener('click', async () => {
             try {
@@ -56,7 +43,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     provider: "google",
                     options: { 
                         redirectTo: "https://zeletas.netlify.app/acceso/",
-                        queryParams: { prompt: 'select_account' } // Permite elegir cuenta siempre
+                        queryParams: { prompt: 'select_account' }
                     }
                 });
                 if(error) throw error;
@@ -69,9 +56,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
-    // ==========================================
-    // 4. OTP TELÉFONO (TU LÓGICA ACTUAL)
-    // ==========================================
+    // OTP TELÉFONO
     const logins = [
         { phoneInput: 'loginPhone', codeInput: 'verifyCode', btnSend: 'phoneLoginBtn', btnVerify: 'verifyCodeBtn', mensajeEl: 'mensaje' },
         { phoneInput: 'loginPhoneModal', codeInput: 'verifyCodeModal', btnSend: 'phoneLoginBtnModal', btnVerify: 'verifyCodeBtnModal', mensajeEl: 'mensajeModal' }
@@ -83,15 +68,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         const sendBtn = document.getElementById(btnSend);
         const verifyBtn = document.getElementById(btnVerify);
         const mensaje = document.getElementById(mensajeEl);
-        
-        // Usamos una comprobación segura por si el elemento no existe en el HTML
         const verifyDiv = code?.closest('.verify-code');
 
         let requestId = null;
 
         sendBtn?.addEventListener('click', () => {
-            if(!phone || !phone.value.trim()){
-                if(mensaje) mensaje.textContent = "Introduce un número de teléfono válido";
+            if(!phone?.value.trim()){
+                if(mensaje) mensaje.textContent = "Introduce un número válido";
                 return;
             }
             requestId = "SIMULADO_" + Date.now();
@@ -103,8 +86,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         verifyBtn?.addEventListener('click', async () => {
-            if(!code || !code.value.trim() || !requestId){
-                if(mensaje) mensaje.textContent = "Introduce el código recibido.";
+            if(!code?.value.trim() || !requestId){
+                if(mensaje) mensaje.textContent = "Introduce el código.";
                 return;
             }
 
@@ -114,18 +97,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
 
             if(signInError){
-                if(mensaje) {
-                    mensaje.textContent = "Error: " + signInError.message;
-                    mensaje.style.color = "red";
-                }
+                if(mensaje) mensaje.textContent = "Error: " + signInError.message;
                 return;
             }
 
-            if(mensaje) {
-                mensaje.textContent = "Sesión iniciada correctamente.";
-                mensaje.style.color = "green";
-            }
+            if(mensaje) mensaje.textContent = "Iniciando sesión...";
             setTimeout(() => window.location.href = "../perfil/", 1000);
         });
     });
-});
+}); // <--- Aquí termina todo correctamente
