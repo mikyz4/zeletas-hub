@@ -7,24 +7,24 @@ document.addEventListener('DOMContentLoaded', () => {
   // =============================
   // MENÚ HAMBURGUESA MÓVIL
   // =============================
-  const hamburger = document.querySelector('.hamburger');
-  const mobileMenu = document.querySelector('.mobile-menu');
-  const overlay = document.querySelector('.overlay');
+  try {
+    const hamburger = document.querySelector('.hamburger');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const overlay = document.querySelector('.overlay');
 
-  if(hamburger && mobileMenu && overlay){
-    hamburger.addEventListener('click', () => {
+    hamburger?.addEventListener('click', () => {
       mobileMenu.classList.toggle('active');
       overlay.classList.toggle('active');
     });
 
-    overlay.addEventListener('click', () => {
+    overlay?.addEventListener('click', () => {
       mobileMenu.classList.remove('active');
       overlay.classList.remove('active');
     });
-  }
+  } catch(e){ console.error("Error menú:", e); }
 
   // =============================
-  // MODAL CUENTA
+  // MODAL MI CUENTA
   // =============================
   const modalCuenta = document.getElementById('modalCuenta');
   const btnCuenta = document.getElementById('btnCuenta');
@@ -32,14 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeCuenta = document.getElementById('closeCuenta');
   const mensajeModal = document.getElementById('mensajeModal');
 
-  // Función segura para abrir modal
-  const abrirModal = () => modalCuenta?.classList.add('active');
-  const cerrarModal = () => modalCuenta?.classList.remove('active');
+  // Abrir modal
+  btnCuenta?.addEventListener('click', () => modalCuenta.classList.add('active'));
+  btnCuentaMobile?.addEventListener('click', () => modalCuenta.classList.add('active'));
 
-  btnCuenta?.addEventListener('click', abrirModal);
-  btnCuentaMobile?.addEventListener('click', abrirModal);
-  closeCuenta?.addEventListener('click', cerrarModal);
-  window.addEventListener('click', e => { if(e.target === modalCuenta) cerrarModal(); });
+  // Cerrar modal
+  closeCuenta?.addEventListener('click', () => modalCuenta.classList.remove('active'));
+  window.addEventListener('click', e => { if(e.target === modalCuenta) modalCuenta.classList.remove('active'); });
 
   // =============================
   // GOOGLE LOGIN
