@@ -2,54 +2,64 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acceso - Zeletas Hub</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #f4f4f4; }
+        .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; }
+        .btn { background: #4285F4; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 16px; }
+    </style>
 </head>
 <body>
-    <h1>Acceso al Panel</h1>
-    <button id="btnGoogle" style="padding: 20px; background: blue; color: white; border: none; border-radius: 8px; cursor: pointer;">
-        ENTRAR CON GOOGLE
-    </button>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<div class="card">
+    <h2>Zeletas Hub</h2>
+    <p id="status">Cargando sistema...</p>
+    <button id="googleBtn" class="btn">Entrar con Google</button>
+</div>
 
-    <script>
-        // 1. COMPROBACIÓN INICIAL
-        alert("Paso 1: El archivo HTML ha cargado el script.");
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-        const SUPABASE_URL = "https://sbqpkfdcznulwpxlxiwu.supabase.co";
-        const SUPABASE_ANON_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
+<script>
+    // 1. CONFIGURACIÓN
+    const SUPABASE_URL = "https://sbqpkfdcznulwpxlxiwu.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const statusEl = document.getElementById('status');
+
+    // 2. DETECTAR SESIÓN (Al volver de Google)
+    async function detectarSesion() {
+        statusEl.textContent = "Verificando identidad...";
         
-        // Creamos el cliente usando la librería que acabamos de cargar
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const { data: { session }, error } = await supabase.auth.getSession();
 
-        // 2. FUNCIÓN PARA REVISAR SI YA HEMOS ENTRADO
-        async function verificarSesion() {
-            const { data: { session }, error } = await supabase.auth.getSession();
-            
-            if (session) {
-                alert("Paso 2: ¡Sesión detectada para " + session.user.email + "!");
-                // Limpiamos la URL (quita el token feo)
-                window.history.replaceState({}, document.title, window.location.pathname);
-                // Vamos al perfil
+        if (session) {
+            statusEl.textContent = "¡Bienvenido! Redirigiendo...";
+            // Limpia la URL del token
+            window.history.replaceState({}, document.title, window.location.pathname);
+            // Salto al perfil
+            setTimeout(() => {
                 window.location.href = "../perfil/index.html";
-            } else {
-                console.log("No hay sesión todavía.");
-            }
+            }, 500);
+        } else {
+            statusEl.textContent = "Por favor, inicia sesión.";
         }
+    }
 
-        // 3. BOTÓN PARA INICIAR EL LOGIN
-        document.getElementById('btnGoogle').onclick = async () => {
-            await supabase.auth.signInWithOAuth({
-                provider: 'google',
-                options: {
-                    // Importante: Volver a esta misma carpeta para procesar el token
-                    redirectTo: window.location.origin + window.location.pathname 
-                }
-            });
-        };
+    // 3. LOGICA DEL BOTÓN
+    document.getElementById('googleBtn').onclick = async () => {
+        statusEl.textContent = "Conectando con Google...";
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                // Esto asegura que Google te devuelva a esta misma página
+                redirectTo: window.location.origin + window.location.pathname
+            }
+        });
+    };
 
-        // Ejecutamos la verificación nada más cargar la página
-        verificarSesion();
-    </script>
+    detectarSesion();
+</script>
 </body>
 </html>
