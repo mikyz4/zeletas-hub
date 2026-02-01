@@ -574,3 +574,51 @@ footer {
   overflow-y: auto;                /* Permite desplazamiento vertical */
   -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
 }
+
+/* ---------- MENÚ MÓVIL ---------- */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 80%;
+  max-width: 300px;
+  height: 100vh;
+  background-color: var(--bg2);
+  padding: 20px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* <- menos espacio entre enlaces */
+  overflow-y: auto; /* permite scroll si hay muchas opciones */
+  z-index: 1500;
+  transition: left 0.3s ease;
+}
+
+.mobile-menu.active {
+  left: 0;
+}
+
+.mobile-menu a {
+  padding: 8px 0; /* <- reduce altura de cada enlace */
+  font-size: 1rem;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.menu-user {
+  margin-top: auto; /* mantiene el botón "Mi cuenta" abajo */
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+  z-index: 1400;
+}
+
+.overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
