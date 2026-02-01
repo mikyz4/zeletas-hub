@@ -3,22 +3,28 @@ import { supabase } from './supabase.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Menú hamburguesa móvil
-const hamburger = document.querySelector('.hamburger');
-const mobileMenu = document.querySelector('.mobile-menu');
-const overlay = document.querySelector('.overlay');
+  // =============================
+  // MENÚ HAMBURGUESA MÓVIL
+  // =============================
+  try {
+    const hamburger = document.querySelector('.hamburger');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const overlay = document.querySelector('.overlay');
 
-hamburger?.addEventListener('click', () => {
-  mobileMenu.classList.toggle('active');
-  overlay.classList.toggle('active');
-});
+    hamburger?.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+      overlay.classList.toggle('active');
+    });
 
-// Cerrar menú al clicar fuera
-overlay?.addEventListener('click', () => {
-  mobileMenu.classList.remove('active');
-  overlay.classList.remove('active');
-});
-  
+    overlay?.addEventListener('click', () => {
+      mobileMenu.classList.remove('active');
+      overlay.classList.remove('active');
+    });
+  } catch(e){ console.error("Error menú:", e); }
+
+  // =============================
+  // MODALES LOGIN / REGISTRO
+  // =============================
   const modalLogin = document.getElementById('modalLogin');
   const modalRegistro = document.getElementById('modalRegistro');
 
@@ -33,65 +39,74 @@ overlay?.addEventListener('click', () => {
   const mensajeModal = document.getElementById('mensajeModal');
   const mensajeModalRegistro = document.getElementById('mensajeModalRegistro');
 
-  // Abrir modales
   [btnLogin, btnLoginMobile].forEach(btn => btn?.addEventListener('click', () => modalLogin.classList.add('active')));
   [btnRegistro, btnRegistroMobile].forEach(btn => btn?.addEventListener('click', () => modalRegistro.classList.add('active')));
 
-  // Cerrar modales
   closeLogin?.addEventListener('click', () => modalLogin.classList.remove('active'));
   closeRegistro?.addEventListener('click', () => modalRegistro.classList.remove('active'));
+
   window.addEventListener('click', e => {
     if(e.target === modalLogin) modalLogin.classList.remove('active');
     if(e.target === modalRegistro) modalRegistro.classList.remove('active');
   });
 
+  // =============================
   // LOGIN
+  // =============================
   document.getElementById('loginBtn')?.addEventListener('click', async () => {
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
+    try {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
 
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if(error){
-      mensajeModal.textContent = error.message;
-      mensajeModal.style.color = 'red';
-    } else {
-      mensajeModal.textContent = '¡Login correcto!';
-      mensajeModal.style.color = 'green';
-      setTimeout(() => location.reload(), 1000);
-    }
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+      if(error){
+        mensajeModal.textContent = error.message;
+        mensajeModal.style.color = 'red';
+      } else {
+        mensajeModal.textContent = '¡Login correcto!';
+        mensajeModal.style.color = 'green';
+        setTimeout(() => location.reload(), 1000);
+      }
+    } catch(e){ console.error("Error login:", e); }
   });
 
+  // =============================
   // REGISTRO
+  // =============================
   document.getElementById('registroBtn')?.addEventListener('click', async () => {
-    const nombre = document.getElementById('regNombre').value;
-    const email = document.getElementById('regEmail').value;
-    const password = document.getElementById('regPassword').value;
+    try {
+      const nombre = document.getElementById('regNombre').value;
+      const email = document.getElementById('regEmail').value;
+      const password = document.getElementById('regPassword').value;
 
-    // Crear usuario en Supabase Auth
-    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-      email, password, options: { data: { nombre } }
-    });
+      // Crear usuario Auth
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+        email, password, options: { data: { nombre } }
+      });
 
-    if(signUpError){
-      mensajeModalRegistro.textContent = signUpError.message;
-      mensajeModalRegistro.style.color = 'red';
-      return;
-    }
+      if(signUpError){
+        mensajeModalRegistro.textContent = signUpError.message;
+        mensajeModalRegistro.style.color = 'red';
+        return;
+      }
 
-    // Crear perfil en tabla profiles
-    const { error: profileError } = await supabase.from('profiles').insert([
-      { id: signUpData.user.id, nombre, email }
-    ]);
+      // Insertar perfil en profiles con UUID real
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .insert([{ id: signUpData.user.id, nombre, email, rol: 'usuario' }]);
 
-    if(profileError){
-      mensajeModalRegistro.textContent = 'Usuario creado, pero no se pudo guardar el perfil: ' + profileError.message;
-      mensajeModalRegistro.style.color = 'orange';
-      return;
-    }
+      if(profileError){
+        mensajeModalRegistro.textContent = 'Usuario creado, pero no se pudo guardar el perfil: ' + profileError.message;
+        mensajeModalRegistro.style.color = 'orange';
+        return;
+      }
 
-    mensajeModalRegistro.textContent = 'Cuenta creada correctamente. Revisa tu email.';
-    mensajeModalRegistro.style.color = 'green';
-    setTimeout(() => modalRegistro.classList.remove('active'), 1500);
+      mensajeModalRegistro.textContent = 'Cuenta creada correctamente. Revisa tu email.';
+      mensajeModalRegistro.style.color = 'green';
+      setTimeout(() => modalRegistro.classList.remove('active'), 1500);
+
+    } catch(e){ console.error("Error registro:", e); }
   });
 
 });
