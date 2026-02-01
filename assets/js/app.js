@@ -82,7 +82,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Crear usuario Auth
       const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-        email, password, options: { data: { nombre } }
+        email, 
+        password, 
+        options: { data: { nombre } }
       });
 
       if(signUpError){
@@ -91,10 +93,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Insertar perfil en profiles con UUID real
+      // ✅ Si signUpData.user.id no existe, generamos un UUID en frontend
+      const userId = signUpData.user?.id || crypto.randomUUID();
+
+      // Insertar perfil en profiles
       const { error: profileError } = await supabase
         .from('profiles')
-        .insert([{ id: signUpData.user.id, nombre, email, rol: 'usuario' }]);
+        .insert([{ id: userId, nombre, email, rol: 'usuario' }]);
 
       if(profileError){
         mensajeModalRegistro.textContent = 'Usuario creado, pero no se pudo guardar el perfil: ' + profileError.message;
@@ -110,5 +115,3 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 });
-
-
