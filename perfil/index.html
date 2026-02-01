@@ -27,36 +27,38 @@
   </div>
 </section>
 
-<script src="../assets/js/supabase.js"></script>
-<script>
-const nombreUsuario = document.getElementById('nombreUsuario');
-const emailUsuario = document.getElementById('emailUsuario');
-const estadoUsuario = document.getElementById('estadoUsuario');
-const logoutBtn = document.getElementById('logoutBtn');
+<script type="module">
+  // Importamos la conexión desde la ruta correcta
+  import { supabase } from '../assets/js/supabase.js';
 
-async function cargarUsuario() {
-  const { data: { user }, error } = await supabase.auth.getUser();
+  const nombreUsuario = document.getElementById('nombreUsuario');
+  const emailUsuario = document.getElementById('emailUsuario');
+  const estadoUsuario = document.getElementById('estadoUsuario');
+  const logoutBtn = document.getElementById('logoutBtn');
 
-  if (user) {
-    nombreUsuario.textContent = user.user_metadata?.nombre || 'Usuario';
-    emailUsuario.textContent = user.email;
-    estadoUsuario.textContent = user.email_confirmed_at ? 'Verificado' : 'No verificado';
-  } else {
-    // Redirigir al login si no hay usuario
-    window.location.href = '../login/';
+  async function cargarUsuario() {
+    // Obtenemos el usuario actual
+    const { data: { user }, error } = await supabase.auth.getUser();
+
+    if (user) {
+      // Google guarda el nombre en 'full_name'
+      nombreUsuario.textContent = user.user_metadata?.full_name || user.email;
+      emailUsuario.textContent = user.email;
+      estadoUsuario.textContent = user.email_confirmed_at ? 'Verificado' : 'No verificado';
+    } else {
+      // Si no hay sesión, mandamos de vuelta al acceso
+      window.location.href = '../acceso/';
+    }
   }
-}
 
-// Cerrar sesión
-logoutBtn.addEventListener('click', async () => {
-  const { error } = await supabase.auth.signOut();
-  if (!error) {
-    window.location.href = '../login/';
-  }
-});
+  // Función para cerrar sesión
+  logoutBtn.addEventListener('click', async () => {
+    const { error } = await supabase.auth.signOut();
+    window.location.href = '../acceso/';
+  });
 
-// Cargar datos al iniciar
-cargarUsuario();
+  // Iniciamos la carga
+  cargarUsuario();
 </script>
 
 </body>
