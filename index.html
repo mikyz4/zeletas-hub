@@ -23,8 +23,7 @@
   <a href="financiacion/index.html">💳 Financiación</a>
   <a href="contacto/index.html">📩 Contacto</a>
   <div class="menu-user" id="menuUserMobile">
-    <button id="btnLoginMobile">Iniciar sesión</button>
-    <button id="btnRegistroMobile">Registrarse</button>
+    <button id="btnCuentaMobile">Mi cuenta</button>
   </div>
 </div>
 
@@ -41,8 +40,7 @@
       <a href="servicios/index.html">Servicios</a>
       <a href="contacto/index.html">Contacto</a>
       <span id="navUser">
-        <button id="btnLogin">Iniciar sesión</button>
-        <button id="btnRegistro">Registrarse</button>
+        <button id="btnCuenta">Mi cuenta</button>
       </span>
     </nav>
 
@@ -158,25 +156,26 @@
 <!-- WhatsApp flotante -->
 <a href="https://wa.me/34632125872" class="whatsapp-float" target="_blank">💬</a>
 
-<!-- MODAL LOGIN -->
-<div id="modalLogin" class="modal">
+<!-- MODAL CUENTA -->
+<div id="modalCuenta" class="modal">
   <div class="modal-content">
-    <span class="close" id="closeLogin">&times;</span>
-    <h3>Iniciar sesión</h3>
+    <span class="close" id="closeCuenta">&times;</span>
+    <h3>Mi cuenta</h3>
 
     <!-- LOGIN GOOGLE -->
-    <button id="googleLoginBtn" class="btn btn-google" style="margin-bottom:10px;">Iniciar sesión con Google</button>
+    <div class="login-providers" style="margin-bottom:15px;">
+      <button id="googleLoginBtn" class="btn btn-google">Iniciar sesión con Google</button>
+    </div>
 
-    <hr>
+    <hr style="margin:15px 0;">
 
-    <!-- LOGIN TELÉFONO -->
+    <!-- LOGIN / REGISTRO CON TELÉFONO -->
     <div class="phone-login" style="margin-bottom:10px;">
-      <label for="loginPhone">Número de teléfono:</label>
+      <label for="loginPhone">Teléfono:</label>
       <input type="text" id="loginPhone" placeholder="+34 612 345 678">
       <button id="phoneLoginBtn" class="btn">Enviar código</button>
     </div>
 
-    <!-- VERIFICAR CÓDIGO SMS -->
     <div class="verify-code" style="margin-top:10px; display:none;">
       <label for="verifyCode">Código recibido:</label>
       <input type="text" id="verifyCode" placeholder="123456">
@@ -191,4 +190,4 @@
 <script type="module" src="assets/js/app.js"></script>
 
 </body>
-      </html>
+</html>
