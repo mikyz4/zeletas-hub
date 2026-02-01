@@ -11,19 +11,16 @@
 <section class="hero">
   <h2>Accede a Zeletas Hub</h2>
 
-  <!-- LOGIN GOOGLE -->
   <button id="googleLoginBtn" class="btn btn-google">Iniciar sesión con Google</button>
 
   <hr>
 
-  <!-- LOGIN TELÉFONO -->
   <div class="phone-login">
     <label for="loginPhone">Número de teléfono:</label>
     <input type="text" id="loginPhone" placeholder="+34 612 345 678">
     <button id="phoneLoginBtn" class="btn">Enviar código</button>
   </div>
 
-  <!-- VERIFICAR CÓDIGO SMS -->
   <div class="verify-code" style="margin-top:10px; display:none;">
     <label for="verifyCode">Código recibido:</label>
     <input type="text" id="verifyCode" placeholder="123456">
@@ -33,38 +30,63 @@
   <div id="mensaje" style="margin-top:10px;"></div>
 </section>
 
-<!-- MODAL CUENTA -->
 <div id="modalCuenta" class="modal">
   <div class="modal-content">
     <span class="close" id="closeCuenta">&times;</span>
     <h3>Mi cuenta</h3>
-
-    <!-- GOOGLE LOGIN MODAL -->
     <div class="login-providers" style="margin-bottom:15px;">
       <button id="googleLoginBtnModal" class="btn btn-google">Iniciar sesión con Google</button>
     </div>
-
     <hr style="margin:15px 0;">
-
-    <!-- OTP MODAL -->
     <div class="phone-login" style="margin-bottom:10px;">
       <label for="loginPhoneModal">Teléfono:</label>
       <input type="text" id="loginPhoneModal" placeholder="+34 612 345 678">
       <button id="phoneLoginBtnModal" class="btn">Enviar código</button>
     </div>
-
     <div class="verify-code" style="margin-top:10px; display:none;">
       <label for="verifyCodeModal">Código recibido:</label>
       <input type="text" id="verifyCodeModal" placeholder="123456">
       <button id="verifyCodeBtnModal" class="btn">Verificar código</button>
     </div>
-
     <div id="mensajeModal" style="margin-top:10px;"></div>
   </div>
 </div>
 
-<!-- Scripts -->
-<script type="module" src="app.js"></script>
+<script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+  // Configuración directa
+  const SUPABASE_URL = "https://sbqpkfdcznulwpxlxiwu.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // 1. DETECCIÓN DE TOKEN Y REDIRECCIÓN (Lo que te fallaba)
+  async function checkAuth() {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+      window.location.href = "../perfil/index.html";
+    }
+  }
+  checkAuth();
+
+  // 2. BOTONES DE GOOGLE
+  const loginWithGoogle = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: window.location.origin + window.location.pathname }
+    });
+  };
+
+  document.getElementById('googleLoginBtn')?.addEventListener('click', loginWithGoogle);
+  document.getElementById('googleLoginBtnModal')?.addEventListener('click', loginWithGoogle);
+
+  // 3. CONTROL DE MODALES
+  const modal = document.getElementById('modalCuenta');
+  document.getElementById('closeCuenta')?.addEventListener('click', () => modal.classList.remove('active'));
+  window.onclick = (e) => { if (e.target == modal) modal.classList.remove('active'); };
+
+</script>
 
 </body>
 </html>
