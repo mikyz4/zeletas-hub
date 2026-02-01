@@ -622,3 +622,33 @@ footer {
   opacity: 1;
   visibility: visible;
 }
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 22px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* espacio entre Mi cuenta y hamburguesa */
+}
+
+/* Botón Mi cuenta */
+.btn-cuenta {
+  background-color: var(--green);
+  color: var(--bg);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.btn-cuenta:hover {
+  background-color: var(--green2);
+}
