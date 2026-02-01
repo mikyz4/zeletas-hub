@@ -33,12 +33,17 @@
   <div id="mensaje" style="margin-top:10px;"></div>
 </section>
 
-<!-- Supabase CDN -->
+<!-- Supabase JS (CDN) -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
 
-<!-- Vonage SDK (Server SDK en navegador no recomendado, esto es solo ejemplo) -->
 <script type="module">
-  import { Vonage } from "https://cdn.jsdelivr.net/npm/@vonage/server-sdk/dist/vonage.js";
+  // ============================
+  // CLIENTE SUPABASE
+  // ============================
+  const supabase = supabase.createClient(
+    "https://tmiblfkgxzibcpluixxl.supabase.co",
+    "sb_publishable_KcGGtPAUTe1hTs85t15u-A_lphYRfNJ"
+  );
 
   const mensaje = document.getElementById("mensaje");
   const phoneInput = document.getElementById("loginPhone");
@@ -46,18 +51,15 @@
   const verifyDiv = document.querySelector(".verify-code");
 
   // ============================
-  // LOGIN GOOGLE - Supabase
+  // LOGIN GOOGLE
   // ============================
-  const supabase = supabase.createClient(
-    "https://tmiblfkgxzibcpluixxl.supabase.co",
-    "sb_publishable_KcGGtPAUTe1hTs85t15u-A_lphYRfNJ"
-  );
-
   document.getElementById("googleLoginBtn").addEventListener("click", async () => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
-        options: { redirectTo: "https://zeletas.netlify.app/acceso/" }
+        options: {
+          redirectTo: "https://zeletas.netlify.app/acceso/"
+        }
       });
       if(error) throw error;
     } catch(e) {
@@ -67,8 +69,9 @@
   });
 
   // ============================
-  // LOGIN TELÉFONO - Vonage
+  // LOGIN TELÉFONO - ENVIAR CÓDIGO
   // ============================
+  import { Vonage } from "https://cdn.jsdelivr.net/npm/@vonage/server-sdk/dist/vonage.js";
   const vonage = new Vonage({
     apiKey: "TU_VONAGE_API_KEY",
     apiSecret: "TU_VONAGE_API_SECRET"
@@ -94,6 +97,9 @@
     }
   });
 
+  // ============================
+  // LOGIN TELÉFONO - VERIFICAR CÓDIGO
+  // ============================
   document.getElementById("verifyCodeBtn").addEventListener("click", async () => {
     const code = codeInput.value.trim();
     const requestId = window.localStorage.getItem("vonageRequestId");
@@ -111,7 +117,6 @@
         mensaje.textContent = "Teléfono verificado. Creando sesión...";
         mensaje.style.color = "green";
 
-        // Crear/iniciar sesión en Supabase
         const { data: userData, error: signInError } = await supabase.auth.signInWithOtp({
           phone: phoneNumber,
           options: { createUser: true }
@@ -138,6 +143,5 @@
   });
 
 </script>
-
 </body>
 </html>
