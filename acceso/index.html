@@ -4,47 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acceso Seguro - Zeletas Hub</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #f4f4f4; }
+        .card { background: white; padding: 2.5rem; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 90%; max-width: 400px; }
+        .btn { background: #4285F4; color: white; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; }
+    </style>
 </head>
 <body>
-    <div style="text-align: center; margin-top: 50px;">
-        <h2>CONEXIÓN SEGURA</h2>
-        <p id="status">Cargando motor de seguridad...</p>
-        <button id="googleBtn" style="padding: 15px; background: #4285F4; color: white; border: none; border-radius: 5px;">
-            INICIAR SESIÓN CON GOOGLE
-        </button>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<div class="card">
+    <h2>Zeletas Hub</h2>
+    <div id="status">Verificando sistema V7...</div>
+    <button id="googleBtn" class="btn">ENTRAR V.7 - NETLIFY</button>
+</div>
 
-    <script>
-        const SUPABASE_URL = "https://sbqpkfdcznulwpxlxiwu.supabase.co";
-        const SUPABASE_ANON_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-        // AVISO DE CARGA
-        alert("SISTEMA V3 CARGADO - Si no ves este mensaje, limpia la caché.");
+<script>
+    // 1. Definimos las constantes aquí, sin importar archivos externos
+    const S_URL = "https://sbqpkfdcznulwpxlxiwu.supabase.co";
+    const S_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
+    
+    // 2. Creamos el cliente directamente
+    const supabaseClient = supabase.createClient(S_URL, S_KEY);
 
-        async function check() {
-            const { data: { session } } = await supabaseClient.auth.getSession();
-            if (session) {
-                alert("¡IDENTIDAD CONFIRMADA! Entrando...");
-                window.location.href = "https://zeletas.netlify.app/perfil/";
-            }
+    const statusEl = document.getElementById('status');
+    const googleBtn = document.getElementById('googleBtn');
+
+    async function revisar() {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (session) {
+            window.location.href = "https://zeletas.netlify.app/perfil/";
+        } else {
+            statusEl.textContent = "Listo para conectar.";
         }
+    }
 
-        document.getElementById('googleBtn').onclick = async () => {
-            alert("Redirigiendo a Google desde Netlify...");
-            const { error } = await supabaseClient.auth.signInWithOAuth({
-                provider: 'google',
-                options: {
-                    // FORZADO MANUAL
-                    redirectTo: "https://zeletas.netlify.app/acceso/"
-                }
-            });
-            if (error) alert("Error: " + error.message);
-        };
+    googleBtn.onclick = async () => {
+        statusEl.textContent = "Redirigiendo a Google...";
+        
+        // 3. AQUÍ FORZAMOS EL REDIRECT_TO SINlocalhost
+        const { error } = await supabaseClient.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo: "https://zeletas.netlify.app/acceso/"
+            }
+        });
+        
+        if (error) alert("Error: " + error.message);
+    };
 
-        check();
-    </script>
+    revisar();
+</script>
 </body>
 </html>
