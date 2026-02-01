@@ -120,17 +120,3 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 });
-
-import { supabase } from './supabase.js';
-
-async function checkSession() {
-  const { data: { session } } = await supabase.auth.getSession();
-  if (session) {
-    console.log('Usuario logueado:', session.user);
-    // Aquí puedes actualizar la UI: mostrar nombre, avatar, menú de usuario...
-  } else {
-    console.log('No hay sesión activa');
-  }
-}
-
-checkSession();
