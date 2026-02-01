@@ -2,39 +2,54 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>TEST LOGIN</title>
+    <title>Acceso - Zeletas Hub</title>
 </head>
 <body>
-    <h1>Probando conexión...</h1>
-    <button id="btnGoogle" style="padding: 20px; background: blue; color: white;">ENTRAR CON GOOGLE</button>
+    <h1>Acceso al Panel</h1>
+    <button id="btnGoogle" style="padding: 20px; background: blue; color: white; border: none; border-radius: 8px; cursor: pointer;">
+        ENTRAR CON GOOGLE
+    </button>
 
-    <script src="https://unpkg.com/@supabase/supabase-js@1.35.7/dist/umd/supabase.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
-        // ESTO TIENE QUE SALIR SÍ O SÍ
-        alert("¡EL SCRIPT ESTÁ VIVO!");
+        // 1. COMPROBACIÓN INICIAL
+        alert("Paso 1: El archivo HTML ha cargado el script.");
 
         const SUPABASE_URL = "https://sbqpkfdcznulwpxlxiwu.supabase.co";
         const SUPABASE_ANON_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
         
-        // Inicialización manual para evitar errores de librería
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // Creamos el cliente usando la librería que acabamos de cargar
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        async function verificar() {
-            const user = supabase.auth.user();
-            if (user) {
-                alert("SESIÓN OK: " + user.email);
+        // 2. FUNCIÓN PARA REVISAR SI YA HEMOS ENTRADO
+        async function verificarSesion() {
+            const { data: { session }, error } = await supabase.auth.getSession();
+            
+            if (session) {
+                alert("Paso 2: ¡Sesión detectada para " + session.user.email + "!");
+                // Limpiamos la URL (quita el token feo)
+                window.history.replaceState({}, document.title, window.location.pathname);
+                // Vamos al perfil
                 window.location.href = "../perfil/index.html";
-            } else if (window.location.hash.includes('access_token')) {
-                alert("VECO EL TOKEN, PERO SUPABASE NO LO PROCESA AUTOMÁTICAMENTE");
+            } else {
+                console.log("No hay sesión todavía.");
             }
         }
 
+        // 3. BOTÓN PARA INICIAR EL LOGIN
         document.getElementById('btnGoogle').onclick = async () => {
-            await supabase.auth.signIn({ provider: 'google' });
+            await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    // Importante: Volver a esta misma carpeta para procesar el token
+                    redirectTo: window.location.origin + window.location.pathname 
+                }
+            });
         };
 
-        verificar();
+        // Ejecutamos la verificación nada más cargar la página
+        verificarSesion();
     </script>
 </body>
 </html>
