@@ -1,5 +1,6 @@
 // assets/js/app.js
 import { supabase } from './supabase.js';
+import { Vonage } from '@vonage/server-sdk';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -29,50 +30,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalRegistro = document.getElementById('modalRegistro');
 
   const btnLogin = document.getElementById('btnLogin');
-  const btnRegistro = document.getElementById('btnRegistro');
   const btnLoginMobile = document.getElementById('btnLoginMobile');
-  const btnRegistroMobile = document.getElementById('btnRegistroMobile');
-
   const closeLogin = document.getElementById('closeLogin');
-  const closeRegistro = document.getElementById('closeRegistro');
 
   const mensajeModal = document.getElementById('mensajeModal');
-  const mensajeModalRegistro = document.getElementById('mensajeModalRegistro');
 
   [btnLogin, btnLoginMobile].forEach(btn => btn?.addEventListener('click', () => modalLogin.classList.add('active')));
-  [btnRegistro, btnRegistroMobile].forEach(btn => btn?.addEventListener('click', () => modalRegistro.classList.add('active')));
 
   closeLogin?.addEventListener('click', () => modalLogin.classList.remove('active'));
-  closeRegistro?.addEventListener('click', () => modalRegistro.classList.remove('active'));
 
   window.addEventListener('click', e => {
     if(e.target === modalLogin) modalLogin.classList.remove('active');
-    if(e.target === modalRegistro) modalRegistro.classList.remove('active');
-  });
-
-  // =============================
-  // LOGIN (EMAIL + PASSWORD)
-  // =============================
-  document.getElementById('loginBtn')?.addEventListener('click', async () => {
-    try {
-      const email = document.getElementById('loginEmail').value.trim();
-      const password = document.getElementById('loginPassword').value.trim();
-
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
-      if(error){
-        mensajeModal.textContent = error.message;
-        mensajeModal.style.color = 'red';
-      } else {
-        mensajeModal.textContent = '¡Login correcto!';
-        mensajeModal.style.color = 'green';
-        setTimeout(() => location.reload(), 800);
-      }
-    } catch(e){
-      console.error("Error login:", e);
-      mensajeModal.textContent = "Error inesperado en login.";
-      mensajeModal.style.color = "red";
-    }
   });
 
   // =============================
@@ -99,56 +67,53 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =============================
-  // REGISTRO (EMAIL + PASSWORD)
+  // LOGIN POR TELÉFONO (VONAGE VERIFY)
   // =============================
-  document.getElementById('registroBtn')?.addEventListener('click', async () => {
-    try {
-      const nombre = document.getElementById('regNombre').value.trim();
-      const email = document.getElementById('regEmail').value.trim();
-      const password = document.getElementById('regPassword').value.trim();
+  const vonage = new Vonage({
+    apiKey: "TU_API_KEY",
+    apiSecret: "TU_API_SECRET"
+  });
 
-      // Crear usuario Auth
-      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-        email,
-        password,
-        options: { data: { nombre } }
+  let requestIdGlobal = null;
+
+  document.getElementById('phoneLoginBtn')?.addEventListener('click', async () => {
+    try {
+      const phone = document.getElementById('loginPhone').value.trim();
+      if(!phone){
+        mensajeModal.textContent = "Introduce un número de teléfono válido";
+        mensajeModal.style.color = "red";
+        return;
+      }
+
+      // Inicia verificación
+      const resp = await vonage.verify.start({
+        number: phone,
+        brand: "Zeletas"
       });
 
-      if(signUpError){
-        mensajeModalRegistro.textContent = signUpError.message;
-        mensajeModalRegistro.style.color = 'red';
-        return;
-      }
+      requestIdGlobal = resp.request_id;
+      mensajeModal.textContent = "Código enviado por SMS. Introduce el código recibido.";
+      mensajeModal.style.color = "green";
 
-      // ID REAL del usuario Auth (OBLIGATORIO)
-      const userId = signUpData.user?.id;
+      document.getElementById('verifyCodeBtn')?.addEventListener('click', async () => {
+        const code = document.getElementById('verifyCode').value.trim();
+        if(!code) return;
 
-      if(!userId){
-        mensajeModalRegistro.textContent = "Usuario creado pero no se recibió ID. Intenta iniciar sesión.";
-        mensajeModalRegistro.style.color = "orange";
-        return;
-      }
-
-      // Insertar perfil en profiles con id = auth.user.id
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert([{ id: userId, nombre, email, rol: 'usuario' }]);
-
-      if(profileError){
-        mensajeModalRegistro.textContent =
-          'Usuario creado, pero no se pudo guardar el perfil: ' + profileError.message;
-        mensajeModalRegistro.style.color = 'orange';
-        return;
-      }
-
-      mensajeModalRegistro.textContent = 'Cuenta creada correctamente. Ya puedes iniciar sesión.';
-      mensajeModalRegistro.style.color = 'green';
-      setTimeout(() => modalRegistro.classList.remove('active'), 1200);
+        const checkResp = await vonage.verify.check(requestIdGlobal, code);
+        if(checkResp.status === "0"){
+          mensajeModal.textContent = "¡Usuario verificado con éxito!";
+          mensajeModal.style.color = "green";
+          setTimeout(() => location.reload(), 1000);
+        } else {
+          mensajeModal.textContent = "Código incorrecto o fallo en verificación";
+          mensajeModal.style.color = "red";
+        }
+      });
 
     } catch(e){
-      console.error("Error registro:", e);
-      mensajeModalRegistro.textContent = "Error inesperado en registro.";
-      mensajeModalRegistro.style.color = "red";
+      console.error("Error Vonage Verify:", e);
+      mensajeModal.textContent = "Error al enviar el SMS de verificación";
+      mensajeModal.style.color = "red";
     }
   });
 
