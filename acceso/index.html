@@ -52,37 +52,51 @@
   </div>
 </div>
 
-<script type="module">
-  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+<script src="https://unpkg.com/@supabase/supabase-js@1"></script>
+
+<script>
+  // 1. Mensaje inmediato para saber que el móvil lee este código
+  alert("¡Paso 1: Navegador leyendo el script!");
 
   const SUPABASE_URL = "https://sbqpkfdcznulwpxlxiwu.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  
+  // Inicializamos Supabase (versión clásica)
+  const supabase = lib.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  // ESTO NOS DIRÁ SI EL CÓDIGO ARRANCA
-  alert("El script ha cargado correctamente");
+  async function verificarSesion() {
+    alert("¡Paso 2: Buscando sesión en la URL...");
+    
+    // Supabase procesa automáticamente el token de la URL aquí
+    const user = supabase.auth.user();
+    const session = supabase.auth.session();
 
-  async function checkAuth() {
-    try {
-      const { data: { session }, error } = await supabase.auth.getSession();
-      
-      if (error) {
-        alert("Error de Supabase: " + error.message);
-        return;
-      }
-
-      if (session) {
-        alert("¡Sesión detectada para: " + session.user.email);
-        window.location.href = "../perfil/index.html";
-      } else {
-        alert("No hay sesión activa todavía. El token está en la URL pero Supabase no lo ha validado.");
-      }
-    } catch (err) {
-      alert("Error crítico: " + err.message);
+    if (session || user) {
+      alert("¡Paso 3: ÉXITO! Sesión encontrada para: " + (user ? user.email : "usuario"));
+      // Limpiamos la URL y redirigimos
+      window.history.replaceState({}, document.title, window.location.pathname);
+      window.location.href = "../perfil/index.html";
+    } else {
+      alert("Paso 3: No hay sesión. El código en la URL no ha sido validado.");
     }
   }
 
-  checkAuth();
+  // Ejecutamos la verificación
+  verificarSesion();
+
+  // Función para el botón de Google
+  async function loginGoogle() {
+    const { error } = await supabase.auth.signIn({
+      provider: 'google'
+    }, {
+      redirectTo: window.location.origin + window.location.pathname
+    });
+    if (error) alert("Error al iniciar Google: " + error.message);
+  }
+
+  // Asignamos el evento al botón
+  document.getElementById('googleLoginBtn').onclick = loginGoogle;
+  document.getElementById('googleLoginBtnModal').onclick = loginGoogle;
 </script>
 
 </body>
