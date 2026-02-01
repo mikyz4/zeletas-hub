@@ -1,103 +1,40 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Acceso - Zeletas Hub</title>
-<link rel="stylesheet" href="../assets/css/styles.css">
+    <meta charset="UTF-8">
+    <title>TEST LOGIN</title>
 </head>
 <body>
+    <h1>Probando conexión...</h1>
+    <button id="btnGoogle" style="padding: 20px; background: blue; color: white;">ENTRAR CON GOOGLE</button>
 
-<section class="hero">
-  <h2>Accede a Zeletas Hub</h2>
+    <script src="https://unpkg.com/@supabase/supabase-js@1.35.7/dist/umd/supabase.js"></script>
 
-  <button id="googleLoginBtn" class="btn btn-google">Iniciar sesión con Google</button>
+    <script>
+        // ESTO TIENE QUE SALIR SÍ O SÍ
+        alert("¡EL SCRIPT ESTÁ VIVO!");
 
-  <hr>
+        const SUPABASE_URL = "https://sbqpkfdcznulwpxlxiwu.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
+        
+        // Inicialización manual para evitar errores de librería
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  <div class="phone-login">
-    <label for="loginPhone">Número de teléfono:</label>
-    <input type="text" id="loginPhone" placeholder="+34 612 345 678">
-    <button id="phoneLoginBtn" class="btn">Enviar código</button>
-  </div>
+        async function verificar() {
+            const user = supabase.auth.user();
+            if (user) {
+                alert("SESIÓN OK: " + user.email);
+                window.location.href = "../perfil/index.html";
+            } else if (window.location.hash.includes('access_token')) {
+                alert("VECO EL TOKEN, PERO SUPABASE NO LO PROCESA AUTOMÁTICAMENTE");
+            }
+        }
 
-  <div class="verify-code" style="margin-top:10px; display:none;">
-    <label for="verifyCode">Código recibido:</label>
-    <input type="text" id="verifyCode" placeholder="123456">
-    <button id="verifyCodeBtn" class="btn">Verificar código</button>
-  </div>
+        document.getElementById('btnGoogle').onclick = async () => {
+            await supabase.auth.signIn({ provider: 'google' });
+        };
 
-  <div id="mensaje" style="margin-top:10px;"></div>
-</section>
-
-<div id="modalCuenta" class="modal">
-  <div class="modal-content">
-    <span class="close" id="closeCuenta">&times;</span>
-    <h3>Mi cuenta</h3>
-    <div class="login-providers" style="margin-bottom:15px;">
-      <button id="googleLoginBtnModal" class="btn btn-google">Iniciar sesión con Google</button>
-    </div>
-    <hr style="margin:15px 0;">
-    <div class="phone-login" style="margin-bottom:10px;">
-      <label for="loginPhoneModal">Teléfono:</label>
-      <input type="text" id="loginPhoneModal" placeholder="+34 612 345 678">
-      <button id="phoneLoginBtnModal" class="btn">Enviar código</button>
-    </div>
-    <div class="verify-code" style="margin-top:10px; display:none;">
-      <label for="verifyCodeModal">Código recibido:</label>
-      <input type="text" id="verifyCodeModal" placeholder="123456">
-      <button id="verifyCodeBtnModal" class="btn">Verificar código</button>
-    </div>
-    <div id="mensajeModal" style="margin-top:10px;"></div>
-  </div>
-</div>
-
-<script src="https://unpkg.com/@supabase/supabase-js@1"></script>
-
-<script>
-  // 1. Mensaje inmediato para saber que el móvil lee este código
-  alert("¡Paso 1: Navegador leyendo el script!");
-
-  const SUPABASE_URL = "https://sbqpkfdcznulwpxlxiwu.supabase.co";
-  const SUPABASE_ANON_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
-  
-  // Inicializamos Supabase (versión clásica)
-  const supabase = lib.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  async function verificarSesion() {
-    alert("¡Paso 2: Buscando sesión en la URL...");
-    
-    // Supabase procesa automáticamente el token de la URL aquí
-    const user = supabase.auth.user();
-    const session = supabase.auth.session();
-
-    if (session || user) {
-      alert("¡Paso 3: ÉXITO! Sesión encontrada para: " + (user ? user.email : "usuario"));
-      // Limpiamos la URL y redirigimos
-      window.history.replaceState({}, document.title, window.location.pathname);
-      window.location.href = "../perfil/index.html";
-    } else {
-      alert("Paso 3: No hay sesión. El código en la URL no ha sido validado.");
-    }
-  }
-
-  // Ejecutamos la verificación
-  verificarSesion();
-
-  // Función para el botón de Google
-  async function loginGoogle() {
-    const { error } = await supabase.auth.signIn({
-      provider: 'google'
-    }, {
-      redirectTo: window.location.origin + window.location.pathname
-    });
-    if (error) alert("Error al iniciar Google: " + error.message);
-  }
-
-  // Asignamos el evento al botón
-  document.getElementById('googleLoginBtn').onclick = loginGoogle;
-  document.getElementById('googleLoginBtnModal').onclick = loginGoogle;
-</script>
-
+        verificar();
+    </script>
 </body>
 </html>
