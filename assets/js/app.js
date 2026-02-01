@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // MODAL LOGIN
   // =============================
   const modalLogin = document.getElementById('modalLogin');
+  const btnLoginMobile = document.getElementById('btnLoginMobile');
+btnLoginMobile?.addEventListener('click', () => modalLogin.classList.add('active'));
   const btnLogin = document.getElementById('btnLogin');
   const closeLogin = document.getElementById('closeLogin');
   const mensajeModal = document.getElementById('mensajeModal');
