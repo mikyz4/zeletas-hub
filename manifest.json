@@ -1,0 +1,17 @@
+{
+  "name": "Zeletas Hub",
+  "short_name": "Zeletas",
+  "description": "Tu ecosistema personal de gestión y verticales",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#00c853",
+  "icons": [
+    {
+      "src": "assets/img/logo-zeletas.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
