@@ -190,20 +190,25 @@
 </div>
   
 <!-- Scripts -->
-<script type="module" src="assets/js/ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-  // Escuchamos el click en el botón del modal
-  document.getElementById('googleBtn').onclick = function() {
-    // En lugar de intentar loguear aquí, lo mandamos a la página que YA FUNCIONA
-    window.location.href = "/acceso/index.html";
+  const S_URL = "https://sbqpkfdcznulwpxlxiwu.supabase.co";
+  const S_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
+  const supabaseClient = supabase.createClient(S_URL, S_KEY);
+
+  // 1. El botón de Google dentro del Modal ahora es DIRECTO
+  document.getElementById('googleBtn').onclick = async () => {
+    await supabaseClient.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: "https://zeletas.netlify.app/index.html" }
+    });
   };
 
-  // Si tienes el botón Mi Cuenta fuera del modal y quieres que también lleve allí:
-  document.getElementById('btnCuenta').onclick = function() {
-    window.location.href = "/acceso/index.html";
-  };
+  // 2. El botón "Mi cuenta" del header ahora SOLO abre el modal (como antes)
+  // No pongas redirecciones aquí, deja que ui.js maneje la apertura del modal.
 </script>
+
 </body>
 </html>
 
