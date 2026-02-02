@@ -3,192 +3,113 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chat Zeletas</title>
-  <link rel="stylesheet" href="../assets/css/styles.css">
-  <!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ZELETAS HUB - Grupo Zeletas</title>
-<link rel="stylesheet" href="assets/css/styles.css">
-<style>
-  /* Si el cuerpo tiene la clase 'logged-in', el modal no se muestra nunca */
-  body.logged-in .modal {
-    display: none !important;
-  }
-</style>
-<link rel="icon" type="image/png" href="../assets/img/logo-zeletas.png">
-<link rel="apple-touch-icon" href="../assets/img/logo-zeletas.png">
-
-<link rel="manifest" href="../manifest.json">
-<meta name="theme-color" content="#00c853">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
+  <title>Chat Privado - ZELETAS</title>
   
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  
+  <style>
+    /* Estilos específicos para que el chat se vea bien con tu diseño */
+    .chat-container {
+      max-width: 600px;
+      margin: 20px auto;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      height: 70vh;
+      overflow: hidden;
+    }
+    .chat-box {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .mensaje {
+      padding: 10px 15px;
+      border-radius: 18px;
+      max-width: 80%;
+      font-size: 0.9rem;
+    }
+    .recibido {
+      background: #333;
+      align-self: flex-start;
+      border-bottom-left-radius: 2px;
+    }
+    .enviado {
+      background: var(--green);
+      color: #000;
+      align-self: flex-end;
+      border-bottom-right-radius: 2px;
+    }
+    .chat-input-area {
+      padding: 15px;
+      background: #1a1a1a;
+      display: flex;
+      gap: 10px;
+      border-top: 1px solid var(--border-color);
+    }
+    #chat-input {
+      flex: 1;
+      background: #0a0a0a;
+      border: 1px solid var(--border-color);
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  </style>
+
+  <link rel="icon" type="image/png" href="../assets/img/logo-zeletas.png">
+  <link rel="apple-touch-icon" href="../assets/img/logo-zeletas.png">
 </head>
-<body>
 
-<!-- OVERLAY + MOBILE MENU -->
-<div class="overlay"></div>
+<body class="logged-in">
 
-<div class="mobile-menu">
-  <div class="menu-title">Menú ZELETAS</div>
-  <a href="index.html">🏠 Inicio</a>
-  <a href="marketplace/index.html">🧩 Marketplace (2ª mano)</a>
-  <a href="tienda/index.html">🛒 Tienda Oficial</a>
-  <a href="vehiculos/index.html">🚗 Vehículos</a>
-  <a href="inmobiliaria/index.html">🏠 Inmobiliaria</a>
-  <a href="servicios/index.html">🛠️ Servicios</a>
-  <a href="asesoria/index.html">👤 Asesoría</a>
-  <a href="financiacion/index.html">💳 Financiación</a>
-  <a href="contacto/index.html">📩 Contacto</a>
-  <div class="menu-user" id="menuUserMobile">
-    <button id="btnCuentaMobile">Mi cuenta</button>
-  </div>
-</div>
-
-<!-- HEADER -->
 <header>
   <div class="header-inner">
-    <div class="logo">ZELETAS <span>Hub</span></div>
-
+    <div class="logo">ZELETAS <span>Chat</span></div>
     <nav class="nav-desktop">
-      <a href="marketplace/index.html">Marketplace</a>
-      <a href="tienda/index.html">Tienda Oficial</a>
-      <a href="vehiculos/index.html">Vehículos</a>
-      <a href="inmobiliaria/index.html">Inmobiliaria</a>
-      <a href="servicios/index.html">Servicios</a>
-      <a href="contacto/index.html">Contacto</a>
+      <a href="../index.html">Inicio</a>
+      <a href="../marketplace/index.html">Marketplace</a>
     </nav>
-
-    <div class="header-right">
-      <!-- Botón Mi cuenta fuera del menú -->
-      <button id="btnCuenta" class="btn-cuenta">Mi cuenta</button>
-      
-      <!-- Botón hamburguesa -->
-      <div class="hamburger" aria-label="Abrir menú">
-        <span></span><span></span><span></span>
-      </div>
-    </div>
   </div>
 </header>
 
-<!-- HERO -->
-<section class="hero">
-  <h1>Grupo ZELETAS</h1>
-  <p>Un hub multi-negocio con enfoque premium: marketplace, tienda oficial, vehículos, inmobiliaria, servicios y asesoría profesional.</p>
-  <div class="hero-actions">
-    <a class="btn btn-primary" href="marketplace/index.html">Entrar al Marketplace</a>
-    <a class="btn btn-secondary" href="tienda/index.html">Ver Tienda Oficial</a>
-  </div>
-</section>
-
-<!-- COMO FUNCIONA -->
-<section class="section">
-  <h2 class="section-title">¿Cómo funciona ZELETAS?</h2>
-  <p class="section-subtitle">
-    ZELETAS combina intermediación, gestión y modelos digitales para operar sin stock propio, conectando clientes con soluciones reales.
-  </p>
-
-  <div class="grid">
-    <div class="card">
-      <div class="badge">Modelo</div>
-      <h3>Marketplace (2ª mano)</h3>
-      <p>Usuarios publican anuncios. ZELETAS facilita visibilidad, contacto seguro y soporte.</p>
+<main class="section">
+  <div class="chat-container">
+    <div class="chat-box" id="chat-box">
+      <div class="mensaje recibido">Hola, ¿en qué puedo ayudarte con tu gestión?</div>
     </div>
-
-    <div class="card">
-      <div class="badge">Modelo</div>
-      <h3>Tienda Oficial (Dropshipping)</h3>
-      <p>Productos seleccionados con venta profesional. Nosotros gestionamos todo.</p>
-    </div>
-
-    <div class="card">
-      <div class="badge">Servicios</div>
-      <h3>Gestión y coordinación</h3>
-      <p>Reformas, mantenimiento, técnicos y proyectos. ZELETAS organiza el proceso con colaboradores verificados.</p>
-    </div>
-
-    <div class="card">
-      <div class="badge">Asesoría</div>
-      <h3>Suscripción mensual</h3>
-      <p>Acompañamiento privado y profesional para decisiones importantes: compra/venta, inversión, reformas, importaciones y más.</p>
+    
+    <div class="chat-input-area">
+      <input type="text" id="chat-input" placeholder="Escribe un mensaje..." onkeypress="if(event.key==='Enter') enviarMensaje()">
+      <button class="btn btn-primary" onclick="enviarMensaje()">Enviar</button>
     </div>
   </div>
-</section>
+</main>
 
-<!-- VERTICALES PRINCIPALES -->
-<section class="section">
-  <h2 class="section-title">Verticales principales</h2>
-  <div class="grid">
-    <!-- Repite las tarjetas con botones -->
-    <div class="card">
-      <h3>🧩 Marketplace (2ª mano)</h3>
-      <p>Compra y vende anuncios de usuarios con chat interno.</p>
-      <div class="card-actions"><a class="btn btn-primary" href="marketplace/index.html">Entrar</a></div>
-    </div>
-    <div class="card">
-      <h3>🛒 Tienda Oficial</h3>
-      <p>Productos de Zeletas con catálogo profesional.</p>
-      <div class="card-actions"><a class="btn btn-primary" href="tienda/index.html">Ver tienda</a></div>
-    </div>
-    <div class="card">
-      <h3>🚗 Vehículos</h3>
-      <p>Nuevo, seminuevo, segunda mano, importación y gestión.</p>
-      <div class="card-actions"><a class="btn btn-primary" href="vehiculos/index.html">Ver sección</a></div>
-    </div>
-    <div class="card">
-      <h3>🏠 Inmobiliaria</h3>
-      <p>Compra/venta, alquiler, inversión y reformas/proyectos.</p>
-      <div class="card-actions"><a class="btn btn-primary" href="inmobiliaria/index.html">Ver sección</a></div>
-    </div>
-    <div class="card">
-      <h3>🛠️ Servicios</h3>
-      <p>Reformas, mantenimiento y gestión de profesionales.</p>
-      <div class="card-actions"><a class="btn btn-primary" href="servicios/index.html">Ver servicios</a></div>
-    </div>
-    <div class="card">
-      <h3>👤 Asesoría / Suscripción</h3>
-      <p>Asesor privado Zeletas: 50€/mes con acompañamiento real.</p>
-      <div class="card-actions"><a class="btn btn-primary" href="asesoria/index.html">Ver asesoría</a></div>
-    </div>
-    <div class="card">
-
-</head>
-<body>
-<header>
-  <h1>Chat Zeletas</h1>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="../index.html">Inicio</a></li>
-      <li><a href="../marketplace/general.html">Marketplace</a></li>
-    </ul>
-  </nav>
-</header>
-
-<section class="chat-container">
-  <div class="chat-box" id="chat-box">
-    <div class="mensaje recibido">Hola, ¿en qué puedo ayudarte?</div>
-  </div>
-  <input type="text" id="chat-input" placeholder="Escribe un mensaje...">
-  <button onclick="enviarMensaje()">Enviar</button>
-</section>
-
-<script src="../assets/js/app.js"></script>
 <script>
-function enviarMensaje() {
-  const input = document.getElementById('chat-input');
-  const chatBox = document.getElementById('chat-box');
-  if(input.value.trim() === '') return;
-  const msg = document.createElement('div');
-  msg.className = 'mensaje enviado';
-  msg.textContent = input.value;
-  chatBox.appendChild(msg);
-  input.value = '';
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
+  function enviarMensaje() {
+    const input = document.getElementById('chat-input');
+    const chatBox = document.getElementById('chat-box');
+    
+    if(input.value.trim() === '') return;
+
+    // Crear burbuja de mensaje enviado
+    const msg = document.createElement('div');
+    msg.className = 'mensaje enviado';
+    msg.textContent = input.value;
+    
+    chatBox.appendChild(msg);
+    input.value = '';
+    
+    // Auto-scroll al final
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
 </script>
+
 </body>
 </html>
