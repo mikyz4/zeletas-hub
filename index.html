@@ -206,14 +206,14 @@
   const supabaseClient = supabase.createClient(S_URL, S_KEY);
 
   async function gestionarAcceso() {
-    // Esperamos a tener la sesión
+    // 1. Obtenemos la sesión
     const { data: { session } } = await supabaseClient.auth.getSession();
     
     const btnCuenta = document.getElementById('btnCuenta');
     const btnCuentaMobile = document.getElementById('btnCuentaMobile');
     const googleBtn = document.getElementById('googleBtn');
 
-    // CONFIGURACIÓN BOTÓN GOOGLE (Dentro del modal)
+    // 2. Configuración del botón de Google (siempre debe estar disponible)
     if (googleBtn) {
       googleBtn.onclick = async (e) => {
         e.preventDefault();
@@ -224,18 +224,21 @@
       };
     }
 
-    // SI HAY SESIÓN: Cambiamos el comportamiento de los botones
+    // 3. SI HAY SESIÓN: Aplicamos los cambios para que no haya parpadeos
     if (session) {
+      // ESTA ES LA LÍNEA MAESTRA: Activa el CSS que pusiste arriba en el <style>
+      document.body.classList.add('logged-in');
+
       const nombre = session.user.user_metadata.full_name || "Usuario";
       
       [btnCuenta, btnCuentaMobile].forEach(btn => {
         if (btn) {
+          // Cambiamos el texto del botón
           btn.textContent = (btn.id === 'btnCuenta') ? "Hola, " + nombre : "Ver mi Perfil";
           
-          // Esta es la clave: quitamos el modal y ponemos redirección
+          // Cambiamos la función: Ahora solo redirige, el CSS se encarga del resto
           btn.onclick = (e) => {
             e.preventDefault();
-            e.stopImmediatePropagation();
             window.location.href = "/perfil/";
           };
         }
@@ -243,7 +246,7 @@
     }
   }
 
-  // Ejecutar al cargar
+  // Ejecutamos la función al cargar la ventana
   window.onload = gestionarAcceso;
 </script>
 
