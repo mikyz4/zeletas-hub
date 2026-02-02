@@ -3,61 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel de Control - ZELETAS HUB</title>
+  <title>Sistema de Control - ZELETAS HUB</title>
   <link rel="stylesheet" href="../assets/css/styles.css">
   <style>
-    body { background-color: var(--bg); color: var(--text); padding-bottom: 50px; }
-    .perfil-container { max-width: 1200px; margin: 0 auto; padding: 30px 15px; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 80px; }
+    .perfil-container { max-width: 1200px; margin: 0 auto; padding: 20px; }
 
-    /* HEADER PREMIUM */
+    /* HEADER ULTRA-PREMIUM */
     .perfil-header { 
-      background: var(--bg2); padding: 30px; border-radius: 20px; 
+      background: linear-gradient(145deg, var(--bg2), #111); padding: 40px; border-radius: 24px; 
       border: 1px solid var(--border); box-shadow: var(--shadow);
-      display: flex; align-items: center; gap: 25px; margin-bottom: 30px;
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;
+      position: relative; overflow: hidden;
     }
-    #userImg { width: 90px; height: 90px; border-radius: 50%; border: 2px solid var(--green); }
-    .header-info h2 { color: var(--green); margin-bottom: 5px; }
+    .perfil-header::before { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--green); }
+    
+    .user-main { display: flex; align-items: center; gap: 25px; }
+    #userImg { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--green); padding: 5px; background: var(--bg); }
+    
+    .user-stats { text-align: right; }
+    .stat-box { display: inline-block; margin-left: 20px; text-align: center; }
+    .stat-val { display: block; font-size: 1.2rem; font-weight: 800; color: var(--green); }
+    .stat-lab { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; }
 
-    /* TITULOS DE SECCIÓN */
-    .section-header { 
-      display: flex; align-items: center; gap: 15px; margin: 40px 0 20px; 
-      color: var(--green); font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
-    }
-    .section-header::after { content: ""; flex: 1; height: 1px; background: rgba(0, 200, 83, 0.2); }
+    /* NAVEGACIÓN POR TABS (PARA ORDENAR EL CAOS) */
+    .profile-tabs { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 10px; overflow-x: auto; }
+    .tab-btn { background: none; border: none; color: var(--muted); padding: 10px 20px; cursor: pointer; font-weight: 600; border-radius: 10px; transition: 0.3s; white-space: nowrap; }
+    .tab-btn.active { background: rgba(0, 200, 83, 0.1); color: var(--green); }
 
-    /* GRID DE ACTIVIDAD (EXTENDIDO) */
-    .dashboard-grid { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-      gap: 15px; 
-    }
-    .dash-card { 
-      background: var(--card); border: 1px solid var(--border); border-radius: 15px; 
-      padding: 20px; text-decoration: none; transition: 0.25s; text-align: center;
-    }
-    .dash-card:hover { border-color: var(--green); transform: translateY(-3px); background: var(--bg2); }
-    .dash-card i { font-size: 1.8rem; display: block; margin-bottom: 8px; }
+    /* TARJETAS DE FUNCIÓN AVANZADA */
+    .advanced-card { background: var(--card); border-radius: 20px; border: 1px solid var(--border); padding: 25px; margin-bottom: 25px; }
+    .card-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; color: var(--green); font-size: 1.1rem; font-weight: 700; }
+    
+    /* SISTEMA DE LISTAS PRO */
+    .pro-list { list-style: none; }
+    .pro-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .pro-item:last-child { border-bottom: none; }
+    
+    /* INDICADORES DE ESTADO */
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+    .status-online { background: var(--green); box-shadow: 0 0 10px var(--green); }
 
-    /* LISTA DE FUNCIONES AVANZADAS */
-    .settings-group { 
-      background: var(--card); border-radius: 18px; border: 1px solid var(--border); 
-      overflow: hidden; margin-bottom: 20px;
-    }
-    .setting-row { 
-      display: flex; justify-content: space-between; align-items: center; 
-      padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    .setting-row:last-child { border-bottom: none; }
-    .row-label h4 { font-size: 1rem; margin-bottom: 2px; }
-    .row-label p { font-size: 0.85rem; color: var(--muted); }
-
-    /* SWITCH / TOGGLE SIMULADO */
-    .toggle { width: 40px; height: 20px; background: #333; border-radius: 10px; position: relative; cursor: pointer; }
-    .toggle.active { background: var(--green); }
-    .toggle::before { content: ""; position: absolute; width: 16px; height: 16px; background: white; border-radius: 50%; top: 2px; left: 2px; transition: 0.2s; }
-    .toggle.active::before { left: 22px; }
-
-    .btn-sm { padding: 6px 12px; font-size: 0.8rem; border-radius: 8px; cursor: pointer; border: 1px solid var(--border); background: var(--bg2); color: var(--text); }
+    /* BOTONES TÉCNICOS */
+    .btn-tech { background: #222; border: 1px solid var(--border); color: var(--text); padding: 6px 14px; border-radius: 8px; font-size: 0.8rem; cursor: pointer; transition: 0.2s; }
+    .btn-tech:hover { border-color: var(--green); color: var(--green); }
+    
+    .tag-premium { background: linear-gradient(90deg, #ffd700, #b8860b); color: #000; padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 900; vertical-align: middle; }
   </style>
 </head>
 <body>
@@ -65,72 +56,83 @@
 <div class="perfil-container">
   
   <header class="perfil-header">
-    <img id="userImg" src="" alt="Avatar">
-    <div class="header-info">
-      <h2 id="nombreUsuario">...</h2>
-      <p id="emailUsuario" class="listing-meta">...</p>
-      <div class="badge">Socio Premium #001</div>
+    <div class="user-main">
+      <img id="userImg" src="" alt="Avatar">
+      <div class="header-info">
+        <h2><span id="nombreUsuario">...</span> <span class="tag-premium">VERIFIED</span></h2>
+        <p id="emailUsuario" style="color:var(--muted); font-size: 0.9rem;"></p>
+        <p style="font-size: 0.75rem; margin-top:5px;"><span class="status-dot status-online"></span> Conexión cifrada AES-256</p>
+      </div>
+    </div>
+    <div class="user-stats">
+      <div class="stat-box"><span class="stat-val">24</span><span class="stat-lab">Anuncios</span></div>
+      <div class="stat-box"><span class="stat-val">1.2k</span><span class="stat-lab">Puntos</span></div>
+      <div class="stat-box"><span class="stat-val">A+</span><span class="stat-lab">Reputación</span></div>
     </div>
   </header>
 
-  <div class="section-header">Mi Actividad en Zeletas</div>
+  <div class="profile-tabs">
+    <button class="tab-btn active">Resumen</button>
+    <button class="tab-btn">Seguridad Militar</button>
+    <button class="tab-btn">Privacidad Global</button>
+    <button class="tab-btn">Actividad Financiera</button>
+    <button class="tab-btn">API & Desarrollador</button>
+  </div>
+
   <div class="dashboard-grid">
-    <a href="../mis-anuncios/" class="dash-card"><i>🧩</i><h4>Anuncios</h4></a>
-    <a href="../mis-vehiculos/" class="dash-card"><i>🚗</i><h4>Vehículos</h4></a>
-    <a href="../mi-inmobiliaria/" class="dash-card"><i>🏠</i><h4>Inmuebles</h4></a>
-    <a href="../mis-servicios/" class="dash-card"><i>🛠️</i><h4>Servicios</h4></a>
-    <a href="../mis-favoritos/" class="dash-card"><i>❤️</i><h4>Favoritos</h4></a>
-    <a href="../mis-pedidos/" class="dash-card"><i>🛒</i><h4>Pedidos</h4></a>
-    <a href="../financiacion/" class="dash-card"><i>💳</i><h4>Finanzas</h4></a>
-    <a href="../mis-contratos/" class="dash-card"><i>📜</i><h4>Contratos</h4></a>
-  </div>
+    <div class="advanced-card">
+      <div class="card-title">Seguridad Biométrica y Acceso <span>🔒</span></div>
+      <div class="pro-list">
+        <div class="pro-item">
+          <div><h4>Doble Factor (2FA)</h4><p class="listing-meta">Protección por App de Autenticación.</p></div>
+          <button class="btn-tech">Configurar</button>
+        </div>
+        <div class="pro-item">
+          <div><h4>Llaves de Seguridad</h4><p class="listing-meta">Soporte para Yubico y WebAuthn.</p></div>
+          <button class="btn-tech">Añadir</button>
+        </div>
+        <div class="pro-item">
+          <div><h4>Registro de Actividad IP</h4><p class="listing-meta">Tu última conexión: 85.12.34.112 (Madrid, ES)</p></div>
+          <button class="btn-tech">Ver Logs</button>
+        </div>
+      </div>
+    </div>
 
-  <div class="section-header">Seguridad y Acceso</div>
-  <div class="settings-group">
-    <div class="setting-row">
-      <div class="row-label"><h4>Verificación en dos pasos (2FA)</h4><p>Añade una capa extra de seguridad a tu cuenta.</p></div>
-      <div class="toggle" onclick="this.classList.toggle('active')"></div>
-    </div>
-    <div class="setting-row">
-      <div class="row-label"><h4>Cambiar Contraseña</h4><p>Actualiza tu clave de acceso periódicamente.</p></div>
-      <button class="btn-sm" onclick="resetPassword()">Actualizar</button>
-    </div>
-    <div class="setting-row">
-      <div class="row-label"><h4>Sesiones Activas</h4><p>Dispositivos conectados actualmente.</p></div>
-      <button class="btn-sm">Gestionar</button>
-    </div>
-  </div>
-
-  <div class="section-header">Preferencias</div>
-  <div class="settings-group">
-    <div class="setting-row">
-      <div class="row-label"><h4>Notificaciones Email</h4><p>Recibe avisos de nuevos mensajes y ofertas.</p></div>
-      <div class="toggle active" onclick="this.classList.toggle('active')"></div>
-    </div>
-    <div class="setting-row">
-      <div class="row-label"><h4>Perfil Público</h4><p>Permite que otros vean tus anuncios activos.</p></div>
-      <div class="toggle active" onclick="this.classList.toggle('active')"></div>
-    </div>
-    <div class="setting-row">
-      <div class="row-label"><h4>Privacidad de Datos (RGPD)</h4><p>Gestionar cómo Zeletas utiliza tu información.</p></div>
-      <button class="btn-sm">Configurar</button>
+    <div class="advanced-card">
+      <div class="card-title">Dispositivos y Sesiones <span>📱</span></div>
+      <div class="pro-list">
+        <div class="pro-item">
+          <div><h4>Este dispositivo</h4><p class="listing-meta">Chrome en Windows 11 - Activo ahora</p></div>
+          <span style="color:var(--green); font-size: 0.8rem;">Actual</span>
+        </div>
+        <div class="pro-item">
+          <div><h4>iPhone 15 Pro</h4><p class="listing-meta">App Zeletas Hub - Hace 2 horas</p></div>
+          <button class="btn-tech" style="color:#ff5252">Cerrar</button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="section-header" style="color:#ff5252">Zona de Peligro</div>
-  <div class="settings-group" style="border-color: rgba(255,82,82,0.3)">
-    <div class="setting-row">
-      <div class="row-label"><h4>Desactivar cuenta</h4><p>Oculta tu perfil y anuncios temporalmente.</p></div>
-      <button class="btn-sm">Desactivar</button>
-    </div>
-    <div class="setting-row">
-      <div class="row-label"><h4>Eliminar cuenta definitivamente</h4><p>Borra todos tus datos de forma irreversible.</p></div>
-      <button class="btn-sm" style="color:#ff5252; border-color:#ff5252" onclick="deleteAccount()">Eliminar Todo</button>
+  <div class="advanced-card">
+    <div class="card-title">Personalización de Experiencia <span>⚙️</span></div>
+    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+      <div class="pro-item">
+        <div><h4>Modo de Interfaz</h4><p class="listing-meta">Oscuro profundo (Zeletas Default)</p></div>
+        <select class="btn-tech"><option>Dark Mode</option><option>High Contrast</option></select>
+      </div>
+      <div class="pro-item">
+        <div><h4>Idioma del Sistema</h4><p class="listing-meta">Localización de textos y moneda.</p></div>
+        <select class="btn-tech"><option>Español (ES)</option><option>English (UK)</option></select>
+      </div>
+      <div class="pro-item">
+        <div><h4>Alertas de Inteligencia</h4><p class="listing-meta">Sugerencias basadas en tus gustos.</p></div>
+        <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+      </div>
     </div>
   </div>
 
-  <div style="text-align:center; margin-top:40px;">
-    <button id="logoutBtn" class="btn btn-primary" style="width:100%; max-width:400px">Cerrar Sesión Segura</button>
+  <div style="text-align:center;">
+    <button id="logoutBtn" class="btn btn-secondary" style="border-color:#ff5252; color:#ff5252">Cerrar Sesión Globalmente</button>
   </div>
 
 </div>
@@ -148,21 +150,7 @@
       document.getElementById('nombreUsuario').textContent = user.user_metadata?.full_name || "Usuario Zeletas";
       document.getElementById('emailUsuario').textContent = user.email;
       if (user.user_metadata?.avatar_url) document.getElementById('userImg').src = user.user_metadata.avatar_url;
-    } else {
-      window.location.href = "../index.html";
-    }
-  }
-
-  async function resetPassword() {
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    const { error } = await supabaseClient.auth.resetPasswordForEmail(session.user.email);
-    alert(error ? "Error: " + error.message : "Email de restablecimiento enviado.");
-  }
-
-  async function deleteAccount() {
-    if(confirm("¿Seguro que quieres borrarlo TODO? Esta acción no se puede deshacer.")) {
-       alert("Solicitud enviada. Por seguridad legal, el borrado se procesará en 24h.");
-    }
+    } else { window.location.href = "../index.html"; }
   }
 
   document.getElementById('logoutBtn').onclick = async () => {
