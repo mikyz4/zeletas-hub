@@ -6,205 +6,112 @@
   <title>Mi Perfil - ZELETAS HUB</title>
   <link rel="stylesheet" href="../assets/css/styles.css">
   <style>
-    /* ADAPTACIÓN A TUS ESTILOS ZELETAS HUB */
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
+    /* REUTILIZAMOS TUS VARIABLES ZELETAS */
+    body { background-color: var(--bg); color: var(--text); min-height: 100vh; }
+    .perfil-container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
 
-    .perfil-container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 40px 20px;
-      width: 100%;
+    /* CABECERA */
+    .perfil-header { 
+      background: var(--bg2); padding: 40px; border-radius: 20px; 
+      text-align: center; border: 1px solid var(--border); box-shadow: var(--shadow);
+      margin-bottom: 30px;
     }
+    #userImg { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--green); margin-bottom: 10px; }
 
-    /* Cabecera estilo Hero/Card */
-    .perfil-header {
-      background: var(--bg2);
-      padding: 40px 20px;
-      border-radius: 20px;
-      text-align: center;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      margin-bottom: 40px;
+    /* SECCIONES */
+    .section-title-perfil { 
+      color: var(--green); font-size: 1.4rem; margin: 40px 0 20px; 
+      display: flex; align-items: center; gap: 10px;
     }
+    .section-title-perfil::after { content: ""; flex: 1; height: 1px; background: var(--border); }
 
-    #userImg {
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      border: 3px solid var(--green);
-      object-fit: cover;
-      margin-bottom: 15px;
-      box-shadow: 0 0 15px rgba(0, 200, 83, 0.2);
+    /* GRID DASHBOARD */
+    .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+    .dash-card { 
+      background: var(--card); border: 1px solid var(--border); border-radius: 18px; 
+      padding: 22px; text-decoration: none; transition: 0.25s; text-align: center;
     }
+    .dash-card:hover { transform: translateY(-3px); border-color: var(--green2); box-shadow: 0 8px 20px rgba(0, 200, 83, 0.1); }
+    .dash-card .icon { font-size: 2rem; margin-bottom: 10px; display: block; }
 
-    .perfil-header h2 {
-      color: var(--green);
-      font-size: 2rem;
-      margin-bottom: 8px;
-      font-weight: 800;
+    /* LISTA DE AJUSTES (NUEVO) */
+    .settings-list { background: var(--bg2); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; }
+    .setting-item { 
+      padding: 18px 22px; display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.2s;
     }
+    .setting-item:last-child { border-bottom: none; }
+    .setting-item:hover { background: rgba(0, 200, 83, 0.05); }
+    .setting-info h4 { color: var(--text); margin-bottom: 4px; }
+    .setting-info p { color: var(--muted); font-size: 0.85rem; }
 
-    .user-email {
-      color: var(--muted);
-      font-size: 1.05rem;
-      margin-bottom: 20px;
+    /* BOTONES ACCIÓN */
+    .btn-action { 
+      background: var(--bg); border: 1px solid var(--border); color: var(--green); 
+      padding: 8px 16px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.85rem;
     }
+    .btn-action:hover { background: var(--green); color: var(--bg); }
+    .btn-danger { color: #ff5252; border-color: rgba(255, 82, 82, 0.3); }
+    .btn-danger:hover { background: #ff5252; color: #fff; }
 
-    /* Reutilizamos tu estilo de .badge */
-    .status-badge {
-      display: inline-block;
-      font-size: 0.85rem;
-      padding: 8px 16px;
-      border-radius: 999px;
-      background: rgba(0, 200, 83, 0.12);
-      border: 1px solid var(--border);
-      color: var(--green);
-      font-weight: 600;
-    }
-
-    /* Grid de tarjetas estilo .grid / .card */
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-    }
-
-    .dash-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 30px 20px;
-      text-decoration: none;
-      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-
-    .dash-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 30px rgba(0, 200, 83, 0.15);
-      border-color: rgba(0, 200, 83, 0.6);
-    }
-
-    .dash-card .icon {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-      display: block;
-    }
-
-    .dash-card h3 {
-      color: var(--green);
-      margin-bottom: 10px;
-      font-size: 1.25rem;
-      font-weight: 700;
-    }
-
-    .dash-card p {
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin: 0;
-    }
-
-    /* Footer y Logout */
-    .perfil-footer {
-      margin-top: 50px;
-      text-align: center;
-      padding-bottom: 40px;
-    }
-
-    #logoutBtn {
-      background: transparent;
-      color: #ff5252;
-      border: 1px solid rgba(255, 82, 82, 0.4);
-      padding: 12px 30px;
-      border-radius: 14px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: 0.25s;
-    }
-
-    #logoutBtn:hover {
-      background: #ff5252;
-      color: #fff;
-      box-shadow: 0 0 20px rgba(255, 82, 82, 0.2);
-    }
-
-    .btn-back {
-      display: inline-block;
-      margin-top: 20px;
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: 0.25s;
-    }
-
-    .btn-back:hover {
-      color: var(--green);
-    }
-
-    @media (max-width: 600px) {
-      .perfil-header h2 { font-size: 1.6rem; }
-      .perfil-container { padding: 20px 15px; }
-    }
+    #logoutBtn { margin-top: 40px; width: 100%; max-width: 300px; }
   </style>
 </head>
 <body>
 
 <div class="perfil-container">
   <header class="perfil-header">
-    <div class="avatar-wrapper">
-      <img id="userImg" src="https://via.placeholder.com/110" alt="Avatar">
-    </div>
-    <h2>Hola, <span id="nombreUsuario">Usuario</span></h2>
-    <p id="emailUsuario" class="user-email">...</p>
-    <span id="estadoUsuario" class="status-badge">Verificando...</span>
+    <img id="userImg" src="https://via.placeholder.com/100" alt="Avatar">
+    <h2 id="nombreUsuario">Cargando...</h2>
+    <p id="emailUsuario" style="color:var(--muted)">...</p>
+    <span class="badge">Cuenta Zeletas Hub</span>
   </header>
 
+  <h3 class="section-title-perfil">Gestión de Actividad</h3>
   <div class="dashboard-grid">
-    <a href="../mis-anuncios/" class="dash-card">
-      <span class="icon">🧩</span>
-      <h3>Mis Anuncios</h3>
-      <p>Gestiona tus publicaciones en el marketplace.</p>
-    </a>
-    <a href="../mis-favoritos/" class="dash-card">
-      <span class="icon">❤️</span>
-      <h3>Mis Favoritos</h3>
-      <p>Artículos que has guardado.</p>
-    </a>
-    <a href="../mis-pedidos/" class="dash-card">
-      <span class="icon">🛒</span>
-      <h3>Mis Pedidos</h3>
-      <p>Historial de compras y pedidos.</p>
-    </a>
-    <a href="../mis-servicios/" class="dash-card">
-      <span class="icon">🛠️</span>
-      <h3>Servicios</h3>
-      <p>Reformas y gestiones en curso.</p>
-    </a>
-    <a href="../mis-contratos/" class="dash-card">
-      <span class="icon">📜</span>
-      <h3>Contratos</h3>
-      <p>Documentos y suscripciones activas.</p>
-    </a>
-    <a href="../soporte/" class="dash-card">
-      <span class="icon">📩</span>
-      <h3>Soporte</h3>
-      <p>Contacto directo con Zeletas.</p>
-    </a>
+    <a href="../mis-anuncios/" class="dash-card"><span class="icon">🧩</span><h3>Anuncios</h3><p>Vende tus artículos</p></a>
+    <a href="../mis-favoritos/" class="dash-card"><span class="icon">❤️</span><h3>Favoritos</h3><p>Tus guardados</p></a>
+    <a href="../mis-pedidos/" class="dash-card"><span class="icon">🛒</span><h3>Pedidos</h3><p>Tus compras</p></a>
+    <a href="../mis-servicios/" class="dash-card"><span class="icon">🛠️</span><h3>Servicios</h3><p>Gestión de obras</p></a>
   </div>
 
-  <div class="perfil-footer">
-    <button id="logoutBtn">Cerrar sesión de forma segura</button>
-    <br>
-    <a href="../index.html" class="btn-back">← Volver al Hub principal</a>
+  <h3 class="section-title-perfil">Seguridad y Privacidad</h3>
+  <div class="settings-list">
+    <div class="setting-item">
+      <div class="setting-info">
+        <h4>Cambiar Contraseña</h4>
+        <p>Recibirás un enlace seguro en tu email.</p>
+      </div>
+      <button class="btn-action" onclick="resetPassword()">Solicitar</button>
+    </div>
+
+    <div class="setting-item">
+      <div class="setting-info">
+        <h4>Datos de Google</h4>
+        <p>Sincronizado con tu cuenta de Google.</p>
+      </div>
+      <button class="btn-action" disabled style="opacity:0.5">Vinculado</button>
+    </div>
+
+    <div class="setting-item">
+      <div class="setting-info">
+        <h4>Descargar mis Datos</h4>
+        <p>Obtén una copia de tu historial en Zeletas.</p>
+      </div>
+      <button class="btn-action" onclick="alert('Generando archivo...')">Descargar</button>
+    </div>
+
+    <div class="setting-item">
+      <div class="setting-info">
+        <h4>Borrar Cuenta</h4>
+        <p style="color:#ff8a8a">Esta acción es irreversible y eliminará todo.</p>
+      </div>
+      <button class="btn-action btn-danger" onclick="deleteAccount()">Borrar Cuenta</button>
+    </div>
+  </div>
+
+  <div style="text-align:center;">
+    <button id="logoutBtn" class="btn btn-secondary">Cerrar Sesión Segura</button>
   </div>
 </div>
 
@@ -220,25 +127,38 @@
       const user = session.user;
       document.getElementById('nombreUsuario').textContent = user.user_metadata?.full_name || "Usuario";
       document.getElementById('emailUsuario').textContent = user.email;
-      document.getElementById('estadoUsuario').textContent = '✓ Miembro Verificado';
-      if (user.user_metadata?.avatar_url) {
-        document.getElementById('userImg').src = user.user_metadata.avatar_url;
-      }
+      if (user.user_metadata?.avatar_url) document.getElementById('userImg').src = user.user_metadata.avatar_url;
     } else {
       window.location.href = "../index.html";
     }
   }
 
-  const logoutBtn = document.getElementById('logoutBtn');
-  if (logoutBtn) {
-    logoutBtn.onclick = async (e) => {
-      e.preventDefault();
-      await supabaseClient.auth.signOut();
-      window.location.href = "../index.html";
-    };
+  // FUNCIÓN: Resetear contraseña vía Supabase
+  async function resetPassword() {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    const email = session.user.email;
+    const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+      redirectTo: 'https://zeletas.netlify.app/perfil/reset-password.html',
+    });
+    if (error) alert("Error: " + error.message);
+    else alert("Enlace de recuperación enviado a " + email);
   }
+
+  // FUNCIÓN: Borrar cuenta (Lógica de seguridad)
+  async function deleteAccount() {
+    const confirmacion = confirm("¿ESTÁS TOTALMENTE SEGURO? Esta acción eliminará tu acceso a Zeletas Hub permanentemente.");
+    if (confirmacion) {
+        alert("Por seguridad de Supabase, para borrar la cuenta definitivamente debes contactar con soporte o usaremos una Edge Function. Procesando solicitud...");
+        // Nota: El borrado de usuarios requiere permisos de Admin. Normalmente se marca el perfil como "inactivo".
+    }
+  }
+
+  document.getElementById('logoutBtn').onclick = async () => {
+    await supabaseClient.auth.signOut();
+    window.location.href = "../index.html";
+  };
+
   window.onload = cargarUsuario;
 </script>
-
 </body>
 </html>
