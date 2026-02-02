@@ -27,9 +27,13 @@
   </div>
 </section>
 
-<script type="module">
-  // Importamos la conexión desde la ruta correcta
-  import { supabase } from '../assets/js/supabase.js';
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  // Inicializamos Supabase (usamos los mismos datos que en el index)
+  const S_URL = "https://sbqpkfdcznulwpxlxiwu.supabase.co";
+  const S_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
+  const supabaseClient = supabase.createClient(S_URL, S_KEY);
 
   const nombreUsuario = document.getElementById('nombreUsuario');
   const emailUsuario = document.getElementById('emailUsuario');
@@ -37,35 +41,37 @@
   const logoutBtn = document.getElementById('logoutBtn');
 
   async function cargarUsuario() {
-    // Obtenemos el usuario actual
-    const { data: { user }, error } = await supabase.auth.getUser();
+    // Obtenemos la sesión actual
+    const { data: { session } } = await supabaseClient.auth.getSession();
 
-    if (user) {
-      // Google guarda el nombre en 'full_name'
-      nombreUsuario.textContent = user.user_metadata?.full_name || user.email;
+    if (session) {
+      const user = session.user;
+      nombreUsuario.textContent = user.user_metadata?.full_name || "Usuario";
       emailUsuario.textContent = user.email;
       estadoUsuario.textContent = user.email_confirmed_at ? 'Verificado' : 'No verificado';
     } else {
-      // Si no hay sesión, mandamos de vuelta al acceso
-      window.location.href = '../acceso/';
+      // Si no hay sesión, mandamos al inicio (donde está el modal)
+      window.location.href = "../index.html";
     }
   }
 
-  // Función para cerrar sesión
-async function cerrarSesion() {
-  const { error } = await supabaseClient.auth.signOut();
-  
-  if (error) {
-    console.error("Error al salir:", error.message);
-  } else {
-    // IMPORTANTE: Redirigimos al inicio real, no a la carpeta acceso
-    window.location.href = "https://zeletas.netlify.app/index.html";
+  // FUNCIÓN PARA CERRAR SESIÓN (Botón)
+  if (logoutBtn) {
+    logoutBtn.onclick = async (e) => {
+      e.preventDefault();
+      console.log("Cerrando sesión...");
+      
+      const { error } = await supabaseClient.auth.signOut();
+      
+      if (error) {
+        alert("Error al salir: " + error.message);
+      } else {
+        // Al salir, volvemos a la página principal
+        window.location.href = "../index.html";
+      }
+    };
   }
-}
 
-  // Iniciamos la carga
-  cargarUsuario();
+  // Ejecutar al cargar
+  window.onload = cargarUsuario;
 </script>
-
-</body>
-</html>
