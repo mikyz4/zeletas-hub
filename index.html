@@ -196,52 +196,62 @@
   const S_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
   const supabaseClient = supabase.createClient(S_URL, S_KEY);
 
-  // 1. Lógica para el botón de Google DENTRO del modal
-  const googleBtn = document.getElementById('googleBtn');
-  if (googleBtn) {
-    googleBtn.onclick = async (e) => {
-      e.preventDefault();
-      const { error } = await supabaseClient.auth.signInWithOAuth({
-        provider: 'google',
-        options: { redirectTo: "https://zeletas.netlify.app/" }
-      });
-      if (error) alert("Error al conectar: " + error.message);
-    };
-  }
+  // Todo el código dentro de este evento para asegurar que los botones existen
+  document.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. Lógica para el botón de Google DENTRO del modal
+    const googleBtn = document.getElementById('googleBtn');
+    if (googleBtn) {
+      googleBtn.onclick = async (e) => {
+        e.preventDefault();
+        await supabaseClient.auth.signInWithOAuth({
+          provider: 'google',
+          options: { redirectTo: "https://zeletas.netlify.app/" }
+        });
+      };
+    }
 
-  // 2. Función para verificar sesión y bloquear el modal intruso
-  async function checkUser() {
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    const btnCuenta = document.getElementById('btnCuenta');
-    const btnCuentaMobile = document.getElementById('btnCuentaMobile');
+    // 2. Función para verificar sesión y controlar el comportamiento del botón
+    async function checkUser() {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      
+      const btnCuenta = document.getElementById('btnCuenta');
+      const btnCuentaMobile = document.getElementById('btnCuentaMobile');
 
-    if (session) {
-      const nombre = session.user.user_metadata.full_name || "Mi Perfil";
+      if (session) {
+        const nombre = session.user.user_metadata.full_name || "Mi Perfil";
 
-      // Ajuste para el botón de Escritorio
-      if (btnCuenta) {
-        btnCuenta.textContent = "Hola, " + nombre;
-        // El 'true' al final es la clave: captura el click antes que el ui.js
-        btnCuenta.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopImmediatePropagation(); 
-          window.location.href = "/perfil/";
-        }, true);
-      }
+        // CONFIGURACIÓN ESCRITORIO
+        if (btnCuenta) {
+          btnCuenta.textContent = "Hola, " + nombre;
+          // Clonamos el botón para eliminar cualquier evento previo del ui.js
+          const nuevoBtn = btnCuenta.cloneNode(true);
+          btnCuenta.parentNode.replaceChild(nuevoBtn, btnCuenta);
+          
+          nuevoBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            window.location.href = "/perfil/";
+          });
+        }
 
-      // Ajuste para el botón de Móvil
-      if (btnCuentaMobile) {
-        btnCuentaMobile.textContent = "Ver mi Perfil";
-        btnCuentaMobile.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopImmediatePropagation();
-          window.location.href = "/perfil/";
-        }, true);
+        // CONFIGURACIÓN MÓVIL
+        if (btnCuentaMobile) {
+          btnCuentaMobile.textContent = "Ver mi Perfil";
+          const nuevoBtnMobile = btnCuentaMobile.cloneNode(true);
+          btnCuentaMobile.parentNode.replaceChild(nuevoBtnMobile, btnCuentaMobile);
+
+          nuevoBtnMobile.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            window.location.href = "/perfil/";
+          });
+        }
       }
     }
-  }
 
-  checkUser();
+    checkUser();
+  });
 </script>
 
 </body>
