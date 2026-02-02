@@ -66,6 +66,7 @@
     .control-item:last-child { border-bottom: none; }
     .control-info h4 { font-size: 0.95rem; margin-bottom: 4px; }
     .control-info p { font-size: 0.8rem; color: var(--muted); }
+    .data-value { color: var(--text); font-weight: 600; font-size: 0.9rem; }
 
     /* --- BOTONES Y TOGGLES --- */
     .btn-action-pro { 
@@ -117,6 +118,35 @@
     
     <div class="left-col">
       <div class="content-box">
+        <h3>📝 Información del Titular</h3>
+        
+        <div class="control-item">
+            <div class="control-info"><h4>Nombre Completo</h4><p id="valNombre">Cargando...</p></div>
+            <button class="btn-action-pro" onclick="editField('Nombre')">Cambiar</button>
+        </div>
+
+        <div class="control-item">
+            <div class="control-info"><h4>Tipo de Cuenta</h4><p id="valTipo">Personal (Estándar)</p></div>
+            <button class="btn-action-pro" onclick="editField('Tipo de Cuenta')">Cambiar a Pro</button>
+        </div>
+
+        <div class="control-item">
+            <div class="control-info"><h4>Dirección de Residencia</h4><p id="valDireccion">No especificada</p></div>
+            <button class="btn-action-pro" onclick="editField('Dirección')">Editar</button>
+        </div>
+
+        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 20px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 15px; padding-top: 15px;">
+            <div class="control-info"><h4>Género</h4><p id="valSexo">Sin definir</p><button class="btn-action-pro" style="margin-top:5px" onclick="editField('Sexo')">Editar</button></div>
+            <div class="control-info"><h4>Fecha Nacimiento</h4><p id="valFecNac">-- / -- / ----</p><button class="btn-action-pro" style="margin-top:5px" onclick="editField('Fecha de Nacimiento')">Editar</button></div>
+        </div>
+
+        <div class="control-item" style="margin-top:15px;">
+            <div class="control-info"><h4>Número de Teléfono</h4><p id="valTel">+34 --- --- ---</p></div>
+            <button class="btn-action-pro" onclick="editField('Teléfono')">Vincular</button>
+        </div>
+      </div>
+
+      <div class="content-box">
         <h3>🧩 Gestión de Mis Verticales</h3>
         <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 15px;">
            <a href="../mis-anuncios/" class="card" style="padding:15px; text-decoration:none;"><h4>Marketplace</h4><p class="listing-meta">Tus productos a la venta</p></a>
@@ -125,44 +155,39 @@
            <a href="../mis-servicios/" class="card" style="padding:15px; text-decoration:none;"><h4>Asistencia</h4><p class="listing-meta">Servicios técnicos Zeletas</p></a>
         </div>
       </div>
-
-      <div class="content-box">
-        <h3>🛡️ Seguridad Avanzada</h3>
-        <div class="control-item">
-          <div class="control-info"><h4>Cambiar Contraseña</h4><p>Recibirás un enlace seguro en tu email actual.</p></div>
-          <button class="btn-action-pro" onclick="resetPassword()">Actualizar</button>
-        </div>
-        <div class="control-item">
-          <div class="control-info"><h4>Autenticación en 2 Pasos (2FA)</h4><p>Capa de seguridad extra vía App.</p></div>
-          <button class="btn-action-pro">Configurar</button>
-        </div>
-        <div class="control-item">
-            <div class="control-info"><h4>Descargar mis Datos</h4><p>Exportar historial completo de mi cuenta.</p></div>
-            <button class="btn-action-pro" onclick="alert('Generando archivo ZIP de seguridad...')">Exportar</button>
-        </div>
-      </div>
     </div>
 
     <div class="right-col">
       <div class="content-box">
-        <h3>⚙️ Ajustes de Usuario</h3>
+        <h3>🛡️ Seguridad y Acceso</h3>
+        <div class="control-item">
+          <div class="control-info"><h4>Contraseña</h4><p>••••••••••••</p></div>
+          <button class="btn-action-pro" onclick="resetPassword()">Cambiar</button>
+        </div>
+        <div class="control-item">
+          <div class="control-info"><h4>2FA</h4><p>Doble factor desactivado.</p></div>
+          <button class="btn-action-pro">Activar</button>
+        </div>
+        <div class="control-item">
+            <div class="control-info"><h4>Logs</h4><p>Último acceso: Hoy</p></div>
+            <button class="btn-action-pro">Ver</button>
+        </div>
+      </div>
+
+      <div class="content-box">
+        <h3>⚙️ Preferencias Hub</h3>
         <div class="control-item">
           <div class="control-info"><h4>Perfil Público</h4><p>Visibilidad en el buscador.</p></div>
           <div class="toggle active" onclick="this.classList.toggle('active')"></div>
         </div>
         <div class="control-item">
-          <div class="control-info"><h4>Notificaciones Email</h4><p>Alertas de mensajes y ofertas.</p></div>
-          <div class="toggle active" onclick="this.classList.toggle('active')"></div>
-        </div>
-        <div class="control-item">
-            <div class="control-info"><h4>Localización</h4><p>Español / Madrid</p></div>
-            <button class="btn-action-pro">Editar</button>
+          <div class="control-info"><h4>Alertas SMS</h4><p>Notificaciones críticas.</p></div>
+          <div class="toggle" onclick="this.classList.toggle('active')"></div>
         </div>
       </div>
 
       <div class="content-box">
         <h3>📩 Centro de Ayuda</h3>
-        <p class="listing-meta" style="margin-bottom:15px;">Acceso directo a soporte técnico priorizado.</p>
         <button class="btn btn-primary" style="width:100%;">Contactar Soporte</button>
         <button class="btn btn-secondary" style="width:100%; margin-top:10px;">Documentación</button>
       </div>
@@ -173,11 +198,11 @@
   <div class="content-box" style="border-color: rgba(255,82,82,0.3);">
     <h3 style="color:#ff5252;">⚠️ Zona Crítica de Usuario</h3>
     <div class="control-item">
-        <div class="control-info"><h4>Borrar rastro de actividad</h4><p>Limpiar logs y búsquedas recientes.</p></div>
+        <div class="control-info"><h4>Borrar rastro</h4><p>Limpiar logs y búsquedas.</p></div>
         <button class="btn-action-pro">Limpiar</button>
     </div>
     <div class="control-item">
-        <div class="control-info"><h4>Eliminar Cuenta Definitivamente</h4><p>Borrado irreversible de datos del sistema.</p></div>
+        <div class="control-info"><h4>Eliminar Cuenta</h4><p>Borrado irreversible.</p></div>
         <button class="btn-action-pro btn-danger-pro" onclick="deleteAccount()">Eliminar Todo</button>
     </div>
   </div>
@@ -200,17 +225,33 @@
     const { data: { session } } = await supabaseClient.auth.getSession();
     if (session) {
       const user = session.user;
-      document.getElementById('nombreUsuario').textContent = user.user_metadata?.full_name || "Usuario Zeletas";
+      const meta = user.user_metadata;
+      
+      // Header
+      document.getElementById('nombreUsuario').textContent = meta?.full_name || "Usuario Zeletas";
       document.getElementById('emailUsuario').textContent = user.email;
       document.getElementById('userIdDisplay').textContent = "ID: " + user.id.substring(0, 12).toUpperCase();
       
+      // Datos Personales
+      document.getElementById('valNombre').textContent = meta?.full_name || "No configurado";
+      document.getElementById('valTipo').textContent = meta?.account_type || "Personal (Estándar)";
+      document.getElementById('valDireccion').textContent = meta?.address || "No especificada";
+      document.getElementById('valSexo').textContent = meta?.gender || "Sin definir";
+      document.getElementById('valFecNac').textContent = meta?.birthdate || "-- / -- / ----";
+      document.getElementById('valTel').textContent = user.phone || meta?.phone || "No vinculado";
+
       const year = new Date(user.created_at).getFullYear();
       document.getElementById('antiguedadUser').textContent = year;
 
-      if (user.user_metadata?.avatar_url) document.getElementById('userImg').src = user.user_metadata.avatar_url;
+      if (meta?.avatar_url) document.getElementById('userImg').src = meta.avatar_url;
     } else {
       window.location.href = "../index.html";
     }
+  }
+
+  function editField(field) {
+      const newVal = prompt(`Introduce el nuevo valor para: ${field}`);
+      if(newVal) alert(`Solicitud enviada para actualizar ${field}. (Función en desarrollo)`);
   }
 
   async function resetPassword() {
