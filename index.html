@@ -190,47 +190,54 @@
 </div>
   
 <!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script type="module" src="assets/js/ui.js"></script>
-
 <script>
   // Inicializamos Supabase
   const S_URL = "https://sbqpkfdcznulwpxlxiwu.supabase.co";
   const S_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
   const supabaseClient = supabase.createClient(S_URL, S_KEY);
 
-  // Lógica para el botón de Google DENTRO del modal
+  // 1. Lógica para el botón de Google DENTRO del modal
   const googleBtn = document.getElementById('googleBtn');
   if (googleBtn) {
     googleBtn.onclick = async (e) => {
-      e.preventDefault(); // Evitamos comportamientos extraños
-      console.log("Iniciando sesión con Google...");
-      
+      e.preventDefault();
       const { error } = await supabaseClient.auth.signInWithOAuth({
         provider: 'google',
-        options: { 
-          // Importante: Volvemos a la raíz, no a la carpeta acceso
-          redirectTo: "https://zeletas.netlify.app/" 
-        }
+        options: { redirectTo: "https://zeletas.netlify.app/" }
       });
-      
       if (error) alert("Error al conectar: " + error.message);
     };
   }
 
-  // Función para verificar si el usuario ya está logueado al cargar la página
+  // 2. Función para verificar sesión y bloquear el modal intruso
   async function checkUser() {
     const { data: { session } } = await supabaseClient.auth.getSession();
     const btnCuenta = document.getElementById('btnCuenta');
+    const btnCuentaMobile = document.getElementById('btnCuentaMobile');
 
-    if (session && btnCuenta) {
-      // Si está logueado, cambiamos el texto del botón o lo mandamos a perfil
-      btnCuenta.textContent = "Ver mi Perfil";
-      btnCuenta.onclick = (e) => {
-        e.stopPropagation(); // Evita que el ui.js abra el modal
-        window.location.href = "/perfil/";
-      };
+    if (session) {
+      const nombre = session.user.user_metadata.full_name || "Mi Perfil";
+
+      // Ajuste para el botón de Escritorio
+      if (btnCuenta) {
+        btnCuenta.textContent = "Hola, " + nombre;
+        // El 'true' al final es la clave: captura el click antes que el ui.js
+        btnCuenta.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopImmediatePropagation(); 
+          window.location.href = "/perfil/";
+        }, true);
+      }
+
+      // Ajuste para el botón de Móvil
+      if (btnCuentaMobile) {
+        btnCuentaMobile.textContent = "Ver mi Perfil";
+        btnCuentaMobile.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          window.location.href = "/perfil/";
+        }, true);
+      }
     }
   }
 
