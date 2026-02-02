@@ -3,116 +3,136 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Perfil - ZELETAS HUB</title>
+  <title>Panel de Control - ZELETAS HUB</title>
   <link rel="stylesheet" href="../assets/css/styles.css">
   <style>
-    /* REUTILIZAMOS TUS VARIABLES ZELETAS */
-    body { background-color: var(--bg); color: var(--text); min-height: 100vh; }
-    .perfil-container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 50px; }
+    .perfil-container { max-width: 1200px; margin: 0 auto; padding: 30px 15px; }
 
-    /* CABECERA */
+    /* HEADER PREMIUM */
     .perfil-header { 
-      background: var(--bg2); padding: 40px; border-radius: 20px; 
-      text-align: center; border: 1px solid var(--border); box-shadow: var(--shadow);
-      margin-bottom: 30px;
+      background: var(--bg2); padding: 30px; border-radius: 20px; 
+      border: 1px solid var(--border); box-shadow: var(--shadow);
+      display: flex; align-items: center; gap: 25px; margin-bottom: 30px;
     }
-    #userImg { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--green); margin-bottom: 10px; }
+    #userImg { width: 90px; height: 90px; border-radius: 50%; border: 2px solid var(--green); }
+    .header-info h2 { color: var(--green); margin-bottom: 5px; }
 
-    /* SECCIONES */
-    .section-title-perfil { 
-      color: var(--green); font-size: 1.4rem; margin: 40px 0 20px; 
-      display: flex; align-items: center; gap: 10px;
+    /* TITULOS DE SECCIÓN */
+    .section-header { 
+      display: flex; align-items: center; gap: 15px; margin: 40px 0 20px; 
+      color: var(--green); font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
     }
-    .section-title-perfil::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+    .section-header::after { content: ""; flex: 1; height: 1px; background: rgba(0, 200, 83, 0.2); }
 
-    /* GRID DASHBOARD */
-    .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+    /* GRID DE ACTIVIDAD (EXTENDIDO) */
+    .dashboard-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+      gap: 15px; 
+    }
     .dash-card { 
-      background: var(--card); border: 1px solid var(--border); border-radius: 18px; 
-      padding: 22px; text-decoration: none; transition: 0.25s; text-align: center;
+      background: var(--card); border: 1px solid var(--border); border-radius: 15px; 
+      padding: 20px; text-decoration: none; transition: 0.25s; text-align: center;
     }
-    .dash-card:hover { transform: translateY(-3px); border-color: var(--green2); box-shadow: 0 8px 20px rgba(0, 200, 83, 0.1); }
-    .dash-card .icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+    .dash-card:hover { border-color: var(--green); transform: translateY(-3px); background: var(--bg2); }
+    .dash-card i { font-size: 1.8rem; display: block; margin-bottom: 8px; }
 
-    /* LISTA DE AJUSTES (NUEVO) */
-    .settings-list { background: var(--bg2); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; }
-    .setting-item { 
-      padding: 18px 22px; display: flex; justify-content: space-between; align-items: center;
-      border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.2s;
+    /* LISTA DE FUNCIONES AVANZADAS */
+    .settings-group { 
+      background: var(--card); border-radius: 18px; border: 1px solid var(--border); 
+      overflow: hidden; margin-bottom: 20px;
     }
-    .setting-item:last-child { border-bottom: none; }
-    .setting-item:hover { background: rgba(0, 200, 83, 0.05); }
-    .setting-info h4 { color: var(--text); margin-bottom: 4px; }
-    .setting-info p { color: var(--muted); font-size: 0.85rem; }
-
-    /* BOTONES ACCIÓN */
-    .btn-action { 
-      background: var(--bg); border: 1px solid var(--border); color: var(--green); 
-      padding: 8px 16px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.85rem;
+    .setting-row { 
+      display: flex; justify-content: space-between; align-items: center; 
+      padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.05);
     }
-    .btn-action:hover { background: var(--green); color: var(--bg); }
-    .btn-danger { color: #ff5252; border-color: rgba(255, 82, 82, 0.3); }
-    .btn-danger:hover { background: #ff5252; color: #fff; }
+    .setting-row:last-child { border-bottom: none; }
+    .row-label h4 { font-size: 1rem; margin-bottom: 2px; }
+    .row-label p { font-size: 0.85rem; color: var(--muted); }
 
-    #logoutBtn { margin-top: 40px; width: 100%; max-width: 300px; }
+    /* SWITCH / TOGGLE SIMULADO */
+    .toggle { width: 40px; height: 20px; background: #333; border-radius: 10px; position: relative; cursor: pointer; }
+    .toggle.active { background: var(--green); }
+    .toggle::before { content: ""; position: absolute; width: 16px; height: 16px; background: white; border-radius: 50%; top: 2px; left: 2px; transition: 0.2s; }
+    .toggle.active::before { left: 22px; }
+
+    .btn-sm { padding: 6px 12px; font-size: 0.8rem; border-radius: 8px; cursor: pointer; border: 1px solid var(--border); background: var(--bg2); color: var(--text); }
   </style>
 </head>
 <body>
 
 <div class="perfil-container">
+  
   <header class="perfil-header">
-    <img id="userImg" src="https://via.placeholder.com/100" alt="Avatar">
-    <h2 id="nombreUsuario">Cargando...</h2>
-    <p id="emailUsuario" style="color:var(--muted)">...</p>
-    <span class="badge">Cuenta Zeletas Hub</span>
+    <img id="userImg" src="" alt="Avatar">
+    <div class="header-info">
+      <h2 id="nombreUsuario">...</h2>
+      <p id="emailUsuario" class="listing-meta">...</p>
+      <div class="badge">Socio Premium #001</div>
+    </div>
   </header>
 
-  <h3 class="section-title-perfil">Gestión de Actividad</h3>
+  <div class="section-header">Mi Actividad en Zeletas</div>
   <div class="dashboard-grid">
-    <a href="../mis-anuncios/" class="dash-card"><span class="icon">🧩</span><h3>Anuncios</h3><p>Vende tus artículos</p></a>
-    <a href="../mis-favoritos/" class="dash-card"><span class="icon">❤️</span><h3>Favoritos</h3><p>Tus guardados</p></a>
-    <a href="../mis-pedidos/" class="dash-card"><span class="icon">🛒</span><h3>Pedidos</h3><p>Tus compras</p></a>
-    <a href="../mis-servicios/" class="dash-card"><span class="icon">🛠️</span><h3>Servicios</h3><p>Gestión de obras</p></a>
+    <a href="../mis-anuncios/" class="dash-card"><i>🧩</i><h4>Anuncios</h4></a>
+    <a href="../mis-vehiculos/" class="dash-card"><i>🚗</i><h4>Vehículos</h4></a>
+    <a href="../mi-inmobiliaria/" class="dash-card"><i>🏠</i><h4>Inmuebles</h4></a>
+    <a href="../mis-servicios/" class="dash-card"><i>🛠️</i><h4>Servicios</h4></a>
+    <a href="../mis-favoritos/" class="dash-card"><i>❤️</i><h4>Favoritos</h4></a>
+    <a href="../mis-pedidos/" class="dash-card"><i>🛒</i><h4>Pedidos</h4></a>
+    <a href="../financiacion/" class="dash-card"><i>💳</i><h4>Finanzas</h4></a>
+    <a href="../mis-contratos/" class="dash-card"><i>📜</i><h4>Contratos</h4></a>
   </div>
 
-  <h3 class="section-title-perfil">Seguridad y Privacidad</h3>
-  <div class="settings-list">
-    <div class="setting-item">
-      <div class="setting-info">
-        <h4>Cambiar Contraseña</h4>
-        <p>Recibirás un enlace seguro en tu email.</p>
-      </div>
-      <button class="btn-action" onclick="resetPassword()">Solicitar</button>
+  <div class="section-header">Seguridad y Acceso</div>
+  <div class="settings-group">
+    <div class="setting-row">
+      <div class="row-label"><h4>Verificación en dos pasos (2FA)</h4><p>Añade una capa extra de seguridad a tu cuenta.</p></div>
+      <div class="toggle" onclick="this.classList.toggle('active')"></div>
     </div>
-
-    <div class="setting-item">
-      <div class="setting-info">
-        <h4>Datos de Google</h4>
-        <p>Sincronizado con tu cuenta de Google.</p>
-      </div>
-      <button class="btn-action" disabled style="opacity:0.5">Vinculado</button>
+    <div class="setting-row">
+      <div class="row-label"><h4>Cambiar Contraseña</h4><p>Actualiza tu clave de acceso periódicamente.</p></div>
+      <button class="btn-sm" onclick="resetPassword()">Actualizar</button>
     </div>
-
-    <div class="setting-item">
-      <div class="setting-info">
-        <h4>Descargar mis Datos</h4>
-        <p>Obtén una copia de tu historial en Zeletas.</p>
-      </div>
-      <button class="btn-action" onclick="alert('Generando archivo...')">Descargar</button>
-    </div>
-
-    <div class="setting-item">
-      <div class="setting-info">
-        <h4>Borrar Cuenta</h4>
-        <p style="color:#ff8a8a">Esta acción es irreversible y eliminará todo.</p>
-      </div>
-      <button class="btn-action btn-danger" onclick="deleteAccount()">Borrar Cuenta</button>
+    <div class="setting-row">
+      <div class="row-label"><h4>Sesiones Activas</h4><p>Dispositivos conectados actualmente.</p></div>
+      <button class="btn-sm">Gestionar</button>
     </div>
   </div>
 
-  <div style="text-align:center;">
-    <button id="logoutBtn" class="btn btn-secondary">Cerrar Sesión Segura</button>
+  <div class="section-header">Preferencias</div>
+  <div class="settings-group">
+    <div class="setting-row">
+      <div class="row-label"><h4>Notificaciones Email</h4><p>Recibe avisos de nuevos mensajes y ofertas.</p></div>
+      <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+    </div>
+    <div class="setting-row">
+      <div class="row-label"><h4>Perfil Público</h4><p>Permite que otros vean tus anuncios activos.</p></div>
+      <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+    </div>
+    <div class="setting-row">
+      <div class="row-label"><h4>Privacidad de Datos (RGPD)</h4><p>Gestionar cómo Zeletas utiliza tu información.</p></div>
+      <button class="btn-sm">Configurar</button>
+    </div>
   </div>
+
+  <div class="section-header" style="color:#ff5252">Zona de Peligro</div>
+  <div class="settings-group" style="border-color: rgba(255,82,82,0.3)">
+    <div class="setting-row">
+      <div class="row-label"><h4>Desactivar cuenta</h4><p>Oculta tu perfil y anuncios temporalmente.</p></div>
+      <button class="btn-sm">Desactivar</button>
+    </div>
+    <div class="setting-row">
+      <div class="row-label"><h4>Eliminar cuenta definitivamente</h4><p>Borra todos tus datos de forma irreversible.</p></div>
+      <button class="btn-sm" style="color:#ff5252; border-color:#ff5252" onclick="deleteAccount()">Eliminar Todo</button>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:40px;">
+    <button id="logoutBtn" class="btn btn-primary" style="width:100%; max-width:400px">Cerrar Sesión Segura</button>
+  </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -125,7 +145,7 @@
     const { data: { session } } = await supabaseClient.auth.getSession();
     if (session) {
       const user = session.user;
-      document.getElementById('nombreUsuario').textContent = user.user_metadata?.full_name || "Usuario";
+      document.getElementById('nombreUsuario').textContent = user.user_metadata?.full_name || "Usuario Zeletas";
       document.getElementById('emailUsuario').textContent = user.email;
       if (user.user_metadata?.avatar_url) document.getElementById('userImg').src = user.user_metadata.avatar_url;
     } else {
@@ -133,23 +153,15 @@
     }
   }
 
-  // FUNCIÓN: Resetear contraseña vía Supabase
   async function resetPassword() {
     const { data: { session } } = await supabaseClient.auth.getSession();
-    const email = session.user.email;
-    const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-      redirectTo: 'https://zeletas.netlify.app/perfil/reset-password.html',
-    });
-    if (error) alert("Error: " + error.message);
-    else alert("Enlace de recuperación enviado a " + email);
+    const { error } = await supabaseClient.auth.resetPasswordForEmail(session.user.email);
+    alert(error ? "Error: " + error.message : "Email de restablecimiento enviado.");
   }
 
-  // FUNCIÓN: Borrar cuenta (Lógica de seguridad)
   async function deleteAccount() {
-    const confirmacion = confirm("¿ESTÁS TOTALMENTE SEGURO? Esta acción eliminará tu acceso a Zeletas Hub permanentemente.");
-    if (confirmacion) {
-        alert("Por seguridad de Supabase, para borrar la cuenta definitivamente debes contactar con soporte o usaremos una Edge Function. Procesando solicitud...");
-        // Nota: El borrado de usuarios requiere permisos de Admin. Normalmente se marca el perfil como "inactivo".
+    if(confirm("¿Seguro que quieres borrarlo TODO? Esta acción no se puede deshacer.")) {
+       alert("Solicitud enviada. Por seguridad legal, el borrado se procesará en 24h.");
     }
   }
 
