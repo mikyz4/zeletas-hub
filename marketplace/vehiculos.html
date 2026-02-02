@@ -3,56 +3,68 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zeletas Marketplace - Vehículos</title>
+  <title>Marketplace - ZELETAS HUB</title>
   <link rel="stylesheet" href="../assets/css/styles.css">
+  <style>
+    body.logged-in .modal { display: none !important; }
+  </style>
+  <link rel="icon" type="image/png" href="../logo-zeletas.png">
+  <link rel="apple-touch-icon" href="../logo-zeletas.png">
+  <link rel="manifest" href="../manifest.json">
 </head>
-<body>
+<body class="logged-in">
+
 <header>
-  <h1>Marketplace Vehículos</h1>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="../index.html">Inicio</a></li>
-      <li><a href="general.html">General</a></li>
-      <li><a href="vehiculos.html">Vehículos</a></li>
-      <li><a href="inmobiliaria.html">Inmobiliaria</a></li>
-    </ul>
-    <div class="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
+  <div class="header-inner">
+    <div class="logo">ZELETAS <span>Market</span></div>
+    <nav class="nav-desktop">
+      <a href="../index.html">Hub Principal</a>
+      <a href="general.html">General</a>
+      <a href="vehiculos.html">Vehículos</a>
+      <a href="inmobiliaria.html">Inmuebles</a>
+    </nav>
+    <div class="header-right">
+      <button id="btnCuenta" class="btn-cuenta">Mi cuenta</button>
     </div>
-  </nav>
+  </div>
 </header>
 
-<section>
-  <h2>Filtrar coches</h2>
-  <form id="filtros-vehiculos">
-    <input type="text" placeholder="Marca / Modelo">
-    <input type="number" placeholder="Precio mínimo">
-    <input type="number" placeholder="Precio máximo">
-    <select>
-      <option value="">Estado</option>
-      <option value="nuevo">Nuevo</option>
-      <option value="seminuevo">Seminuevo</option>
-      <option value="segunda-mano">Segunda mano</option>
-    </select>
-    <button type="button">Filtrar</button>
-  </form>
-</section>
-
-<section class="grid">
-  <div class="card">
-    <h3>BMW Serie 3</h3>
-    <p>Segunda mano, 60.000 km, 2019</p>
-    <a href="anuncio.html">Ver anuncio</a>
-  </div>
-  <div class="card">
-    <h3>Toyota Corolla</h3>
-    <p>Nuevo, 2026, garantía oficial</p>
-    <a href="anuncio.html">Ver anuncio</a>
+<section class="hero">
+  <h1>Marketplace ZELETAS</h1>
+  <p>Compra y vende con total seguridad. Gestionado por usuarios, supervisado por nosotros.</p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="#secciones">Ver Secciones</a>
+    <a class="btn btn-secondary" href="publicar.html">+ Publicar Anuncio</a>
   </div>
 </section>
 
-<script src="../assets/js/app.js"></script>
+<section class="section" id="secciones">
+  <h2 class="section-title">¿Qué estás buscando?</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="badge">Ocasión</div>
+      <h3>🧩 General</h3>
+      <p>Tecnología, hogar y objetos de segunda mano.</p>
+      <div class="card-actions"><a class="btn btn-primary" href="general.html">Entrar</a></div>
+    </div>
+
+    <div class="card">
+      <div class="badge">Motor</div>
+      <h3>🚗 Vehículos</h3>
+      <p>Coches, motos y gestión de importación.</p>
+      <div class="card-actions"><a class="btn btn-primary" href="vehiculos.html">Ver catálogo</a></div>
+    </div>
+
+    <div class="card">
+      <div class="badge">Luxury</div>
+      <h3>🏠 Inmobiliaria</h3>
+      <p>Viviendas, locales y oportunidades de inversión.</p>
+      <div class="card-actions"><a class="btn btn-primary" href="inmobiliaria.html">Ver pisos</a></div>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script type="module" src="../assets/js/ui.js"></script>
 </body>
 </html>
