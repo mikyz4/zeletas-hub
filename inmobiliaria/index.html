@@ -25,7 +25,6 @@
 <meta name="theme-color" content="#00c853">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
   
 </head>
 <body>
@@ -199,74 +198,6 @@
       <label for="loginPhone">Teléfono:</label>
       <input type="text" id="loginPhone" placeholder="+34 612 345 678">
       <button id="phoneLoginBtn" class="btn">Enviar código</button>
-    </div>
-
-    <div class="verify-code" style="margin-top:10px; display:none;">
-      <label for="verifyCode">Código recibido:</label>
-      <input type="text" id="verifyCode" placeholder="123456">
-      <button id="verifyCodeBtn" class="btn">Verificar código</button>
-    </div>
-
-    <div id="mensajeModal" style="margin-top:10px;"></div>
-  </div>
-</div>
-  
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script type="module" src="assets/js/ui.js"></script>
-
-<script>
-  const S_URL = "https://sbqpkfdcznulwpxlxiwu.supabase.co";
-  const S_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
-  const supabaseClient = supabase.createClient(S_URL, S_KEY);
-
-  async function gestionarAcceso() {
-    // 1. Obtenemos la sesión
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    
-    const btnCuenta = document.getElementById('btnCuenta');
-    const btnCuentaMobile = document.getElementById('btnCuentaMobile');
-    const googleBtn = document.getElementById('googleBtn');
-
-    // 2. Configuración del botón de Google (siempre debe estar disponible)
-    if (googleBtn) {
-      googleBtn.onclick = async (e) => {
-        e.preventDefault();
-        await supabaseClient.auth.signInWithOAuth({
-          provider: 'google',
-          options: { redirectTo: "https://zeletas.netlify.app/" }
-        });
-      };
-    }
-
-    // 3. SI HAY SESIÓN: Aplicamos los cambios para que no haya parpadeos
-    if (session) {
-      // ESTA ES LA LÍNEA MAESTRA: Activa el CSS que pusiste arriba en el <style>
-      document.body.classList.add('logged-in');
-
-      const nombre = session.user.user_metadata.full_name || "Usuario";
-      
-      [btnCuenta, btnCuentaMobile].forEach(btn => {
-        if (btn) {
-          // Cambiamos el texto del botón
-          btn.textContent = (btn.id === 'btnCuenta') ? "Hola, " + nombre : "Ver mi Perfil";
-          
-          // Cambiamos la función: Ahora solo redirige, el CSS se encarga del resto
-          btn.onclick = (e) => {
-            e.preventDefault();
-            window.location.href = "/perfil/";
-          };
-        }
-      });
-    }
-  }
-
-  // Ejecutamos la función al cargar la ventana
-  window.onload = gestionarAcceso;
-</script>
-
-</body>
-</html>
 
 </head>
 <body>
