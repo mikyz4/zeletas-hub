@@ -3,42 +3,144 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perfil - Zeletas Hub</title>
+  <title>Mi Perfil - ZELETAS HUB</title>
   <link rel="stylesheet" href="../assets/css/styles.css">
+  <style>
+    /* Diseño Premium para el Panel de Control */
+    body { background-color: #f4f7f6; margin: 0; padding: 0; }
+    
+    .perfil-container { max-width: 1000px; margin: 40px auto; padding: 20px; }
+    
+    /* Cabecera */
+    .perfil-header { 
+      background: white; 
+      padding: 30px; 
+      border-radius: 20px; 
+      text-align: center; 
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      margin-bottom: 30px;
+    }
+    .avatar-wrapper { position: relative; display: inline-block; margin-bottom: 15px; }
+    #userImg { 
+      width: 110px; 
+      height: 110px; 
+      border-radius: 50%; 
+      border: 4px solid #007bff; 
+      object-fit: cover;
+    }
+    .perfil-header h2 { margin: 10px 0 5px; color: #333; font-size: 1.8rem; }
+    .user-email { color: #777; margin: 0 0 15px; font-size: 1rem; }
+    .status-badge { 
+      background: #d4edda; 
+      color: #155724; 
+      padding: 6px 16px; 
+      border-radius: 50px; 
+      font-size: 0.85rem; 
+      font-weight: bold; 
+    }
+
+    /* Cuadrícula de tarjetas */
+    .dashboard-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+      gap: 20px; 
+    }
+    .dash-card { 
+      background: white; 
+      padding: 25px; 
+      border-radius: 15px; 
+      text-decoration: none; 
+      color: #333; 
+      transition: all 0.3s ease; 
+      border: 1px solid rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .dash-card:hover { 
+      transform: translateY(-5px); 
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1); 
+      border-color: #007bff;
+    }
+    .dash-card .icon { font-size: 2.5rem; margin-bottom: 15px; }
+    .dash-card h3 { margin: 0 0 8px; font-size: 1.25rem; }
+    .dash-card p { margin: 0; color: #888; font-size: 0.95rem; }
+
+    /* Pie de página y Logout */
+    .perfil-footer { margin-top: 40px; text-align: center; }
+    #logoutBtn { 
+      background: #dc3545; 
+      color: white; 
+      border: none; 
+      padding: 14px 40px; 
+      border-radius: 10px; 
+      font-weight: bold; 
+      cursor: pointer; 
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+    #logoutBtn:hover { background: #c82333; }
+    .btn-back { display: block; margin-top: 20px; color: #007bff; text-decoration: none; font-weight: 500; }
+  </style>
 </head>
 <body>
 
-<section class="hero">
-  <h2>Bienvenido a tu panel, <span id="nombreUsuario"></span></h2>
+<div class="perfil-container">
+  <header class="perfil-header">
+    <div class="avatar-wrapper">
+      <img id="userImg" src="https://via.placeholder.com/110" alt="Avatar">
+    </div>
+    <h2>Hola, <span id="nombreUsuario">Usuario</span></h2>
+    <p id="emailUsuario" class="user-email">...</p>
+    <span id="estadoUsuario" class="status-badge">Verificando...</span>
+  </header>
 
-  <div class="perfil-info">
-    <p><strong>Email:</strong> <span id="emailUsuario"></span></p>
-    <p><strong>Estado de verificación:</strong> <span id="estadoUsuario"></span></p>
+  <div class="dashboard-grid">
+    <a href="../mis-anuncios/" class="dash-card">
+      <span class="icon">🧩</span>
+      <h3>Mis Anuncios</h3>
+      <p>Publica y gestiona tus productos.</p>
+    </a>
+    <a href="../mis-favoritos/" class="dash-card">
+      <span class="icon">❤️</span>
+      <h3>Mis Favoritos</h3>
+      <p>Cosas que te han gustado.</p>
+    </a>
+    <a href="../mis-pedidos/" class="dash-card">
+      <span class="icon">🛒</span>
+      <h3>Mis Pedidos</h3>
+      <p>Historial de tus compras.</p>
+    </a>
+    <a href="../mis-servicios/" class="dash-card">
+      <span class="icon">🛠️</span>
+      <h3>Servicios</h3>
+      <p>Reformas y gestiones en curso.</p>
+    </a>
+    <a href="../mis-contratos/" class="dash-card">
+      <span class="icon">📜</span>
+      <h3>Contratos</h3>
+      <p>Tus documentos y suscripciones.</p>
+    </a>
+    <a href="../soporte/" class="dash-card">
+      <span class="icon">📩</span>
+      <h3>Soporte</h3>
+      <p>Ayuda técnica y contacto.</p>
+    </a>
   </div>
 
-  <div class="acciones">
-    <button id="logoutBtn">Cerrar sesión</button>
-    <a href="../mis-anuncios/">Mis anuncios</a>
-    <a href="../mis-favoritos/">Favoritos</a>
-    <a href="../mis-pedidos/">Pedidos</a>
-    <a href="../mis-servicios/">Servicios</a>
-    <a href="../mis-contratos/">Contratos</a>
-    <a href="../soporte/">Soporte</a>
+  <div class="perfil-footer">
+    <button id="logoutBtn">Cerrar sesión segura</button>
+    <a href="../index.html" class="btn-back">← Volver al inicio</a>
   </div>
-</section>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-  // Inicializamos Supabase (usamos los mismos datos que en el index)
   const S_URL = "https://sbqpkfdcznulwpxlxiwu.supabase.co";
   const S_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
   const supabaseClient = supabase.createClient(S_URL, S_KEY);
-
-  const nombreUsuario = document.getElementById('nombreUsuario');
-  const emailUsuario = document.getElementById('emailUsuario');
-  const estadoUsuario = document.getElementById('estadoUsuario');
-  const logoutBtn = document.getElementById('logoutBtn');
 
   async function cargarUsuario() {
     // Obtenemos la sesión actual
@@ -46,32 +148,38 @@
 
     if (session) {
       const user = session.user;
-      nombreUsuario.textContent = user.user_metadata?.full_name || "Usuario";
-      emailUsuario.textContent = user.email;
-      estadoUsuario.textContent = user.email_confirmed_at ? 'Verificado' : 'No verificado';
+      // Actualizamos UI con datos reales de Google
+      document.getElementById('nombreUsuario').textContent = user.user_metadata?.full_name || "Usuario";
+      document.getElementById('emailUsuario').textContent = user.email;
+      document.getElementById('estadoUsuario').textContent = user.email_confirmed_at ? '✓ Cuenta Verificada' : 'Cuenta Pendiente';
+      
+      // Foto de perfil de Google
+      if (user.user_metadata?.avatar_url) {
+        document.getElementById('userImg').src = user.user_metadata.avatar_url;
+      }
     } else {
-      // Si no hay sesión, mandamos al inicio (donde está el modal)
+      // Si no hay sesión, protegemos la página mandando al Hub
       window.location.href = "../index.html";
     }
   }
 
-  // FUNCIÓN PARA CERRAR SESIÓN (Botón)
+  // Lógica del Botón de Cerrar Sesión
+  const logoutBtn = document.getElementById('logoutBtn');
   if (logoutBtn) {
     logoutBtn.onclick = async (e) => {
       e.preventDefault();
-      console.log("Cerrando sesión...");
-      
       const { error } = await supabaseClient.auth.signOut();
-      
       if (error) {
         alert("Error al salir: " + error.message);
       } else {
-        // Al salir, volvemos a la página principal
         window.location.href = "../index.html";
       }
     };
   }
 
-  // Ejecutar al cargar
+  // Carga inicial
   window.onload = cargarUsuario;
 </script>
+
+</body>
+</html>
