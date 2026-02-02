@@ -3,36 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zeletas - Ficha de Anuncio</title>
+  <title>Detalle del Anuncio - ZELETAS</title>
   <link rel="stylesheet" href="../assets/css/styles.css">
+  <style>
+    .anuncio-container { max-width: 800px; margin: 40px auto; padding: 20px; }
+    .galeria { display: flex; gap: 10px; margin: 20px 0; overflow-x: auto; }
+    .galeria img { width: 100%; max-width: 400px; border-radius: 12px; border: 1px solid #333; }
+    .precio { font-size: 2rem; color: #00c853; font-weight: bold; margin: 10px 0; }
+  </style>
 </head>
 <body>
+
 <header>
-  <h1>Ficha de Anuncio</h1>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="../index.html">Inicio</a></li>
-      <li><a href="general.html">Marketplace</a></li>
-    </ul>
-    <div class="hamburger"><span></span><span></span><span></span></div>
-  </nav>
+  <div class="header-inner">
+    <div class="logo">ZELETAS <span>Anuncio</span></div>
+    <a href="index.html" class="btn-cuenta">Volver</a>
+  </div>
 </header>
 
-<section class="anuncio-detalle">
-  <h2>BMW Serie 3 2019</h2>
-  <p>Segunda mano, 60.000 km, excelente estado, precio 18.500€</p>
-  <div class="imagenes-anuncio">
-    <img src="../assets/img/car1.jpg" alt="Imagen 1">
-    <img src="../assets/img/car2.jpg" alt="Imagen 2">
+<main class="anuncio-container">
+  <div class="badge">Segunda Mano</div>
+  <h1>BMW Serie 3 2019</h1>
+  <p class="precio">18.500€</p>
+  
+  <div class="galeria">
+    <img src="../assets/img/car1.jpg" alt="Vista frontal">
+    <img src="../assets/img/car2.jpg" alt="Interior">
   </div>
-  <button onclick="abrirChat()">Abrir chat</button>
-</section>
 
-<script src="../assets/js/app.js"></script>
-<script>
-function abrirChat() {
-  window.location.href = "../chat/index.html";
-}
-</script>
+  <div class="card">
+    <h3>Descripción</h3>
+    <p>60.000 km, excelente estado, todas las revisiones al día en casa oficial. Un solo dueño.</p>
+    <hr style="border: 0.5px solid #333; margin: 20px 0;">
+    <button class="btn btn-primary" onclick="window.location.href='../chat/index.html'">💬 Contactar con el vendedor</button>
+  </div>
+</main>
+
 </body>
 </html>
