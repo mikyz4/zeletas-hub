@@ -3,150 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zeletas Asesoría</title>
-  <link rel="stylesheet" href="../assets/css/styles.css">
-  <!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ZELETAS HUB - Grupo Zeletas</title>
-<link rel="stylesheet" href="assets/css/styles.css">
-<style>
-  /* Si el cuerpo tiene la clase 'logged-in', el modal no se muestra nunca */
-  body.logged-in .modal {
-    display: none !important;
-  }
-</style>
-<link rel="icon" type="image/png" href="../assets/img/logo-zeletas.png">
-<link rel="apple-touch-icon" href="../assets/img/logo-zeletas.png">
-
-<link rel="manifest" href="../manifest.json">
-<meta name="theme-color" content="#00c853">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Asesoría - ZELETAS HUB</title>
   
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  
+  <style>
+    body.logged-in .modal { display: none !important; }
+    .asesoria-list { list-style: none; padding: 0; }
+    .asesoria-list li { margin-bottom: 15px; }
+  </style>
+
+  <link rel="icon" type="image/png" href="../assets/img/logo-zeletas.png">
+  <link rel="apple-touch-icon" href="../assets/img/logo-zeletas.png">
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#00c853">
 </head>
+
 <body>
 
-<!-- OVERLAY + MOBILE MENU -->
-<div class="overlay"></div>
-
-<div class="mobile-menu">
-  <div class="menu-title">Menú ZELETAS</div>
-  <a href="index.html">🏠 Inicio</a>
-  <a href="marketplace/index.html">🧩 Marketplace (2ª mano)</a>
-  <a href="tienda/index.html">🛒 Tienda Oficial</a>
-  <a href="vehiculos/index.html">🚗 Vehículos</a>
-  <a href="inmobiliaria/index.html">🏠 Inmobiliaria</a>
-  <a href="servicios/index.html">🛠️ Servicios</a>
-  <a href="asesoria/index.html">👤 Asesoría</a>
-  <a href="financiacion/index.html">💳 Financiación</a>
-  <a href="contacto/index.html">📩 Contacto</a>
-  <div class="menu-user" id="menuUserMobile">
-    <button id="btnCuentaMobile">Mi cuenta</button>
-  </div>
-</div>
-
-<!-- HEADER -->
 <header>
   <div class="header-inner">
-    <div class="logo">ZELETAS <span>Hub</span></div>
-
+    <div class="logo">ZELETAS <span>Asesoría</span></div>
     <nav class="nav-desktop">
-      <a href="marketplace/index.html">Marketplace</a>
-      <a href="tienda/index.html">Tienda Oficial</a>
-      <a href="vehiculos/index.html">Vehículos</a>
-      <a href="inmobiliaria/index.html">Inmobiliaria</a>
-      <a href="servicios/index.html">Servicios</a>
-      <a href="contacto/index.html">Contacto</a>
+      <a href="../index.html">Volver al Inicio</a>
     </nav>
+  </div>
+</header>
 
-    <div class="header-right">
-      <!-- Botón Mi cuenta fuera del menú -->
-      <button id="btnCuenta" class="btn-cuenta">Mi cuenta</button>
-      
-      <!-- Botón hamburguesa -->
-      <div class="hamburger" aria-label="Abrir menú">
-        <span></span><span></span><span></span>
+<section class="section">
+  <h2 class="section-title">Nuestros Servicios</h2>
+  <p class="section-subtitle">Acompañamiento profesional y privado para tus decisiones más importantes.</p>
+  
+  <div class="grid">
+    <div class="card">
+      <h3>Suscripción Mensual</h3>
+      <p>Acompañamiento real 24/7 por 50€/mes.</p>
+      <div class="card-actions">
+        <a href="suscripcion.html" class="btn btn-primary">Ver Detalles</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Consulta Única</h3>
+      <p>Resolución de dudas puntuales de cualquier vertical.</p>
+      <div class="card-actions">
+        <a href="consulta.html" class="btn btn-primary">Solicitar</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Empresas / Pymes</h3>
+      <p>Gestión y asesoramiento para negocios.</p>
+      <div class="card-actions">
+        <a href="empresas.html" class="btn btn-primary">Ver más</a>
       </div>
     </div>
   </div>
-</header>
-
-<!-- HERO -->
-<section class="hero">
-  <h1>Grupo ZELETAS</h1>
-  <p>Un hub multi-negocio con enfoque premium: marketplace, tienda oficial, vehículos, inmobiliaria, servicios y asesoría profesional.</p>
-  <div class="hero-actions">
-    <a class="btn btn-primary" href="marketplace/index.html">Entrar al Marketplace</a>
-    <a class="btn btn-secondary" href="tienda/index.html">Ver Tienda Oficial</a>
-  </div>
 </section>
 
-<!-- COMO FUNCIONA -->
-<section class="section">
-  <h2 class="section-title">¿Cómo funciona ZELETAS?</h2>
-  <p class="section-subtitle">
-    ZELETAS combina intermediación, gestión y modelos digitales para operar sin stock propio, conectando clientes con soluciones reales.
-  </p>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script type="module" src="../assets/js/ui.js"></script>
 
-  <div class="grid">
-    <div class="card">
-      <div class="badge">Modelo</div>
-      <h3>Marketplace (2ª mano)</h3>
-      <p>Usuarios publican anuncios. ZELETAS facilita visibilidad, contacto seguro y soporte.</p>
-    </div>
-
-    <div class="card">
-      <div class="badge">Modelo</div>
-      <h3>Tienda Oficial (Dropshipping)</h3>
-      <p>Productos seleccionados con venta profesional. Nosotros gestionamos todo.</p>
-    </div>
-
-    <div class="card">
-      <div class="badge">Servicios</div>
-      <h3>Gestión y coordinación</h3>
-      <p>Reformas, mantenimiento, técnicos y proyectos. ZELETAS organiza el proceso con colaboradores verificados.</p>
-    </div>
-
-    <div class="card">
-      <div class="badge">Asesoría</div>
-      <h3>Suscripción mensual</h3>
-      <p>Acompañamiento privado y profesional para decisiones importantes: compra/venta, inversión, reformas, importaciones y más.</p>
-    </div>
-  </div>
-</section>
-
-<!-- VERTICALES PRINCIPALES -->
-<section class="section">
-  <h2 class="section-title">Verticales principales</h2>
-  <div class="grid">
-    <!-- Repite las tarjetas con botones -->
-    <div class="card">
-      <h3>🧩 Marketplace (2ª mano)</h3>
-      <p>Compra y vende anuncios de usuarios con chat interno.</p>
-      <div class="card-actions"><a class="btn btn-primary" href="marketplace/index.html">Entrar</a></div>
-    </div>
-    <div class="card">
-      <h3>🛒 Tienda Oficial</h3>
-      <p>Productos de Zeletas con catálogo profesional.</p>
-      <div class="card-actions"><a class="btn btn-primary" href="tienda/index.html">Ver tienda</a></div>
-    </div>
-    <div class="card">
-
-</head>
-<body>
-<header>
-  <h1>Zeletas Asesoría</h1>
-</header>
-<section>
-  <h2>Servicios</h2>
-  <ul>
-    <li><a href="asesoria/suscripcion.html">Suscripción 50€/mes</a></li>
-    <li><a href="asesoria/consulta.html">Consulta única</a></li>
-    <li><a href="asesoria/empresas.html">Empresas / Pymes</a></li>
-  </ul>
-</section>
 </body>
 </html>
