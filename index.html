@@ -190,17 +190,23 @@
 </div>
   
 <!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script type="module" src="assets/js/ui.js"></script>
+
 <script>
-  // Inicializamos Supabase
   const S_URL = "https://sbqpkfdcznulwpxlxiwu.supabase.co";
   const S_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
   const supabaseClient = supabase.createClient(S_URL, S_KEY);
 
-  // Todo el código dentro de este evento para asegurar que los botones existen
-  document.addEventListener('DOMContentLoaded', () => {
+  async function gestionarAcceso() {
+    // Esperamos a tener la sesión
+    const { data: { session } } = await supabaseClient.auth.getSession();
     
-    // 1. Lógica para el botón de Google DENTRO del modal
+    const btnCuenta = document.getElementById('btnCuenta');
+    const btnCuentaMobile = document.getElementById('btnCuentaMobile');
     const googleBtn = document.getElementById('googleBtn');
+
+    // CONFIGURACIÓN BOTÓN GOOGLE (Dentro del modal)
     if (googleBtn) {
       googleBtn.onclick = async (e) => {
         e.preventDefault();
@@ -211,47 +217,27 @@
       };
     }
 
-    // 2. Función para verificar sesión y controlar el comportamiento del botón
-    async function checkUser() {
-      const { data: { session } } = await supabaseClient.auth.getSession();
+    // SI HAY SESIÓN: Cambiamos el comportamiento de los botones
+    if (session) {
+      const nombre = session.user.user_metadata.full_name || "Usuario";
       
-      const btnCuenta = document.getElementById('btnCuenta');
-      const btnCuentaMobile = document.getElementById('btnCuentaMobile');
-
-      if (session) {
-        const nombre = session.user.user_metadata.full_name || "Mi Perfil";
-
-        // CONFIGURACIÓN ESCRITORIO
-        if (btnCuenta) {
-          btnCuenta.textContent = "Hola, " + nombre;
-          // Clonamos el botón para eliminar cualquier evento previo del ui.js
-          const nuevoBtn = btnCuenta.cloneNode(true);
-          btnCuenta.parentNode.replaceChild(nuevoBtn, btnCuenta);
+      [btnCuenta, btnCuentaMobile].forEach(btn => {
+        if (btn) {
+          btn.textContent = (btn.id === 'btnCuenta') ? "Hola, " + nombre : "Ver mi Perfil";
           
-          nuevoBtn.addEventListener('click', (e) => {
+          // Esta es la clave: quitamos el modal y ponemos redirección
+          btn.onclick = (e) => {
             e.preventDefault();
             e.stopImmediatePropagation();
             window.location.href = "/perfil/";
-          });
+          };
         }
-
-        // CONFIGURACIÓN MÓVIL
-        if (btnCuentaMobile) {
-          btnCuentaMobile.textContent = "Ver mi Perfil";
-          const nuevoBtnMobile = btnCuentaMobile.cloneNode(true);
-          btnCuentaMobile.parentNode.replaceChild(nuevoBtnMobile, btnCuentaMobile);
-
-          nuevoBtnMobile.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            window.location.href = "/perfil/";
-          });
-        }
-      }
+      });
     }
+  }
 
-    checkUser();
-  });
+  // Ejecutar al cargar
+  window.onload = gestionarAcceso;
 </script>
 
 </body>
