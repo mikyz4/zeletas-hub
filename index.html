@@ -192,24 +192,50 @@
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script type="module" src="assets/js/ui.js"></script>
+
 <script>
+  // Inicializamos Supabase
   const S_URL = "https://sbqpkfdcznulwpxlxiwu.supabase.co";
   const S_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
   const supabaseClient = supabase.createClient(S_URL, S_KEY);
 
-  // 1. El botón de Google dentro del Modal ahora es DIRECTO
-  document.getElementById('googleBtn').onclick = async () => {
-    await supabaseClient.auth.signInWithOAuth({
-      provider: 'google',
-      options: { redirectTo: "https://zeletas.netlify.app/index.html" }
-    });
-  };
+  // Lógica para el botón de Google DENTRO del modal
+  const googleBtn = document.getElementById('googleBtn');
+  if (googleBtn) {
+    googleBtn.onclick = async (e) => {
+      e.preventDefault(); // Evitamos comportamientos extraños
+      console.log("Iniciando sesión con Google...");
+      
+      const { error } = await supabaseClient.auth.signInWithOAuth({
+        provider: 'google',
+        options: { 
+          // Importante: Volvemos a la raíz, no a la carpeta acceso
+          redirectTo: "https://zeletas.netlify.app/" 
+        }
+      });
+      
+      if (error) alert("Error al conectar: " + error.message);
+    };
+  }
 
-  // 2. El botón "Mi cuenta" del header ahora SOLO abre el modal (como antes)
-  // No pongas redirecciones aquí, deja que ui.js maneje la apertura del modal.
+  // Función para verificar si el usuario ya está logueado al cargar la página
+  async function checkUser() {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    const btnCuenta = document.getElementById('btnCuenta');
+
+    if (session && btnCuenta) {
+      // Si está logueado, cambiamos el texto del botón o lo mandamos a perfil
+      btnCuenta.textContent = "Ver mi Perfil";
+      btnCuenta.onclick = (e) => {
+        e.stopPropagation(); // Evita que el ui.js abra el modal
+        window.location.href = "/perfil/";
+      };
+    }
+  }
+
+  checkUser();
 </script>
 
 </body>
 </html>
-
-
