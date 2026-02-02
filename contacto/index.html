@@ -5,6 +5,269 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contacto Zeletas</title>
   <link rel="stylesheet" href="../assets/css/styles.css">
+  <!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZELETAS HUB - Grupo Zeletas</title>
+<link rel="stylesheet" href="assets/css/styles.css">
+<style>
+  /* Si el cuerpo tiene la clase 'logged-in', el modal no se muestra nunca */
+  body.logged-in .modal {
+    display: none !important;
+  }
+</style>
+<link rel="icon" type="image/png" href="../assets/img/logo-zeletas.png">
+<link rel="apple-touch-icon" href="../assets/img/logo-zeletas.png">
+
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#00c853">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  
+</head>
+<body>
+
+<!-- OVERLAY + MOBILE MENU -->
+<div class="overlay"></div>
+
+<div class="mobile-menu">
+  <div class="menu-title">Menú ZELETAS</div>
+  <a href="index.html">🏠 Inicio</a>
+  <a href="marketplace/index.html">🧩 Marketplace (2ª mano)</a>
+  <a href="tienda/index.html">🛒 Tienda Oficial</a>
+  <a href="vehiculos/index.html">🚗 Vehículos</a>
+  <a href="inmobiliaria/index.html">🏠 Inmobiliaria</a>
+  <a href="servicios/index.html">🛠️ Servicios</a>
+  <a href="asesoria/index.html">👤 Asesoría</a>
+  <a href="financiacion/index.html">💳 Financiación</a>
+  <a href="contacto/index.html">📩 Contacto</a>
+  <div class="menu-user" id="menuUserMobile">
+    <button id="btnCuentaMobile">Mi cuenta</button>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo">ZELETAS <span>Hub</span></div>
+
+    <nav class="nav-desktop">
+      <a href="marketplace/index.html">Marketplace</a>
+      <a href="tienda/index.html">Tienda Oficial</a>
+      <a href="vehiculos/index.html">Vehículos</a>
+      <a href="inmobiliaria/index.html">Inmobiliaria</a>
+      <a href="servicios/index.html">Servicios</a>
+      <a href="contacto/index.html">Contacto</a>
+    </nav>
+
+    <div class="header-right">
+      <!-- Botón Mi cuenta fuera del menú -->
+      <button id="btnCuenta" class="btn-cuenta">Mi cuenta</button>
+      
+      <!-- Botón hamburguesa -->
+      <div class="hamburger" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Grupo ZELETAS</h1>
+  <p>Un hub multi-negocio con enfoque premium: marketplace, tienda oficial, vehículos, inmobiliaria, servicios y asesoría profesional.</p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="marketplace/index.html">Entrar al Marketplace</a>
+    <a class="btn btn-secondary" href="tienda/index.html">Ver Tienda Oficial</a>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section class="section">
+  <h2 class="section-title">¿Cómo funciona ZELETAS?</h2>
+  <p class="section-subtitle">
+    ZELETAS combina intermediación, gestión y modelos digitales para operar sin stock propio, conectando clientes con soluciones reales.
+  </p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="badge">Modelo</div>
+      <h3>Marketplace (2ª mano)</h3>
+      <p>Usuarios publican anuncios. ZELETAS facilita visibilidad, contacto seguro y soporte.</p>
+    </div>
+
+    <div class="card">
+      <div class="badge">Modelo</div>
+      <h3>Tienda Oficial (Dropshipping)</h3>
+      <p>Productos seleccionados con venta profesional. Nosotros gestionamos todo.</p>
+    </div>
+
+    <div class="card">
+      <div class="badge">Servicios</div>
+      <h3>Gestión y coordinación</h3>
+      <p>Reformas, mantenimiento, técnicos y proyectos. ZELETAS organiza el proceso con colaboradores verificados.</p>
+    </div>
+
+    <div class="card">
+      <div class="badge">Asesoría</div>
+      <h3>Suscripción mensual</h3>
+      <p>Acompañamiento privado y profesional para decisiones importantes: compra/venta, inversión, reformas, importaciones y más.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VERTICALES PRINCIPALES -->
+<section class="section">
+  <h2 class="section-title">Verticales principales</h2>
+  <div class="grid">
+    <!-- Repite las tarjetas con botones -->
+    <div class="card">
+      <h3>🧩 Marketplace (2ª mano)</h3>
+      <p>Compra y vende anuncios de usuarios con chat interno.</p>
+      <div class="card-actions"><a class="btn btn-primary" href="marketplace/index.html">Entrar</a></div>
+    </div>
+    <div class="card">
+      <h3>🛒 Tienda Oficial</h3>
+      <p>Productos de Zeletas con catálogo profesional.</p>
+      <div class="card-actions"><a class="btn btn-primary" href="tienda/index.html">Ver tienda</a></div>
+    </div>
+    <div class="card">
+      <h3>🚗 Vehículos</h3>
+      <p>Nuevo, seminuevo, segunda mano, importación y gestión.</p>
+      <div class="card-actions"><a class="btn btn-primary" href="vehiculos/index.html">Ver sección</a></div>
+    </div>
+    <div class="card">
+      <h3>🏠 Inmobiliaria</h3>
+      <p>Compra/venta, alquiler, inversión y reformas/proyectos.</p>
+      <div class="card-actions"><a class="btn btn-primary" href="inmobiliaria/index.html">Ver sección</a></div>
+    </div>
+    <div class="card">
+      <h3>🛠️ Servicios</h3>
+      <p>Reformas, mantenimiento y gestión de profesionales.</p>
+      <div class="card-actions"><a class="btn btn-primary" href="servicios/index.html">Ver servicios</a></div>
+    </div>
+    <div class="card">
+      <h3>👤 Asesoría / Suscripción</h3>
+      <p>Asesor privado Zeletas: 50€/mes con acompañamiento real.</p>
+      <div class="card-actions"><a class="btn btn-primary" href="asesoria/index.html">Ver asesoría</a></div>
+    </div>
+    <div class="card">
+      <h3>💳 Financiación</h3>
+      <p>Gestión de financiación con terceros: tú solicitas y Zeletas coordina.</p>
+      <div class="card-actions"><a class="btn btn-primary" href="financiacion/index.html">Solicitar</a></div>
+    </div>
+    <div class="card">
+      <h3>📩 Contacto</h3>
+      <p>Cuéntanos qué necesitas y te guiamos.</p>
+      <div class="card-actions"><a class="btn btn-primary" href="contacto/index.html">Contactar</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>© 2026 ZELETAS HUB. Todos los derechos reservados.</div>
+  <div class="footer-links">
+    <a href="legal/aviso-legal.html">Aviso legal</a>
+    <a href="legal/privacidad.html">Privacidad</a>
+    <a href="legal/cookies.html">Cookies</a>
+    <a href="legal/terminos.html">Términos</a>
+  </div>
+</footer>
+
+<!-- WhatsApp flotante -->
+<a href="https://wa.me/34632125872" class="whatsapp-float" target="_blank">💬</a>
+
+<!-- MODAL CUENTA -->
+<div id="modalCuenta" class="modal">
+  <div class="modal-content">
+    <span class="close" id="closeCuenta">&times;</span>
+    <h3>Mi cuenta</h3>
+
+    <!-- LOGIN GOOGLE -->
+    <div class="login-providers" style="margin-bottom:15px;">
+      <button id="googleBtn" class="btn">ENTRAR V.7 - NETLIFY</button>
+    </div>
+
+    <hr style="margin:15px 0;">
+
+    <!-- LOGIN / REGISTRO CON TELÉFONO -->
+    <div class="phone-login" style="margin-bottom:10px;">
+      <label for="loginPhone">Teléfono:</label>
+      <input type="text" id="loginPhone" placeholder="+34 612 345 678">
+      <button id="phoneLoginBtn" class="btn">Enviar código</button>
+    </div>
+
+    <div class="verify-code" style="margin-top:10px; display:none;">
+      <label for="verifyCode">Código recibido:</label>
+      <input type="text" id="verifyCode" placeholder="123456">
+      <button id="verifyCodeBtn" class="btn">Verificar código</button>
+    </div>
+
+    <div id="mensajeModal" style="margin-top:10px;"></div>
+  </div>
+</div>
+  
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script type="module" src="assets/js/ui.js"></script>
+
+<script>
+  const S_URL = "https://sbqpkfdcznulwpxlxiwu.supabase.co";
+  const S_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
+  const supabaseClient = supabase.createClient(S_URL, S_KEY);
+
+  async function gestionarAcceso() {
+    // 1. Obtenemos la sesión
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    
+    const btnCuenta = document.getElementById('btnCuenta');
+    const btnCuentaMobile = document.getElementById('btnCuentaMobile');
+    const googleBtn = document.getElementById('googleBtn');
+
+    // 2. Configuración del botón de Google (siempre debe estar disponible)
+    if (googleBtn) {
+      googleBtn.onclick = async (e) => {
+        e.preventDefault();
+        await supabaseClient.auth.signInWithOAuth({
+          provider: 'google',
+          options: { redirectTo: "https://zeletas.netlify.app/" }
+        });
+      };
+    }
+
+    // 3. SI HAY SESIÓN: Aplicamos los cambios para que no haya parpadeos
+    if (session) {
+      // ESTA ES LA LÍNEA MAESTRA: Activa el CSS que pusiste arriba en el <style>
+      document.body.classList.add('logged-in');
+
+      const nombre = session.user.user_metadata.full_name || "Usuario";
+      
+      [btnCuenta, btnCuentaMobile].forEach(btn => {
+        if (btn) {
+          // Cambiamos el texto del botón
+          btn.textContent = (btn.id === 'btnCuenta') ? "Hola, " + nombre : "Ver mi Perfil";
+          
+          // Cambiamos la función: Ahora solo redirige, el CSS se encarga del resto
+          btn.onclick = (e) => {
+            e.preventDefault();
+            window.location.href = "/perfil/";
+          };
+        }
+      });
+    }
+  }
+
+  // Ejecutamos la función al cargar la ventana
+  window.onload = gestionarAcceso;
+</script>
+
+</body>
+</html>
+
 </head>
 <body>
 <header>
