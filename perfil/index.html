@@ -91,7 +91,7 @@
   <header class="header-premium">
     <div class="user-core">
       <div class="avatar-container">
-        <img id="userImg" src="" alt="Avatar" class="avatar-v3">
+        <img id="userImg" src="https://via.placeholder.com/120" alt="Avatar" class="avatar-v3">
       </div>
       <div class="user-info">
         <h2 id="nombreUsuario" style="font-size: 2.2rem;">...</h2>
@@ -102,6 +102,7 @@
     <div style="text-align: right;">
         <p class="listing-meta">Reputación Global</p>
         <div style="color: gold; font-size: 1.2rem;">★★★★★</div>
+        <p id="userIdDisplay" style="font-size: 0.6rem; color: var(--muted); margin-top: 10px;">ID: ...</p>
     </div>
   </header>
 
@@ -109,7 +110,7 @@
     <div class="metric-card"><span class="metric-val">12</span><span class="metric-label">Anuncios Activos</span></div>
     <div class="metric-card"><span class="metric-val">450€</span><span class="metric-label">Ahorrado</span></div>
     <div class="metric-card"><span class="metric-val">100%</span><span class="metric-label">Fiabilidad</span></div>
-    <div class="metric-card"><span class="metric-val">2.5k</span><span class="metric-label">Impacto Hub</span></div>
+    <div class="metric-card"><span id="antiguedadUser" class="metric-val">2025</span><span class="metric-label">Socio Desde</span></div>
   </div>
 
   <div class="grid-main">
@@ -126,14 +127,18 @@
       </div>
 
       <div class="content-box">
-        <h3>🛡️ Seguridad y Verificación de Identidad</h3>
+        <h3>🛡️ Seguridad Avanzada</h3>
         <div class="control-item">
-          <div class="control-info"><h4>Nivel de Verificación: Oro</h4><p>Has completado el DNI y la videoverificación.</p></div>
-          <span style="color:var(--green); font-weight:800;">✓ VALIDADO</span>
+          <div class="control-info"><h4>Cambiar Contraseña</h4><p>Recibirás un enlace seguro en tu email actual.</p></div>
+          <button class="btn-action-pro" onclick="resetPassword()">Actualizar</button>
         </div>
         <div class="control-item">
-          <div class="control-info"><h4>Autenticación en 2 Pasos (2FA)</h4><p>Refuerza tu cuenta contra accesos no autorizados.</p></div>
+          <div class="control-info"><h4>Autenticación en 2 Pasos (2FA)</h4><p>Capa de seguridad extra vía App.</p></div>
           <button class="btn-action-pro">Configurar</button>
+        </div>
+        <div class="control-item">
+            <div class="control-info"><h4>Descargar mis Datos</h4><p>Exportar historial completo de mi cuenta.</p></div>
+            <button class="btn-action-pro" onclick="alert('Generando archivo ZIP de seguridad...')">Exportar</button>
         </div>
       </div>
     </div>
@@ -142,24 +147,24 @@
       <div class="content-box">
         <h3>⚙️ Ajustes de Usuario</h3>
         <div class="control-item">
-          <div class="control-info"><h4>Perfil Público</h4><p>¿Quién puede ver tu perfil?</p></div>
+          <div class="control-info"><h4>Perfil Público</h4><p>Visibilidad en el buscador.</p></div>
           <div class="toggle active" onclick="this.classList.toggle('active')"></div>
         </div>
         <div class="control-item">
-          <div class="control-info"><h4>Modo Privado</h4><p>Navegar sin dejar rastro.</p></div>
-          <div class="toggle" onclick="this.classList.toggle('active')"></div>
+          <div class="control-info"><h4>Notificaciones Email</h4><p>Alertas de mensajes y ofertas.</p></div>
+          <div class="toggle active" onclick="this.classList.toggle('active')"></div>
         </div>
         <div class="control-item">
-            <div class="control-info"><h4>Idioma / Moneda</h4><p>Español / Euro (€)</p></div>
+            <div class="control-info"><h4>Localización</h4><p>Español / Madrid</p></div>
             <button class="btn-action-pro">Editar</button>
         </div>
       </div>
 
       <div class="content-box">
         <h3>📩 Centro de Ayuda</h3>
-        <p class="listing-meta" style="margin-bottom:15px;">¿Tienes algún problema técnico o duda sobre el Hub?</p>
-        <button class="btn btn-primary" style="width:100%;">Contactar con Soporte</button>
-        <button class="btn btn-secondary" style="width:100%; margin-top:10px;">Preguntas Frecuentes</button>
+        <p class="listing-meta" style="margin-bottom:15px;">Acceso directo a soporte técnico priorizado.</p>
+        <button class="btn btn-primary" style="width:100%;">Contactar Soporte</button>
+        <button class="btn btn-secondary" style="width:100%; margin-top:10px;">Documentación</button>
       </div>
     </div>
 
@@ -168,11 +173,11 @@
   <div class="content-box" style="border-color: rgba(255,82,82,0.3);">
     <h3 style="color:#ff5252;">⚠️ Zona Crítica de Usuario</h3>
     <div class="control-item">
-        <div class="control-info"><h4>Borrar rastro de actividad</h4><p>Elimina el historial de búsquedas y navegación.</p></div>
+        <div class="control-info"><h4>Borrar rastro de actividad</h4><p>Limpiar logs y búsquedas recientes.</p></div>
         <button class="btn-action-pro">Limpiar</button>
     </div>
     <div class="control-item">
-        <div class="control-info"><h4>Eliminar Cuenta Definitivamente</h4><p>Borra todos tus datos de Zeletas para siempre.</p></div>
+        <div class="control-info"><h4>Eliminar Cuenta Definitivamente</h4><p>Borrado irreversible de datos del sistema.</p></div>
         <button class="btn-action-pro btn-danger-pro" onclick="deleteAccount()">Eliminar Todo</button>
     </div>
   </div>
@@ -197,15 +202,27 @@
       const user = session.user;
       document.getElementById('nombreUsuario').textContent = user.user_metadata?.full_name || "Usuario Zeletas";
       document.getElementById('emailUsuario').textContent = user.email;
+      document.getElementById('userIdDisplay').textContent = "ID: " + user.id.substring(0, 12).toUpperCase();
+      
+      const year = new Date(user.created_at).getFullYear();
+      document.getElementById('antiguedadUser').textContent = year;
+
       if (user.user_metadata?.avatar_url) document.getElementById('userImg').src = user.user_metadata.avatar_url;
     } else {
       window.location.href = "../index.html";
     }
   }
 
+  async function resetPassword() {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    const { error } = await supabaseClient.auth.resetPasswordForEmail(session.user.email);
+    if (error) alert("Error: " + error.message);
+    else alert("Se ha enviado un enlace de seguridad a " + session.user.email);
+  }
+
   function deleteAccount() {
     if(confirm("¿Estás 100% seguro? Perderás todos tus anuncios, contratos y reputación.")) {
-      alert("Procesando solicitud de eliminación...");
+      alert("Procesando solicitud de eliminación segura...");
     }
   }
 
