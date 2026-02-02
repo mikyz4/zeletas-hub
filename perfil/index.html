@@ -3,85 +3,100 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Perfil Pro - ZELETAS HUB</title>
+  <title>Panel de Control Pro - ZELETAS HUB</title>
   <link rel="stylesheet" href="../assets/css/styles.css">
   <style>
-    body { background-color: var(--bg); color: var(--text); padding-bottom: 80px; }
-    .main-wrapper { max-width: 1250px; margin: 0 auto; padding: 25px; }
+    /* RESET & BASE */
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 40px; overflow-x: hidden; }
+    .main-wrapper { max-width: 1250px; margin: 0 auto; padding: 20px; }
 
-    /* --- CABECERA NIVEL ENTERPRISE --- */
+    /* HEADER PREMIUM PULIDO */
     .header-premium {
-      background: var(--bg2);
+      background: linear-gradient(135deg, var(--bg2) 0%, #111 100%);
       border: 1px solid var(--border);
       border-radius: 25px;
-      padding: 40px;
+      padding: 35px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       box-shadow: var(--shadow);
-      margin-bottom: 30px;
-      position: relative;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 20px;
     }
-    .user-core { display: flex; align-items: center; gap: 30px; }
+    .user-core { display: flex; align-items: center; gap: 25px; }
+    .avatar-wrapper { position: relative; }
     .avatar-v3 { 
-      width: 120px; height: 120px; border-radius: 50%; border: 4px solid var(--green);
-      padding: 5px; background: var(--bg); box-shadow: 0 0 25px rgba(0, 200, 83, 0.2);
+      width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--green);
+      padding: 4px; background: var(--bg); transition: 0.3s;
     }
-    .user-badge-gold { 
-      background: linear-gradient(45deg, #d4af37, #f1c40f); color: #000;
-      padding: 4px 12px; border-radius: 6px; font-weight: 900; font-size: 0.7rem; margin-top: 10px; display: inline-block;
+    .online-ping {
+      width: 15px; height: 15px; background: var(--green); border-radius: 50%;
+      position: absolute; bottom: 8px; right: 8px; border: 3px solid var(--bg2);
+      box-shadow: 0 0 10px var(--green);
     }
 
-    /* --- DASHBOARD DE MÉTRICAS (PRO) --- */
+    /* BADGES */
+    .user-badge-gold { 
+      background: rgba(0, 200, 83, 0.15); color: var(--green); border: 1px solid var(--border);
+      padding: 5px 14px; border-radius: 50px; font-weight: 700; font-size: 0.75rem; 
+      display: inline-block; margin-top: 12px;
+    }
+
+    /* MÉTRICAS PRO */
     .metrics-row { 
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-      gap: 15px; margin-bottom: 30px; 
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
+      gap: 15px; margin-bottom: 25px; 
     }
     .metric-card { 
-      background: var(--card); border: 1px solid var(--border); border-radius: 18px; 
-      padding: 20px; text-align: center; transition: 0.3s;
+      background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; 
+      padding: 22px; text-align: center; transition: all 0.3s ease;
     }
-    .metric-card:hover { border-color: var(--green); background: var(--bg2); }
-    .metric-val { display: block; font-size: 1.8rem; font-weight: 800; color: var(--green); }
-    .metric-label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    .metric-card:hover { border-color: var(--green); transform: translateY(-5px); }
+    .metric-val { display: block; font-size: 1.6rem; font-weight: 800; color: var(--green); }
+    .metric-label { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
 
-    /* --- SECCIONES DE FUNCIONES --- */
+    /* ESTRUCTURA DASHBOARD */
     .grid-main { display: grid; grid-template-columns: 2fr 1fr; gap: 25px; }
-    @media (max-width: 900px) { .grid-main { grid-template-columns: 1fr; } }
+    @media (max-width: 950px) { .grid-main { grid-template-columns: 1fr; } }
 
     .content-box { 
       background: var(--card); border: 1px solid var(--border); 
-      border-radius: 20px; padding: 25px; margin-bottom: 25px; 
+      border-radius: 22px; padding: 25px; margin-bottom: 25px;
     }
     .content-box h3 { 
-      color: var(--green); margin-bottom: 20px; font-size: 1.2rem; 
-      display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(0, 200, 83, 0.1); padding-bottom: 10px;
+      color: var(--green); margin-bottom: 20px; font-size: 1.1rem; 
+      display: flex; align-items: center; gap: 10px;
     }
 
-    /* --- LISTAS DE CONTROL --- */
+    /* CONTROL ITEMS */
     .control-item { 
       display: flex; justify-content: space-between; align-items: center; 
-      padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
     }
     .control-item:last-child { border-bottom: none; }
-    .control-info h4 { font-size: 0.95rem; margin-bottom: 4px; }
+    .control-info h4 { font-size: 0.95rem; margin-bottom: 4px; font-weight: 600; }
     .control-info p { font-size: 0.8rem; color: var(--muted); }
 
-    /* --- BOTONES Y TOGGLES --- */
+    /* BOTONES TÉCNICOS */
     .btn-action-pro { 
-      background: rgba(0, 200, 83, 0.1); border: 1px solid var(--border); color: var(--green);
-      padding: 8px 16px; border-radius: 10px; cursor: pointer; font-size: 0.85rem; font-weight: 700; transition: 0.2s;
+      background: var(--bg2); border: 1px solid var(--border); color: var(--text);
+      padding: 7px 14px; border-radius: 10px; cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: 0.2s;
     }
-    .btn-action-pro:hover { background: var(--green); color: var(--bg); }
+    .btn-action-pro:hover { border-color: var(--green); color: var(--green); }
     
     .btn-danger-pro { color: #ff5252; border-color: rgba(255, 82, 82, 0.3); }
     .btn-danger-pro:hover { background: #ff5252; color: #fff; }
 
-    /* --- FOOTER DE SESIÓN --- */
+    /* FOOTER SESIÓN */
     .footer-controls { 
-      margin-top: 50px; padding: 30px; background: var(--bg2); 
-      border-top: 2px solid var(--green); border-radius: 25px 25px 0 0; text-align: center;
+      margin-top: 40px; padding: 30px; background: var(--bg2); 
+      border-radius: 25px; text-align: center; border: 1px solid var(--border);
     }
+
+    /* ESTADO SALUD CUENTA */
+    .health-bar { width: 100%; height: 6px; background: #333; border-radius: 10px; margin-top: 10px; overflow: hidden; }
+    .health-fill { width: 85%; height: 100%; background: var(--green); box-shadow: 0 0 10px var(--green); }
   </style>
 </head>
 <body>
@@ -90,97 +105,108 @@
   
   <header class="header-premium">
     <div class="user-core">
-      <div class="avatar-container">
-        <img id="userImg" src="" alt="Avatar" class="avatar-v3">
+      <div class="avatar-wrapper">
+        <img id="userImg" src="https://via.placeholder.com/110" alt="Avatar" class="avatar-v3">
+        <div class="online-ping"></div>
       </div>
       <div class="user-info">
-        <h2 id="nombreUsuario" style="font-size: 2.2rem;">...</h2>
-        <p id="emailUsuario" class="listing-meta"></p>
-        <span class="user-badge-gold">MIEMBRO FOUNDER</span>
+        <h2 id="nombreUsuario" style="font-size: 1.8rem; margin:0;">Cargando...</h2>
+        <p id="emailUsuario" class="listing-meta" style="margin:2px 0;"></p>
+        <span class="user-badge-gold">MIEMBRO VERIFICADO</span>
       </div>
     </div>
     <div style="text-align: right;">
-        <p class="listing-meta">Reputación Global</p>
-        <div style="color: gold; font-size: 1.2rem;">★★★★★</div>
+        <p class="listing-meta" style="margin-bottom:5px;">Salud de la cuenta: <span style="color:var(--green)">Excelente</span></p>
+        <div class="health-bar"><div class="health-fill"></div></div>
     </div>
   </header>
 
   <div class="metrics-row">
-    <div class="metric-card"><span class="metric-val">12</span><span class="metric-label">Anuncios Activos</span></div>
-    <div class="metric-card"><span class="metric-val">450€</span><span class="metric-label">Ahorrado</span></div>
+    <div class="metric-card"><span class="metric-val" id="countAnuncios">0</span><span class="metric-label">Anuncios</span></div>
+    <div class="metric-card"><span class="metric-val">450€</span><span class="metric-label">Ahorro Hub</span></div>
     <div class="metric-card"><span class="metric-val">100%</span><span class="metric-label">Fiabilidad</span></div>
-    <div class="metric-card"><span class="metric-val">2.5k</span><span class="metric-label">Impacto Hub</span></div>
+    <div class="metric-card"><span class="metric-val" id="memberSince">2025</span><span class="metric-label">Desde</span></div>
   </div>
 
   <div class="grid-main">
-    
     <div class="left-col">
       <div class="content-box">
-        <h3>🧩 Gestión de Mis Verticales</h3>
-        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 15px;">
-           <a href="../mis-anuncios/" class="card" style="padding:15px; text-decoration:none;"><h4>Marketplace</h4><p class="listing-meta">Tus productos a la venta</p></a>
-           <a href="../mis-vehiculos/" class="card" style="padding:15px; text-decoration:none;"><h4>Garaje</h4><p class="listing-meta">Gestión de tus vehículos</p></a>
-           <a href="../mi-inmobiliaria/" class="card" style="padding:15px; text-decoration:none;"><h4>Propiedades</h4><p class="listing-meta">Inmuebles y alquileres</p></a>
-           <a href="../mis-servicios/" class="card" style="padding:15px; text-decoration:none;"><h4>Asistencia</h4><p class="listing-meta">Servicios técnicos Zeletas</p></a>
+        <h3>🧩 Centro de Actividad</h3>
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+           <a href="../mis-anuncios/" class="card" style="padding:15px; text-decoration:none; display:block;">
+             <h4 style="color:var(--green)">🛒 Marketplace</h4><p class="listing-meta">Vende y compra productos.</p>
+           </a>
+           <a href="../mis-vehiculos/" class="card" style="padding:15px; text-decoration:none; display:block;">
+             <h4 style="color:var(--green)">🚗 Garaje</h4><p class="listing-meta">Gestión de flota y coches.</p>
+           </a>
+           <a href="../mi-inmobiliaria/" class="card" style="padding:15px; text-decoration:none; display:block;">
+             <h4 style="color:var(--green)">🏠 Propiedades</h4><p class="listing-meta">Tus inmuebles y alquileres.</p>
+           </a>
+           <a href="../mis-servicios/" class="card" style="padding:15px; text-decoration:none; display:block;">
+             <h4 style="color:var(--green)">🛠️ Asistencia</h4><p class="listing-meta">Servicios técnicos directos.</p>
+           </a>
         </div>
       </div>
 
       <div class="content-box">
-        <h3>🛡️ Seguridad y Verificación de Identidad</h3>
+        <h3>🛡️ Seguridad Avanzada</h3>
         <div class="control-item">
-          <div class="control-info"><h4>Nivel de Verificación: Oro</h4><p>Has completado el DNI y la videoverificación.</p></div>
-          <span style="color:var(--green); font-weight:800;">✓ VALIDADO</span>
+          <div class="control-info"><h4>Doble Factor (2FA)</h4><p>Protege tu acceso con Google Authenticator.</p></div>
+          <button class="btn-action-pro">Activar</button>
         </div>
         <div class="control-item">
-          <div class="control-info"><h4>Autenticación en 2 Pasos (2FA)</h4><p>Refuerza tu cuenta contra accesos no autorizados.</p></div>
-          <button class="btn-action-pro">Configurar</button>
+          <div class="control-info"><h4>Historial de Accesos</h4><p>Revisa las IPs que han entrado en tu cuenta.</p></div>
+          <button class="btn-action-pro">Ver Logs</button>
+        </div>
+        <div class="control-item">
+          <div class="control-info"><h4>Cambiar Contraseña</h4><p>Última actualización: hace 3 meses.</p></div>
+          <button class="btn-action-pro">Actualizar</button>
         </div>
       </div>
     </div>
 
     <div class="right-col">
       <div class="content-box">
-        <h3>⚙️ Ajustes de Usuario</h3>
+        <h3>⚙️ Preferencias</h3>
         <div class="control-item">
-          <div class="control-info"><h4>Perfil Público</h4><p>¿Quién puede ver tu perfil?</p></div>
+          <div class="control-info"><h4>Perfil Público</h4><p>Visible en el directorio.</p></div>
           <div class="toggle active" onclick="this.classList.toggle('active')"></div>
         </div>
         <div class="control-item">
-          <div class="control-info"><h4>Modo Privado</h4><p>Navegar sin dejar rastro.</p></div>
-          <div class="toggle" onclick="this.classList.toggle('active')"></div>
+          <div class="control-info"><h4>Notificaciones</h4><p>Avisos por WhatsApp y Email.</p></div>
+          <div class="toggle active" onclick="this.classList.toggle('active')"></div>
         </div>
         <div class="control-item">
-            <div class="control-info"><h4>Idioma / Moneda</h4><p>Español / Euro (€)</p></div>
-            <button class="btn-action-pro">Editar</button>
+          <div class="control-info"><h4>Idioma del Hub</h4><p>Español (Castellano)</p></div>
+          <button class="btn-action-pro">Cambiar</button>
         </div>
       </div>
 
       <div class="content-box">
-        <h3>📩 Centro de Ayuda</h3>
-        <p class="listing-meta" style="margin-bottom:15px;">¿Tienes algún problema técnico o duda sobre el Hub?</p>
-        <button class="btn btn-primary" style="width:100%;">Contactar con Soporte</button>
-        <button class="btn btn-secondary" style="width:100%; margin-top:10px;">Preguntas Frecuentes</button>
+        <h3>🆘 Soporte Técnico</h3>
+        <p class="listing-meta" style="margin-bottom:15px;">Asistencia prioritaria para miembros del Hub.</p>
+        <button class="btn btn-primary" style="width:100%; border-radius:12px;">Chat en Vivo</button>
+        <button class="btn btn-secondary" style="width:100%; margin-top:10px; border-radius:12px;">Ticket de Soporte</button>
       </div>
     </div>
-
   </div>
 
-  <div class="content-box" style="border-color: rgba(255,82,82,0.3);">
-    <h3 style="color:#ff5252;">⚠️ Zona Crítica de Usuario</h3>
+  <div class="content-box" style="border-color: rgba(255,82,82,0.25);">
+    <h3 style="color:#ff5252;">⚠️ Zona de Privacidad Crítica</h3>
     <div class="control-item">
-        <div class="control-info"><h4>Borrar rastro de actividad</h4><p>Elimina el historial de búsquedas y navegación.</p></div>
-        <button class="btn-action-pro">Limpiar</button>
+        <div class="control-info"><h4>Limpiar Caché</h4><p>Borra el rastro de navegación local.</p></div>
+        <button class="btn-action-pro">Ejecutar</button>
     </div>
     <div class="control-item">
-        <div class="control-info"><h4>Eliminar Cuenta Definitivamente</h4><p>Borra todos tus datos de Zeletas para siempre.</p></div>
-        <button class="btn-action-pro btn-danger-pro" onclick="deleteAccount()">Eliminar Todo</button>
+        <div class="control-info"><h4>Eliminar Cuenta</h4><p>Borrado irreversible de datos.</p></div>
+        <button class="btn-action-pro btn-danger-pro" onclick="deleteAccount()">Borrar Todo</button>
     </div>
   </div>
 
   <div class="footer-controls">
-    <button id="logoutBtn" class="btn btn-primary" style="padding: 15px 60px; font-size: 1.1rem;">Cerrar Sesión de Forma Segura</button>
+    <button id="logoutBtn" class="btn btn-primary" style="padding: 16px 50px; font-weight: 800; letter-spacing: 1px;">CERRAR SESIÓN SEGURA</button>
     <br>
-    <a href="../index.html" style="display:inline-block; margin-top:20px; color:var(--muted); text-decoration:none;">← Volver al Hub Principal</a>
+    <a href="../index.html" style="display:inline-block; margin-top:20px; color:var(--muted); text-decoration:none; font-size: 0.9rem;">← Volver al Hub Principal</a>
   </div>
 
 </div>
@@ -197,21 +223,26 @@
       const user = session.user;
       document.getElementById('nombreUsuario').textContent = user.user_metadata?.full_name || "Usuario Zeletas";
       document.getElementById('emailUsuario').textContent = user.email;
-      if (user.user_metadata?.avatar_url) document.getElementById('userImg').src = user.user_metadata.avatar_url;
+      if (user.user_metadata?.avatar_url) {
+        document.getElementById('userImg').src = user.user_metadata.avatar_url;
+      }
+      // Pequeño detalle: extraer año de creación
+      const year = new Date(user.created_at).getFullYear();
+      document.getElementById('memberSince').textContent = year;
     } else {
       window.location.href = "../index.html";
     }
   }
 
   function deleteAccount() {
-    if(confirm("¿Estás 100% seguro? Perderás todos tus anuncios, contratos y reputación.")) {
-      alert("Procesando solicitud de eliminación...");
+    if(confirm("¿Estás 100% seguro? Esta acción es definitiva.")) {
+      alert("Solicitud recibida. Contacta con administración para finalizar el proceso.");
     }
   }
 
   document.getElementById('logoutBtn').onclick = async () => {
-    await supabaseClient.auth.signOut();
-    window.location.href = "../index.html";
+    const { error } = await supabaseClient.auth.signOut();
+    if (!error) window.location.href = "../index.html";
   };
 
   window.onload = cargarUsuario;
