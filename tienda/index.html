@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Tienda Oficial Zeletas | Tecnología y Servicios</title>
-  <meta name="description" content="Tienda oficial de Zeletas. Productos tecnológicos seleccionados, garantía y atención personalizada. Compra fácil por WhatsApp.">
+  <title>Plataforma Multi-Tienda Zeletas | Vendedores y Tecnología</title>
+  <meta name="description" content="Plataforma multi-tienda de Zeletas. Diferentes vendedores, productos tecnológicos y servicios en un solo lugar.">
 
   <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
@@ -19,70 +19,108 @@
     <nav>
       <ul class="nav-links">
         <li><a href="../index.html">Inicio</a></li>
-        <li><a href="index.html" class="active">Tienda Oficial</a></li>
+        <li><a href="index.html" class="active">Multi-Tienda</a></li>
         <li><a href="../marketplace/general.html">Marketplace</a></li>
       </ul>
 
-      <div class="hamburger" aria-label="Abrir menú">
-        <span></span><span></span><span></span>
-      </div>
+      <div class="hamburger"><span></span><span></span><span></span></div>
     </nav>
   </div>
 </header>
 
 <main class="container">
 
+  <!-- INTRO -->
   <section class="section-header">
-    <h2>Tienda Oficial Zeletas</h2>
-    <p>Productos tecnológicos seleccionados, con garantía y atención personalizada.</p>
+    <h2>Plataforma Multi-Tienda Zeletas</h2>
+    <p>
+      Un único lugar donde distintos vendedores y marcas ofrecen productos y servicios.
+      Infraestructura preparada para escalar.
+    </p>
   </section>
 
-  <section class="grid products-grid">
+  <!-- FILTROS -->
+  <section class="filters">
+    <select>
+      <option>Todas las categorías</option>
+      <option>Tecnología</option>
+      <option>Electrónica</option>
+      <option>Servicios</option>
+    </select>
 
-    <article class="card product-card">
-      <h3>Portátil Zeletas Pro</h3>
-      <p class="product-desc">
-        Equipo nuevo, alto rendimiento, garantía de 2 años y envío en 24/48h.
-      </p>
-      <p class="product-price">Desde 799 €</p>
-      <a class="btn primary"
-         href="https://wa.me/34632125872?text=Hola%2C%20estoy%20interesado%20en%20el%20Portátil%20Zeletas%20Pro"
-         target="_blank">
-        Comprar por WhatsApp
-      </a>
+    <select>
+      <option>Todos los vendedores</option>
+      <option>Tienda Oficial Zeletas</option>
+      <option>Partner Tecnológico</option>
+    </select>
+  </section>
+
+  <!-- TIENDAS / VENDEDORES -->
+  <section class="vendors">
+
+    <article class="vendor-card">
+      <h3>Tienda Oficial Zeletas</h3>
+      <p>Productos seleccionados por Zeletas. Garantía y soporte directo.</p>
+
+      <div class="products-grid">
+
+        <div class="product-card">
+          <h4>Portátil Zeletas Pro</h4>
+          <p>Alto rendimiento · Garantía 2 años</p>
+          <span class="price">Desde 799 €</span>
+          <a class="btn primary"
+             href="https://wa.me/34632125872?text=Hola%20estoy%20interesado%20en%20el%20Portátil%20Zeletas%20Pro"
+             target="_blank">
+            Contactar vendedor
+          </a>
+        </div>
+
+        <div class="product-card">
+          <h4>Smartphone Zeletas</h4>
+          <p>Últimos modelos disponibles</p>
+          <span class="price">Consultar</span>
+          <a class="btn primary"
+             href="https://wa.me/34632125872?text=Hola%20estoy%20interesado%20en%20el%20Smartphone%20Zeletas"
+             target="_blank">
+            Contactar vendedor
+          </a>
+        </div>
+
+      </div>
     </article>
 
-    <article class="card product-card">
-      <h3>Smartphone Zeletas</h3>
-      <p class="product-desc">
-        Últimos modelos disponibles, envío rápido y soporte directo.
-      </p>
-      <p class="product-price">Consultar precio</p>
-      <a class="btn primary"
-         href="https://wa.me/34632125872?text=Hola%2C%20estoy%20interesado%20en%20el%20Smartphone%20Zeletas"
-         target="_blank">
-        Comprar por WhatsApp
-      </a>
+    <article class="vendor-card">
+      <h3>Partner Tecnológico</h3>
+      <p>Vendedor externo integrado en la plataforma Zeletas.</p>
+
+      <div class="products-grid">
+        <div class="product-card">
+          <h4>Tablet Profesional</h4>
+          <p>Ideal para trabajo y consumo multimedia</p>
+          <span class="price">Desde 399 €</span>
+          <button class="btn secondary">Próximamente</button>
+        </div>
+      </div>
     </article>
 
   </section>
 
+  <!-- INFO -->
   <section class="info-box">
-    <h3>¿Por qué comprar en Zeletas?</h3>
+    <h3>¿Cómo funciona la multi-tienda?</h3>
     <ul>
-      <li>✔ Atención directa y personalizada</li>
-      <li>✔ Productos seleccionados</li>
-      <li>✔ Soporte antes y después de la compra</li>
+      <li>✔ Cada vendedor gestiona sus productos</li>
+      <li>✔ Zeletas proporciona la infraestructura</li>
+      <li>✔ Sistema preparado para pagos, usuarios y escalado</li>
     </ul>
   </section>
 
 </main>
 
 <footer class="main-footer">
-  <p>© 2026 Zeletas · Todos los derechos reservados</p>
+  <p>© 2026 Zeletas · Plataforma multi-negocio</p>
 </footer>
 
 <script src="../assets/js/app.js"></script>
-
 </body>
 </html>
