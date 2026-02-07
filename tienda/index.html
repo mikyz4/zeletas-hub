@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Plataforma Multi-Tienda Zeletas | Vendedores y Tecnología</title>
-  <meta name="description" content="Plataforma multi-tienda de Zeletas. Diferentes vendedores, productos tecnológicos y servicios en un solo lugar.">
+  <title>Zeletas | Multi-Tienda</title>
+  <meta name="description" content="Plataforma multi-tienda de Zeletas. Diferentes vendedores y marcas ofrecen productos y servicios en un solo lugar.">
 
   <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
@@ -23,7 +23,9 @@
         <li><a href="../marketplace/general.html">Marketplace</a></li>
       </ul>
 
-      <div class="hamburger"><span></span><span></span><span></span></div>
+      <div class="hamburger" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </div>
     </nav>
   </div>
 </header>
@@ -41,14 +43,14 @@
 
   <!-- FILTROS -->
   <section class="filters">
-    <select>
+    <select aria-label="Filtrar por categoría">
       <option>Todas las categorías</option>
       <option>Tecnología</option>
       <option>Electrónica</option>
       <option>Servicios</option>
     </select>
 
-    <select>
+    <select aria-label="Filtrar por vendedor">
       <option>Todos los vendedores</option>
       <option>Tienda Oficial Zeletas</option>
       <option>Partner Tecnológico</option>
@@ -58,6 +60,7 @@
   <!-- TIENDAS / VENDEDORES -->
   <section class="vendors">
 
+    <!-- VENDEDOR 1 -->
     <article class="vendor-card">
       <h3>Tienda Oficial Zeletas</h3>
       <p>Productos seleccionados por Zeletas. Garantía y soporte directo.</p>
@@ -68,9 +71,12 @@
           <h4>Portátil Zeletas Pro</h4>
           <p>Alto rendimiento · Garantía 2 años</p>
           <span class="price">Desde 799 €</span>
-          <a class="btn primary"
-             href="https://wa.me/34632125872?text=Hola%20estoy%20interesado%20en%20el%20Portátil%20Zeletas%20Pro"
-             target="_blank">
+          <a
+            class="btn primary"
+            href="https://wa.me/34632125872?text=Hola%20estoy%20interesado%20en%20el%20Portátil%20Zeletas%20Pro"
+            target="_blank"
+            rel="noopener"
+          >
             Contactar vendedor
           </a>
         </div>
@@ -79,9 +85,12 @@
           <h4>Smartphone Zeletas</h4>
           <p>Últimos modelos disponibles</p>
           <span class="price">Consultar</span>
-          <a class="btn primary"
-             href="https://wa.me/34632125872?text=Hola%20estoy%20interesado%20en%20el%20Smartphone%20Zeletas"
-             target="_blank">
+          <a
+            class="btn primary"
+            href="https://wa.me/34632125872?text=Hola%20estoy%20interesado%20en%20el%20Smartphone%20Zeletas"
+            target="_blank"
+            rel="noopener"
+          >
             Contactar vendedor
           </a>
         </div>
@@ -89,6 +98,7 @@
       </div>
     </article>
 
+    <!-- VENDEDOR 2 -->
     <article class="vendor-card">
       <h3>Partner Tecnológico</h3>
       <p>Vendedor externo integrado en la plataforma Zeletas.</p>
@@ -98,7 +108,7 @@
           <h4>Tablet Profesional</h4>
           <p>Ideal para trabajo y consumo multimedia</p>
           <span class="price">Desde 399 €</span>
-          <button class="btn secondary">Próximamente</button>
+          <button class="btn secondary" disabled>Próximamente</button>
         </div>
       </div>
     </article>
