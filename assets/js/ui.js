@@ -1,122 +1,127 @@
-// assets/js/ui.js
-
-// 1. IMPORTAMOS SUPABASE (Esto es lo que faltaba para que funcione el login)
 import { supabase } from './supabase.js';
+import { signInWithGoogle, sendPhoneOtp, verifyPhoneOtp } from './auth.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-
-  // =============================
-  // MENÚ HAMBURGUESA MÓVIL
-  // =============================
   const hamburger = document.querySelector('.hamburger');
   const mobileMenu = document.querySelector('.mobile-menu');
   const overlay = document.querySelector('.overlay');
 
   hamburger?.addEventListener('click', () => {
-    mobileMenu.classList.toggle('active');
-    overlay.classList.toggle('active');
+    mobileMenu?.classList.toggle('active');
+    overlay?.classList.toggle('active');
   });
 
   overlay?.addEventListener('click', () => {
-    mobileMenu.classList.remove('active');
-    overlay.classList.remove('active');
+    mobileMenu?.classList.remove('active');
+    overlay?.classList.remove('active');
   });
 
-  // =============================
-  // MODAL MI CUENTA
-  // =============================
   const modalCuenta = document.getElementById('modalCuenta');
   const btnCuenta = document.getElementById('btnCuenta');
   const btnCuentaMobile = document.getElementById('btnCuentaMobile');
   const closeCuenta = document.getElementById('closeCuenta');
-  const mensajeModal = document.getElementById('mensajeModal');
 
-  // Funciones para abrir/cerrar
-  const abrirModal = () => modalCuenta.classList.add('active');
-  const cerrarModal = () => modalCuenta.classList.remove('active');
+  const abrirModal = () => modalCuenta?.classList.add('active');
+  const cerrarModal = () => modalCuenta?.classList.remove('active');
 
   btnCuenta?.addEventListener('click', abrirModal);
   btnCuentaMobile?.addEventListener('click', abrirModal);
-  
   closeCuenta?.addEventListener('click', cerrarModal);
-  window.addEventListener('click', e => {
-    if (e.target === modalCuenta) cerrarModal();
+
+  window.addEventListener('click', event => {
+    if (event.target === modalCuenta) cerrarModal();
   });
 
-  // =======================================================
-  // 🔥 LÓGICA DE GOOGLE LOGIN (RECUPERADA) 🔥
-  // =======================================================
-  // Buscamos cualquier botón de Google (en el modal o en la página)
-  const googleBtns = document.querySelectorAll('#googleLoginBtn, #googleLoginBtnModal, .btn-google');
+  const mensaje = document.getElementById('mensajeModal') || document.getElementById('mensaje');
 
-  googleBtns.forEach(btn => {
-    btn.addEventListener('click', async () => {
-      // Feedback visual para el usuario
-      if(mensajeModal) {
-        mensajeModal.textContent = "Conectando con Google...";
-        mensajeModal.style.color = "#666";
-      }
-
-      try {
-        const { error } = await supabase.auth.signInWithOAuth({
-          provider: "google",
-          options: {
-            // Importante: Esta URL debe coincidir con la de Supabase > Auth > URL Configuration
-            redirectTo: window.location.origin + "/acceso/" 
+  document.querySelectorAll('#googleLoginBtn, #googleLoginBtnModal, #googleBtn, .btn-google')
+    .forEach(button => {
+      button.addEventListener('click', async event => {
+        event.preventDefault();
+        try {
+          if (mensaje) mensaje.textContent = 'Conectando con Google...';
+          await signInWithGoogle();
+        } catch (error) {
+          console.error('Error Login Google:', error);
+          if (mensaje) {
+            mensaje.textContent = 'No se pudo iniciar sesión con Google.';
+            mensaje.style.color = 'red';
           }
-        });
-        if (error) throw error;
-      } catch (e) {
-        console.error("Error Login:", e);
-        if(mensajeModal) {
-            mensajeModal.textContent = "Error: " + e.message;
-            mensajeModal.style.color = "red";
         }
-      }
+      });
     });
-  });
 
-  // =============================
-  // SIMULACIÓN DE LOGIN TELÉFONO (Solo visual)
-  // =============================
-  // (Mantengo tu código original aquí por si lo usas de momento)
-  const phoneInput = document.getElementById('loginPhone');
-  const codeInput = document.getElementById('verifyCode');
-  const verifyDiv = document.querySelector('.verify-code');
-  const phoneLoginBtn = document.getElementById('phoneLoginBtn');
-  const verifyCodeBtn = document.getElementById('verifyCodeBtn');
+  const phoneInput = document.getElementById('loginPhone') || document.getElementById('loginPhoneModal');
+  const codeInput = document.getElementById('verifyCode') || document.getElementById('verifyCodeModal');
+  const sendButton = document.getElementById('phoneLoginBtn') || document.getElementById('phoneLoginBtnModal');
+  const verifyButton = document.getElementById('verifyCodeBtn') || document.getElementById('verifyCodeBtnModal');
+  const verifyDiv = codeInput?.closest('.verify-code');
 
-  phoneLoginBtn?.addEventListener('click', () => {
-    if (!phoneInput.value.trim()) {
-      if(mensajeModal) {
-          mensajeModal.textContent = "Introduce un número de teléfono válido";
-          mensajeModal.style.color = "red";
+  sendButton?.addEventListener('click', async () => {
+    const phone = phoneInput?.value.trim();
+
+    if (!phone) {
+      if (mensaje) {
+        mensaje.textContent = 'Introduce un número de teléfono válido.';
+        mensaje.style.color = 'red';
       }
       return;
     }
-    if(mensajeModal) {
-        mensajeModal.textContent = "Código enviado (simulado).";
-        mensajeModal.style.color = "green";
+
+    try {
+      await sendPhoneOtp(phone);
+      if (verifyDiv) verifyDiv.style.display = 'block';
+      if (mensaje) {
+        mensaje.textContent = 'Código enviado por SMS.';
+        mensaje.style.color = 'green';
+      }
+    } catch (error) {
+      console.error('Error enviando OTP:', error);
+      if (mensaje) {
+        mensaje.textContent = 'No se pudo enviar el código.';
+        mensaje.style.color = 'red';
+      }
     }
-    if(verifyDiv) verifyDiv.style.display = "block";
   });
 
-  verifyCodeBtn?.addEventListener('click', () => {
-    if (!codeInput.value.trim()) {
-      if(mensajeModal) {
-        mensajeModal.textContent = "Introduce el código recibido.";
-        mensajeModal.style.color = "red";
+  verifyButton?.addEventListener('click', async () => {
+    const phone = phoneInput?.value.trim();
+    const token = codeInput?.value.trim();
+
+    if (!phone || !token) {
+      if (mensaje) {
+        mensaje.textContent = 'Introduce el teléfono y el código recibido.';
+        mensaje.style.color = 'red';
       }
       return;
     }
-    if(mensajeModal) {
-        mensajeModal.textContent = "Código verificado (simulado). Redirigiendo...";
-        mensajeModal.style.color = "green";
+
+    try {
+      const { session } = await verifyPhoneOtp(phone, token);
+
+      if (!session) {
+        throw new Error('Supabase no devolvió una sesión válida.');
+      }
+
+      if (mensaje) {
+        mensaje.textContent = 'Sesión iniciada correctamente.';
+        mensaje.style.color = 'green';
+      }
+
+      window.location.replace('/perfil/');
+    } catch (error) {
+      console.error('Error verificando OTP:', error);
+      if (mensaje) {
+        mensaje.textContent = 'El código no es válido o ha caducado.';
+        mensaje.style.color = 'red';
+      }
     }
-    setTimeout(() => {
-      // Ajusta esta ruta si es necesario
-      window.location.href = "perfil/index.html"; 
-    }, 1000);
   });
 
+  supabase.auth.onAuthStateChange((event, session) => {
+    document.documentElement.dataset.authenticated = session ? 'true' : 'false';
+    window.dispatchEvent(new CustomEvent('zeletas:auth-change', {
+      detail: { event, session }
+    }));
+  });
 });
