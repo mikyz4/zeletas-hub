@@ -45,3 +45,22 @@ test('MFA gate never accepts external next target',async({page})=>{
 test('robots and sitemap exist',async({request})=>{
  expect((await request.get('/robots.txt')).status()).toBe(200); expect((await request.get('/sitemap.xml')).status()).toBe(200);
 });
+
+test('protected Edge Functions reject unauthenticated requests',async({request})=>{
+ const base='https://sbqpkfdcznulwpxlxiwu.supabase.co/functions/v1/';
+ const fns=['store-create','start-conversation','report-content','delete-listing','delete-product','delete-account','media-upload','stripe-checkout','store-onboarding','admin-console'];
+ for(const fn of fns){
+  const response=await request.post(base+fn,{data:{}});
+  expect([401,403],fn).toContain(response.status());
+ }
+});
+
+test('Stripe webhook rejects unsigned external requests',async({request})=>{
+ const response=await request.post('https://sbqpkfdcznulwpxlxiwu.supabase.co/functions/v1/stripe-webhook',{data:{}});
+ expect([400,503]).toContain(response.status());
+});
+
+test('public media endpoint rejects unknown paths',async({request})=>{
+ const response=await request.get('https://sbqpkfdcznulwpxlxiwu.supabase.co/functions/v1/media-url?path=not-a-real-media-file');
+ expect([400,404]).toContain(response.status());
+});
