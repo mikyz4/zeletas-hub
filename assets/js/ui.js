@@ -22,6 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeCuenta = document.getElementById('closeCuenta');
 
   const abrirModal = () => modalCuenta?.classList.add('active');
+
+  if (modalCuenta && new URLSearchParams(window.location.search).get('login') === '1') abrirModal();
   const cerrarModal = () => modalCuenta?.classList.remove('active');
 
   btnCuenta?.addEventListener('click', abrirModal);
