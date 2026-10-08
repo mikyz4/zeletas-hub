@@ -1,8 +1,7 @@
-// assets/js/supabase.js
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/+esm";
 
 export const SUPABASE_URL = "https://sbqpkfdcznulwpxlxiwu.supabase.co";
-export const SUPABASE_ANON_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
+export const SUPABASE_ANON_KEY = "sb_publishable_9dX-ESpW0yCaFfDR0aMAg_9PLvO2oo";
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
