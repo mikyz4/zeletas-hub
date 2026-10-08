@@ -42,8 +42,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
       - run: npm install
+      - name: Wait for Netlify deployment
+        run: |
+          for i in $(seq 1 30); do
+            if curl -fsS https://zeletas.netlify.app/seguridad/ > /dev/null; then exit 0; fi
+            sleep 5
+          done
+          echo "Netlify did not expose the expected route in time"
+          exit 1
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
         env:
