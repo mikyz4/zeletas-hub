@@ -10,8 +10,6 @@
 <label>Género<input id="gender" maxlength="80"></label>
 <label>Fecha de nacimiento<input id="birthdate" type="date"></label>
 <label>Biografía<textarea id="bio" maxlength="1000"></textarea></label>
-<label><input id="publicProfile" type="checkbox"> Perfil público</label>
-<label><input id="smsAlerts" type="checkbox"> Alertas SMS</label>
 <button class="btn btn-primary" type="submit">Guardar cambios</button>
 </form><p id="status" role="status" aria-live="polite"></p>
 </div>
@@ -36,10 +34,10 @@ async function init(){
  if(error){$('status').textContent='No se pudo cargar el perfil.';return;}
  $('displayName').value=data.display_name||user.user_metadata?.full_name||'';
  $('address').value=data.address||'';$('gender').value=data.gender||'';$('birthdate').value=data.birthdate||'';
- $('bio').value=data.bio||'';$('publicProfile').checked=data.public_profile;$('smsAlerts').checked=data.sms_alerts;
+ $('bio').value=data.bio||'';
 }
 $('profileForm').addEventListener('submit',async e=>{e.preventDefault();$('status').textContent='Guardando…';
- const {error}=await supabase.from('profiles').update({display_name:$('displayName').value.trim(),address:$('address').value.trim()||null,gender:$('gender').value.trim()||null,birthdate:$('birthdate').value||null,bio:$('bio').value.trim()||null,public_profile:$('publicProfile').checked,sms_alerts:$('smsAlerts').checked}).eq('user_id',user.id);
+ const {error}=await supabase.from('profiles').update({display_name:$('displayName').value.trim(),address:$('address').value.trim()||null,gender:$('gender').value.trim()||null,birthdate:$('birthdate').value||null,bio:$('bio').value.trim()||null}).eq('user_id',user.id);
  $('status').textContent=error?'No se pudieron guardar los cambios.':'Cambios guardados.';$('status').style.color=error?'red':'green';});
 $('resetPassword').onclick=async()=>{if(!user?.email)return alert('Esta cuenta no tiene correo para recuperación.');try{await requestPasswordReset(user.email);alert('Si la cuenta puede recuperar contraseña, recibirás un enlace.')}catch{alert('No se pudo solicitar la recuperación.')}};
 $('deleteAccount').onclick=async()=>{if(!confirm('Esta acción elimina la cuenta de forma irreversible. ¿Continuar?'))return;try{await deleteCurrentAccount();location.replace('../index.html')}catch(e){console.error(e);alert('No se pudo eliminar la cuenta.')}};
