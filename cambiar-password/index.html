@@ -1,67 +1,7 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cambiar contraseña - Zeletas Hub</title>
-  <link rel="stylesheet" href="../assets/css/styles.css">
-</head>
-<body>
-<section class="hero">
-  <h2>Crear nueva contraseña</h2>
-  <form id="passwordForm">
-    <input id="password" type="password" autocomplete="new-password" minlength="8" placeholder="Nueva contraseña" required>
-    <input id="passwordConfirm" type="password" autocomplete="new-password" minlength="8" placeholder="Repite la contraseña" required>
-    <button type="submit">Guardar contraseña</button>
-  </form>
-  <p id="mensaje"></p>
-</section>
-<script type="module">
-import { supabase } from '../assets/js/supabase.js';
-import { updatePassword } from '../assets/js/auth.js';
-
-const form = document.getElementById('passwordForm');
-const mensaje = document.getElementById('mensaje');
-
-let recoverySession = false;
-
-supabase.auth.onAuthStateChange((event, session) => {
-  if (event === 'PASSWORD_RECOVERY' && session) {
-    recoverySession = true;
-  }
-});
-
-form.addEventListener('submit', async event => {
-  event.preventDefault();
-
-  const password = document.getElementById('password').value;
-  const confirmation = document.getElementById('passwordConfirm').value;
-
-  if (password.length < 8) {
-    mensaje.textContent = 'La contraseña debe tener al menos 8 caracteres.';
-    mensaje.style.color = 'red';
-    return;
-  }
-
-  if (password !== confirmation) {
-    mensaje.textContent = 'Las contraseñas no coinciden.';
-    mensaje.style.color = 'red';
-    return;
-  }
-
-  try {
-    await updatePassword(password);
-    recoverySession = true;
-    mensaje.textContent = 'Contraseña actualizada correctamente.';
-    mensaje.style.color = 'green';
-    form.reset();
-    setTimeout(() => window.location.replace('/perfil/'), 1000);
-  } catch (error) {
-    console.error('Error actualizando contraseña:', error);
-    mensaje.textContent = 'No se pudo actualizar la contraseña. Abre de nuevo el enlace recibido por correo.';
-    mensaje.style.color = 'red';
-  }
-});
-</script>
-</body>
-</html>
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Cambiar contraseña - Zeletas Hub</title><link rel="stylesheet" href="../assets/css/styles.css"></head><body><section class="hero"><h2>Crear nueva contraseña</h2><p id="state">Validando enlace de recuperación…</p><form id="passwordForm" hidden><input id="password" type="password" autocomplete="new-password" minlength="8" placeholder="Nueva contraseña" required><input id="passwordConfirm" type="password" autocomplete="new-password" minlength="8" placeholder="Repite la contraseña" required><button type="submit">Guardar contraseña</button></form><p id="mensaje" role="status" aria-live="polite"></p></section><script type="module">
+import {supabase} from '../assets/js/supabase.js'; import {updatePassword} from '../assets/js/auth.js';
+const form=document.getElementById('passwordForm'),state=document.getElementById('state'),mensaje=document.getElementById('mensaje');let recovery=false;
+supabase.auth.onAuthStateChange((event,session)=>{if(event==='PASSWORD_RECOVERY'&&session){recovery=true;state.textContent='Enlace válido. Introduce tu nueva contraseña.';form.hidden=false}});
+try{const {data:{session}}=await supabase.auth.getSession();if(session&&!recovery){state.textContent='Abre el enlace de recuperación recibido por correo para cambiar la contraseña.';setTimeout(()=>location.replace('../index.html'),2500)}}catch(e){console.error(e);state.textContent='No se pudo validar el enlace.'}
+form.addEventListener('submit',async e=>{e.preventDefault();if(!recovery){mensaje.textContent='El enlace de recuperación no es válido.';return}const a=document.getElementById('password').value,b=document.getElementById('passwordConfirm').value;if(a.length<8){mensaje.textContent='La contraseña debe tener al menos 8 caracteres.';return}if(a!==b){mensaje.textContent='Las contraseñas no coinciden.';return}try{await updatePassword(a);mensaje.textContent='Contraseña actualizada correctamente.';setTimeout(()=>location.replace('/perfil/'),1000)}catch(err){console.error(err);mensaje.textContent='No se pudo actualizar la contraseña. Solicita un nuevo enlace.'}});
+</script></body></html>
