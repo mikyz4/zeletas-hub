@@ -215,64 +215,67 @@
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-  const S_URL = "https://sbqpkfdcznulwpxlxiwu.supabase.co";
-  const S_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
-  const supabaseClient = supabase.createClient(S_URL, S_KEY);
+<script type="module">
+  import { supabase } from '../assets/js/supabase.js';
+  import { requireAuth, requestPasswordReset } from '../assets/js/auth.js';
 
   async function cargarUsuario() {
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    if (session) {
-      const user = session.user;
-      const meta = user.user_metadata;
-      
-      // Header
-      document.getElementById('nombreUsuario').textContent = meta?.full_name || "Usuario Zeletas";
-      document.getElementById('emailUsuario').textContent = user.email;
-      document.getElementById('userIdDisplay').textContent = "ID: " + user.id.substring(0, 12).toUpperCase();
-      
-      // Datos Personales
-      document.getElementById('valNombre').textContent = meta?.full_name || "No configurado";
-      document.getElementById('valTipo').textContent = meta?.account_type || "Personal (Estándar)";
-      document.getElementById('valDireccion').textContent = meta?.address || "No especificada";
-      document.getElementById('valSexo').textContent = meta?.gender || "Sin definir";
-      document.getElementById('valFecNac').textContent = meta?.birthdate || "-- / -- / ----";
-      document.getElementById('valTel').textContent = user.phone || meta?.phone || "No vinculado";
+    const session = await requireAuth('../index.html');
+    if (!session) return;
 
-      const year = new Date(user.created_at).getFullYear();
-      document.getElementById('antiguedadUser').textContent = year;
+    const user = session.user;
+    const meta = user.user_metadata || {};
 
-      if (meta?.avatar_url) document.getElementById('userImg').src = meta.avatar_url;
-    } else {
-      window.location.href = "../index.html";
-    }
+    document.getElementById('nombreUsuario').textContent = meta.full_name || 'Usuario Zeletas';
+    document.getElementById('emailUsuario').textContent = user.email || user.phone || 'Sin contacto';
+    document.getElementById('userIdDisplay').textContent = 'ID: ' + user.id.substring(0, 12).toUpperCase();
+    document.getElementById('valNombre').textContent = meta.full_name || 'No configurado';
+    document.getElementById('valTipo').textContent = meta.account_type || 'Personal (Estándar)';
+    document.getElementById('valDireccion').textContent = meta.address || 'No especificada';
+    document.getElementById('valSexo').textContent = meta.gender || 'Sin definir';
+    document.getElementById('valFecNac').textContent = meta.birthdate || '-- / -- / ----';
+    document.getElementById('valTel').textContent = user.phone || meta.phone || 'No vinculado';
+
+    const year = new Date(user.created_at).getFullYear();
+    document.getElementById('antiguedadUser').textContent = year;
+
+    if (meta.avatar_url) document.getElementById('userImg').src = meta.avatar_url;
   }
 
   function editField(field) {
-      const newVal = prompt(`Introduce el nuevo valor para: ${field}`);
-      if(newVal) alert(`Solicitud enviada para actualizar ${field}. (Función en desarrollo)`);
+    const newVal = prompt('Introduce el nuevo valor para: ' + field);
+    if (newVal) alert('La edición de ' + field + ' se habilitará cuando conectemos el perfil a la base de datos.');
   }
 
   async function resetPassword() {
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    const { error } = await supabaseClient.auth.resetPasswordForEmail(session.user.email);
-    if (error) alert("Error: " + error.message);
-    else alert("Se ha enviado un enlace de seguridad a " + session.user.email);
-  }
-
-  function deleteAccount() {
-    if(confirm("¿Estás 100% seguro? Perderás todos tus anuncios, contratos y reputación.")) {
-      alert("Procesando solicitud de eliminación segura...");
+    try {
+      const user = await supabase.auth.getUser();
+      const email = user.data.user?.email;
+      if (!email) {
+        alert('Esta cuenta no tiene un correo electrónico disponible para recuperación.');
+        return;
+      }
+      await requestPasswordReset(email);
+      alert('Si la cuenta puede recuperar contraseña, recibirás un enlace por correo.');
+    } catch (error) {
+      console.error(error);
+      alert('No se pudo solicitar la recuperación.');
     }
   }
 
-  document.getElementById('logoutBtn').onclick = async () => {
-    await supabaseClient.auth.signOut();
-    window.location.href = "../index.html";
-  };
+  function deleteAccount() {
+    alert('La eliminación de cuenta todavía requiere un endpoint seguro en servidor/Edge Function. No se ha borrado nada.');
+  }
 
-  window.onload = cargarUsuario;
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+    try {
+      await supabase.auth.signOut();
+    } finally {
+      window.location.replace('../index.html');
+    }
+  });
+
+  cargarUsuario();
 </script>
 </body>
 </html>
