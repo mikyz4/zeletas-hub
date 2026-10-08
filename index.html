@@ -182,7 +182,7 @@
 
     <!-- LOGIN GOOGLE -->
   <div class="login-providers" style="margin-bottom:20px;">
-  <button id="googleBtn" class="btn-google">
+  <button id="googleLoginBtn" class="btn-google">
     <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo">
     Continuar con Google
   </button>
@@ -206,58 +206,51 @@
 </div>
   
 <!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script type="module" src="assets/js/ui.js"></script>
-
-<script>
-  const S_URL = "https://sbqpkfdcznulwpxlxiwu.supabase.co";
-  const S_KEY = "sb_publishable_9dX-ESpW0YwCaFfDR0aMAg_9PLvO2oo";
-  const supabaseClient = supabase.createClient(S_URL, S_KEY);
+<script type="module">
+  import { supabase } from './assets/js/supabase.js';
 
   async function gestionarAcceso() {
-    // 1. Obtenemos la sesión
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    
+    const { data: { session }, error } = await supabase.auth.getSession();
+    if (error) {
+      console.error('Error comprobando la sesión:', error);
+      return;
+    }
+
     const btnCuenta = document.getElementById('btnCuenta');
     const btnCuentaMobile = document.getElementById('btnCuentaMobile');
-    const googleBtn = document.getElementById('googleBtn');
 
-    // 2. Configuración del botón de Google (siempre debe estar disponible)
-    if (googleBtn) {
-      googleBtn.onclick = async (e) => {
-        e.preventDefault();
-        await supabaseClient.auth.signInWithOAuth({
-          provider: 'google',
-          options: { redirectTo: "https://zeletas.netlify.app/" }
-        });
-      };
-    }
-
-    // 3. SI HAY SESIÓN: Aplicamos los cambios para que no haya parpadeos
     if (session) {
-      // ESTA ES LA LÍNEA MAESTRA: Activa el CSS que pusiste arriba en el <style>
       document.body.classList.add('logged-in');
 
-      const nombre = session.user.user_metadata.full_name || "Usuario";
-      
+      const nombre =
+        session.user.user_metadata?.full_name ||
+        session.user.email ||
+        'Usuario';
+
       [btnCuenta, btnCuentaMobile].forEach(btn => {
-        if (btn) {
-          // Cambiamos el texto del botón
-          btn.textContent = (btn.id === 'btnCuenta') ? "Hola, " + nombre : "Ver mi Perfil";
-          
-          // Cambiamos la función: Ahora solo redirige, el CSS se encarga del resto
-          btn.onclick = (e) => {
-            e.preventDefault();
-            window.location.href = "/perfil/";
-          };
-        }
+        if (!btn) return;
+        btn.textContent = btn.id === 'btnCuenta'
+          ? 'Hola, ' + nombre
+          : 'Ver mi Perfil';
+        btn.onclick = event => {
+          event.preventDefault();
+          window.location.replace('/perfil/');
+        };
       });
     }
+
+    supabase.auth.onAuthStateChange((event, currentSession) => {
+      if (event === 'SIGNED_OUT' || !currentSession) {
+        document.body.classList.remove('logged-in');
+        window.dispatchEvent(new CustomEvent('zeletas:auth-change', {
+          detail: { event, session: null }
+        }));
+      }
+    });
   }
 
-  // Ejecutamos la función al cargar la ventana
-  window.onload = gestionarAcceso;
+  gestionarAcceso();
 </script>
-
 </body>
 </html>
