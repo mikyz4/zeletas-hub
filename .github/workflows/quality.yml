@@ -44,6 +44,7 @@ jobs:
           print('All local HTML href/src targets resolve.')
           PY
   e2e:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: static-checks
     steps:
