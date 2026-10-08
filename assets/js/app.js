@@ -1,7 +1,4 @@
 import { supabase } from './supabase.js';
-import { redirectIfAuthenticated } from './auth.js';
-
-redirectIfAuthenticated();
 
 document.addEventListener('DOMContentLoaded', () => {
   const modalCuenta = document.getElementById('modalCuenta');
