@@ -21,13 +21,13 @@
 <a class="card" href="../contacto/index.html">Soporte</a>
 </div>
 <div class="card">
-<h2>Seguridad</h2><button id="resetPassword" class="btn btn-secondary">Cambiar contraseña</button>
+<h2>Seguridad</h2><div id="mfaBox"><p id="mfaStatus">Comprobando autenticación en dos pasos…</p><button id="enableMfa" class="btn btn-secondary">Activar autenticación con app</button><div id="mfaEnroll" hidden><p>Escanea este QR con Google Authenticator, Authy, 1Password o similar y escribe el código.</p><img id="mfaQr" alt="Código QR para configurar autenticación" style="max-width:240px;background:#fff;padding:10px"><input id="mfaCode" inputmode="numeric" maxlength="6" placeholder="123456"><button id="confirmMfa" class="btn btn-primary">Confirmar MFA</button></div></div><button id="resetPassword" class="btn btn-secondary">Cambiar contraseña</button>
 <button id="deleteAccount" class="btn btn-secondary" style="margin-left:8px">Eliminar cuenta</button>
 <button id="logout" class="btn btn-primary" style="margin-left:8px">Cerrar sesión</button>
 </div></main>
 <script type="module">
 import { supabase } from '../assets/js/supabase.js';
-import { requireAuth,requestPasswordReset,deleteCurrentAccount } from '../assets/js/auth.js';
+import { requireAuth,requestPasswordReset,deleteCurrentAccount,listMfaFactors,enrollTotp,verifyTotp,deleteMfaFactor } from '../assets/js/auth.js';
 const $=id=>document.getElementById(id);let user;
 async function init(){
  const session=await requireAuth('../index.html');if(!session)return;user=session.user;
@@ -44,5 +44,7 @@ $('profileForm').addEventListener('submit',async e=>{e.preventDefault();$('statu
 $('resetPassword').onclick=async()=>{if(!user?.email)return alert('Esta cuenta no tiene correo para recuperación.');try{await requestPasswordReset(user.email);alert('Si la cuenta puede recuperar contraseña, recibirás un enlace.')}catch{alert('No se pudo solicitar la recuperación.')}};
 $('deleteAccount').onclick=async()=>{if(!confirm('Esta acción elimina la cuenta de forma irreversible. ¿Continuar?'))return;try{await deleteCurrentAccount();location.replace('../index.html')}catch(e){console.error(e);alert('No se pudo eliminar la cuenta.')}};
 $('logout').onclick=async()=>{await supabase.auth.signOut();location.replace('../index.html')};
-init();
+async function loadMfa(){try{const f=await listMfaFactors();const verified=f.totp.find(x=>x.status==='verified');$('mfaStatus').textContent=verified?'MFA activado correctamente.':'MFA no está activado.';if(verified){$('enableMfa').textContent='Desactivar MFA';$('enableMfa').onclick=async()=>{await deleteMfaFactor(verified.id);location.reload()}}else{$('enableMfa').onclick=async()=>{const d=await enrollTotp();$('mfaEnroll').hidden=false;$('mfaQr').src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(d.totp.qr_code);$('enableMfa').disabled=true;$('confirmMfa').onclick=async()=>{try{await verifyTotp(d.id,$('mfaCode').value.trim());location.reload()}catch(e){console.error(e);$('mfaStatus').textContent='Código MFA incorrecto.'}}}}}catch(e){console.error(e);$('mfaStatus').textContent='No se pudo comprobar MFA.'}}
+
+init().then(loadMfa);
 </script></body></html>
