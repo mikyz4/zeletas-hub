@@ -1,5 +1,5 @@
 import { supabase } from './supabase.js';
-import { signInWithGoogle, sendPhoneOtp, verifyPhoneOtp } from './auth.js';
+import { signInWithGoogle, sendPhoneOtp, verifyPhoneOtp, routeAfterAuth } from './auth.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const hamburger = document.querySelector('.hamburger');
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
         mensaje.style.color = 'green';
       }
 
-      window.location.replace('/perfil/');
+      await routeAfterAuth('/perfil/');
     } catch (error) {
       console.error('Error verificando OTP:', error);
       if (mensaje) {
