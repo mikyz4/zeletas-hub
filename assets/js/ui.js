@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   btnCuenta?.addEventListener('click', abrirModal);
   btnCuentaMobile?.addEventListener('click', abrirModal);
   closeCuenta?.addEventListener('click', cerrarModal);
+  if (window.location.hash === '#cuenta') abrirModal();
 
   window.addEventListener('click', event => {
     if (event.target === modalCuenta) cerrarModal();
