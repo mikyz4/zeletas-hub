@@ -13,3 +13,6 @@ Applied to Supabase project sbqpkfdcznulwpxlxiwu:
 The authoritative SQL currently exists in the Supabase migration history. This manifest records the applied enterprise phase while the GitHub API safety gate rejects the large SQL migration payloads.
 - enterprise_authorization_hardening
 - enterprise_foreign_key_indexes
+
+- enterprise_order_stock_transaction
+- enterprise_rls_policy_cleanup
