@@ -1,72 +1,32 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contacto - ZELETAS HUB</title>
-  
-  <link rel="stylesheet" href="../assets/css/styles.css">
-  
-  <style>
-    body.logged-in .modal { display: none !important; }
-    
-    /* Estilo rápido para el formulario de contacto */
-    .contact-form {
-      max-width: 600px;
-      margin: 40px auto;
-      background: var(--card-bg);
-      padding: 30px;
-      border-radius: 12px;
-      border: 1px solid var(--border-color);
-    }
-    .contact-form input, .contact-form textarea {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 20px;
-      background: #0a0a0a;
-      border: 1px solid var(--border-color);
-      color: white;
-      border-radius: 5px;
-      font-family: inherit;
-    }
-    .contact-form textarea { height: 120px; resize: vertical; }
-  </style>
-
-  <link rel="icon" type="image/png" href="../assets/img/logo-zeletas.png">
-  <link rel="apple-touch-icon" href="../assets/img/logo-zeletas.png">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contacto - ZELETAS HUB</title><link rel="stylesheet" href="../assets/css/styles.css">
 </head>
-
-<body class="logged-in">
-
-<header>
-  <div class="header-inner">
-    <div class="logo">ZELETAS <span>Contacto</span></div>
-    <nav class="nav-desktop">
-      <a href="../index.html">Volver al Hub</a>
-    </nav>
-  </div>
-</header>
-
+<body>
+<header><div class="header-inner"><div class="logo">ZELETAS <span>Contacto</span></div><nav class="nav-desktop"><a href="../index.html">Volver al Hub</a></nav></div></header>
 <main class="section">
-  <h2 class="section-title">¿En qué podemos ayudarte?</h2>
-  <p class="section-subtitle">Envíanos tu consulta y nuestro equipo te responderá a la mayor brevedad.</p>
-
-  <form class="contact-form">
-    <label>Nombre completo</label>
-    <input type="text" placeholder="Ej: Juan Pérez" required>
-    
-    <label>Correo electrónico</label>
-    <input type="email" placeholder="tu@email.com" required>
-    
-    <label>Tu mensaje</label>
-    <textarea placeholder="Cuéntanos qué necesitas..."></textarea>
-    
-    <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar Mensaje</button>
-  </form>
+<h2 class="section-title">¿En qué podemos ayudarte?</h2>
+<p class="section-subtitle">Envíanos tu consulta y nuestro equipo te responderá a la mayor brevedad.</p>
+<form id="contactForm" class="contact-form" style="max-width:600px;margin:40px auto">
+<label for="name">Nombre completo</label><input id="name" name="name" autocomplete="name" required maxlength="120">
+<label for="email">Correo electrónico</label><input id="email" name="email" type="email" autocomplete="email" required maxlength="320">
+<label for="phone">Teléfono (opcional)</label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="40">
+<label for="subject">Asunto (opcional)</label><input id="subject" name="subject" maxlength="160">
+<label for="message">Tu mensaje</label><textarea id="message" name="message" required minlength="10" maxlength="5000"></textarea>
+<button id="submitContact" type="submit" class="btn btn-primary" style="width:100%">Enviar Mensaje</button>
+<p id="contactMessage" role="status" aria-live="polite"></p>
+</form>
 </main>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script type="module" src="../assets/js/ui.js"></script>
-
-</body>
-</html>
+<script type="module">
+import { submitContactRequest } from '../assets/js/auth.js';
+const form=document.getElementById('contactForm'),out=document.getElementById('contactMessage'),btn=document.getElementById('submitContact');
+form.addEventListener('submit',async e=>{
+ e.preventDefault();btn.disabled=true;out.textContent='Enviando…';
+ try{const data=Object.fromEntries(new FormData(form).entries());await submitContactRequest(data);form.reset();out.textContent='Consulta enviada correctamente.';out.style.color='green';}
+ catch(err){console.error(err);out.textContent='No se pudo enviar la consulta. Inténtalo de nuevo en unos instantes.';out.style.color='red';}
+ finally{btn.disabled=false;}
+});
+</script>
+</body></html>
