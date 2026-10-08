@@ -36,10 +36,11 @@ export async function redirectIfAuthenticated(path = '/perfil/') {
 }
 
 export async function requireAuth(path = '/') {
+  const safePath = safeInternalPath(path, '/');
   try {
     const session = await getSession();
     if (!session) {
-      window.location.replace(path);
+      window.location.replace(safePath);
       return null;
     }
     const { data, error } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
@@ -50,7 +51,7 @@ export async function requireAuth(path = '/') {
     return session;
   } catch (error) {
     console.error('Error comprobando la autenticación:', error);
-    window.location.replace(path);
+    window.location.replace(safePath);
     return null;
   }
 }
