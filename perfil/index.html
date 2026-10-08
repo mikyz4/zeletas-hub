@@ -1,281 +1,48 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Perfil Pro - ZELETAS HUB</title>
-  <link rel="stylesheet" href="../assets/css/styles.css">
-  <style>
-    body { background-color: var(--bg); color: var(--text); padding-bottom: 80px; }
-    .main-wrapper { max-width: 1250px; margin: 0 auto; padding: 25px; }
-
-    /* --- CABECERA NIVEL ENTERPRISE --- */
-    .header-premium {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 25px;
-      padding: 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: var(--shadow);
-      margin-bottom: 30px;
-      position: relative;
-    }
-    .user-core { display: flex; align-items: center; gap: 30px; }
-    .avatar-v3 { 
-      width: 120px; height: 120px; border-radius: 50%; border: 4px solid var(--green);
-      padding: 5px; background: var(--bg); box-shadow: 0 0 25px rgba(0, 200, 83, 0.2);
-    }
-    .user-badge-gold { 
-      background: linear-gradient(45deg, #d4af37, #f1c40f); color: #000;
-      padding: 4px 12px; border-radius: 6px; font-weight: 900; font-size: 0.7rem; margin-top: 10px; display: inline-block;
-    }
-
-    /* --- DASHBOARD DE MÉTRICAS (PRO) --- */
-    .metrics-row { 
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-      gap: 15px; margin-bottom: 30px; 
-    }
-    .metric-card { 
-      background: var(--card); border: 1px solid var(--border); border-radius: 18px; 
-      padding: 20px; text-align: center; transition: 0.3s;
-    }
-    .metric-card:hover { border-color: var(--green); background: var(--bg2); }
-    .metric-val { display: block; font-size: 1.8rem; font-weight: 800; color: var(--green); }
-    .metric-label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-
-    /* --- SECCIONES DE FUNCIONES --- */
-    .grid-main { display: grid; grid-template-columns: 2fr 1fr; gap: 25px; }
-    @media (max-width: 900px) { .grid-main { grid-template-columns: 1fr; } }
-
-    .content-box { 
-      background: var(--card); border: 1px solid var(--border); 
-      border-radius: 20px; padding: 25px; margin-bottom: 25px; 
-    }
-    .content-box h3 { 
-      color: var(--green); margin-bottom: 20px; font-size: 1.2rem; 
-      display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(0, 200, 83, 0.1); padding-bottom: 10px;
-    }
-
-    /* --- LISTAS DE CONTROL --- */
-    .control-item { 
-      display: flex; justify-content: space-between; align-items: center; 
-      padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    .control-item:last-child { border-bottom: none; }
-    .control-info h4 { font-size: 0.95rem; margin-bottom: 4px; }
-    .control-info p { font-size: 0.8rem; color: var(--muted); }
-    .data-value { color: var(--text); font-weight: 600; font-size: 0.9rem; }
-
-    /* --- BOTONES Y TOGGLES --- */
-    .btn-action-pro { 
-      background: rgba(0, 200, 83, 0.1); border: 1px solid var(--border); color: var(--green);
-      padding: 8px 16px; border-radius: 10px; cursor: pointer; font-size: 0.85rem; font-weight: 700; transition: 0.2s;
-    }
-    .btn-action-pro:hover { background: var(--green); color: var(--bg); }
-    
-    .btn-danger-pro { color: #ff5252; border-color: rgba(255, 82, 82, 0.3); }
-    .btn-danger-pro:hover { background: #ff5252; color: #fff; }
-
-    /* --- FOOTER DE SESIÓN --- */
-    .footer-controls { 
-      margin-top: 50px; padding: 30px; background: var(--bg2); 
-      border-top: 2px solid var(--green); border-radius: 25px 25px 0 0; text-align: center;
-    }
-  </style>
-</head>
-<body>
-
-<div class="main-wrapper">
-  
-  <header class="header-premium">
-    <div class="user-core">
-      <div class="avatar-container">
-        <img id="userImg" src="https://via.placeholder.com/120" alt="Avatar" class="avatar-v3">
-      </div>
-      <div class="user-info">
-        <h2 id="nombreUsuario" style="font-size: 2.2rem;">...</h2>
-        <p id="emailUsuario" class="listing-meta"></p>
-        <span class="user-badge-gold">MIEMBRO FOUNDER</span>
-      </div>
-    </div>
-    <div style="text-align: right;">
-        <p class="listing-meta">Reputación Global</p>
-        <div style="color: gold; font-size: 1.2rem;">★★★★★</div>
-        <p id="userIdDisplay" style="font-size: 0.6rem; color: var(--muted); margin-top: 10px;">ID: ...</p>
-    </div>
-  </header>
-
-  <div class="metrics-row">
-    <div class="metric-card"><span class="metric-val">12</span><span class="metric-label">Anuncios Activos</span></div>
-    <div class="metric-card"><span class="metric-val">2.5k</span><span class="metric-label">Puntos Zeletas</span></div>
-    <div class="metric-card"><span class="metric-val">450,00€</span><span class="metric-label">Saldo Disponible</span></div>
-    <div class="metric-card"><span id="antiguedadUser" class="metric-val">2025</span><span class="metric-label">Socio Desde</span></div>
-  </div>
-
-  <div class="grid-main">
-    
-    <div class="left-col">
-      <div class="content-box">
-        <h3>📝 Información del Titular</h3>
-        
-        <div class="control-item">
-            <div class="control-info"><h4>Nombre Completo</h4><p id="valNombre">Cargando...</p></div>
-            <button class="btn-action-pro" onclick="editField('Nombre')">Cambiar</button>
-        </div>
-
-        <div class="control-item">
-            <div class="control-info"><h4>Tipo de Cuenta</h4><p id="valTipo">Personal (Estándar)</p></div>
-            <button class="btn-action-pro" onclick="editField('Tipo de Cuenta')">Cambiar a Pro</button>
-        </div>
-
-        <div class="control-item">
-            <div class="control-info"><h4>Dirección de Residencia</h4><p id="valDireccion">No especificada</p></div>
-            <button class="btn-action-pro" onclick="editField('Dirección')">Editar</button>
-        </div>
-
-        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 20px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 15px; padding-top: 15px;">
-            <div class="control-info"><h4>Género</h4><p id="valSexo">Sin definir</p><button class="btn-action-pro" style="margin-top:5px" onclick="editField('Sexo')">Editar</button></div>
-            <div class="control-info"><h4>Fecha Nacimiento</h4><p id="valFecNac">-- / -- / ----</p><button class="btn-action-pro" style="margin-top:5px" onclick="editField('Fecha de Nacimiento')">Editar</button></div>
-        </div>
-
-        <div class="control-item" style="margin-top:15px;">
-            <div class="control-info"><h4>Número de Teléfono</h4><p id="valTel">+34 --- --- ---</p></div>
-            <button class="btn-action-pro" onclick="editField('Teléfono')">Vincular</button>
-        </div>
-      </div>
-
-      <div class="content-box">
-        <h3>🧩 Gestión de Mis Verticales</h3>
-        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 15px;">
-           <a href="../mis-anuncios/" class="card" style="padding:15px; text-decoration:none;"><h4>Marketplace</h4><p class="listing-meta">Tus productos a la venta</p></a>
-           <a href="../mis-vehiculos/" class="card" style="padding:15px; text-decoration:none;"><h4>Garaje</h4><p class="listing-meta">Gestión de tus vehículos</p></a>
-           <a href="../mi-inmobiliaria/" class="card" style="padding:15px; text-decoration:none;"><h4>Propiedades</h4><p class="listing-meta">Inmuebles y alquileres</p></a>
-           <a href="../mis-servicios/" class="card" style="padding:15px; text-decoration:none;"><h4>Asistencia</h4><p class="listing-meta">Servicios técnicos Zeletas</p></a>
-        </div>
-      </div>
-    </div>
-
-    <div class="right-col">
-      <div class="content-box">
-        <h3>🛡️ Seguridad y Acceso</h3>
-        <div class="control-item">
-          <div class="control-info"><h4>Contraseña</h4><p>••••••••••••</p></div>
-          <button class="btn-action-pro" onclick="resetPassword()">Cambiar</button>
-        </div>
-        <div class="control-item">
-          <div class="control-info"><h4>2FA</h4><p>Doble factor desactivado.</p></div>
-          <button class="btn-action-pro">Activar</button>
-        </div>
-        <div class="control-item">
-            <div class="control-info"><h4>Logs</h4><p>Último acceso: Hoy</p></div>
-            <button class="btn-action-pro">Ver</button>
-        </div>
-      </div>
-
-      <div class="content-box">
-        <h3>⚙️ Preferencias Hub</h3>
-        <div class="control-item">
-          <div class="control-info"><h4>Perfil Público</h4><p>Visibilidad en el buscador.</p></div>
-          <div class="toggle active" onclick="this.classList.toggle('active')"></div>
-        </div>
-        <div class="control-item">
-          <div class="control-info"><h4>Alertas SMS</h4><p>Notificaciones críticas.</p></div>
-          <div class="toggle" onclick="this.classList.toggle('active')"></div>
-        </div>
-      </div>
-
-      <div class="content-box">
-        <h3>📩 Centro de Ayuda</h3>
-        <button class="btn btn-primary" style="width:100%;">Contactar Soporte</button>
-        <button class="btn btn-secondary" style="width:100%; margin-top:10px;">Documentación</button>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="content-box" style="border-color: rgba(255,82,82,0.3);">
-    <h3 style="color:#ff5252;">⚠️ Zona Crítica de Usuario</h3>
-    <div class="control-item">
-        <div class="control-info"><h4>Borrar rastro</h4><p>Limpiar logs y búsquedas.</p></div>
-        <button class="btn-action-pro">Limpiar</button>
-    </div>
-    <div class="control-item">
-        <div class="control-info"><h4>Eliminar Cuenta</h4><p>Borrado irreversible.</p></div>
-        <button class="btn-action-pro btn-danger-pro" onclick="deleteAccount()">Eliminar Todo</button>
-    </div>
-  </div>
-
-  <div class="footer-controls">
-    <button id="logoutBtn" class="btn btn-primary" style="padding: 15px 60px; font-size: 1.1rem;">Cerrar Sesión de Forma Segura</button>
-    <br>
-    <a href="../index.html" style="display:inline-block; margin-top:20px; color:var(--muted); text-decoration:none;">← Volver al Hub Principal</a>
-  </div>
-
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Mi Perfil - ZELETAS HUB</title><link rel="stylesheet" href="../assets/css/styles.css"></head>
+<body><main class="section" style="max-width:1100px;margin:auto">
+<div class="card">
+<h1>Mi perfil</h1><p id="accountContact">Cargando…</p>
+<form id="profileForm">
+<label>Nombre completo<input id="displayName" maxlength="120"></label>
+<label>Dirección<input id="address" maxlength="250"></label>
+<label>Género<input id="gender" maxlength="80"></label>
+<label>Fecha de nacimiento<input id="birthdate" type="date"></label>
+<label>Biografía<textarea id="bio" maxlength="1000"></textarea></label>
+<label><input id="publicProfile" type="checkbox"> Perfil público</label>
+<label><input id="smsAlerts" type="checkbox"> Alertas SMS</label>
+<button class="btn btn-primary" type="submit">Guardar cambios</button>
+</form><p id="status" role="status" aria-live="polite"></p>
 </div>
-
+<div class="grid">
+<a class="card" href="../marketplace/general.html">Marketplace</a>
+<a class="card" href="../chat/index.html">Mensajes</a>
+<a class="card" href="../contacto/index.html">Soporte</a>
+</div>
+<div class="card">
+<h2>Seguridad</h2><button id="resetPassword" class="btn btn-secondary">Cambiar contraseña</button>
+<button id="deleteAccount" class="btn btn-secondary" style="margin-left:8px">Eliminar cuenta</button>
+<button id="logout" class="btn btn-primary" style="margin-left:8px">Cerrar sesión</button>
+</div></main>
 <script type="module">
-  import { supabase } from '../assets/js/supabase.js';
-  import { requireAuth, requestPasswordReset } from '../assets/js/auth.js';
-
-  async function cargarUsuario() {
-    const session = await requireAuth('../index.html');
-    if (!session) return;
-
-    const user = session.user;
-    const meta = user.user_metadata || {};
-
-    document.getElementById('nombreUsuario').textContent = meta.full_name || 'Usuario Zeletas';
-    document.getElementById('emailUsuario').textContent = user.email || user.phone || 'Sin contacto';
-    document.getElementById('userIdDisplay').textContent = 'ID: ' + user.id.substring(0, 12).toUpperCase();
-    document.getElementById('valNombre').textContent = meta.full_name || 'No configurado';
-    document.getElementById('valTipo').textContent = meta.account_type || 'Personal (Estándar)';
-    document.getElementById('valDireccion').textContent = meta.address || 'No especificada';
-    document.getElementById('valSexo').textContent = meta.gender || 'Sin definir';
-    document.getElementById('valFecNac').textContent = meta.birthdate || '-- / -- / ----';
-    document.getElementById('valTel').textContent = user.phone || meta.phone || 'No vinculado';
-
-    const year = new Date(user.created_at).getFullYear();
-    document.getElementById('antiguedadUser').textContent = year;
-
-    if (meta.avatar_url) document.getElementById('userImg').src = meta.avatar_url;
-  }
-
-  function editField(field) {
-    const newVal = prompt('Introduce el nuevo valor para: ' + field);
-    if (newVal) alert('La edición de ' + field + ' se habilitará cuando conectemos el perfil a la base de datos.');
-  }
-
-  async function resetPassword() {
-    try {
-      const user = await supabase.auth.getUser();
-      const email = user.data.user?.email;
-      if (!email) {
-        alert('Esta cuenta no tiene un correo electrónico disponible para recuperación.');
-        return;
-      }
-      await requestPasswordReset(email);
-      alert('Si la cuenta puede recuperar contraseña, recibirás un enlace por correo.');
-    } catch (error) {
-      console.error(error);
-      alert('No se pudo solicitar la recuperación.');
-    }
-  }
-
-  function deleteAccount() {
-    alert('La eliminación de cuenta todavía requiere un endpoint seguro en servidor/Edge Function. No se ha borrado nada.');
-  }
-
-  document.getElementById('logoutBtn').addEventListener('click', async () => {
-    try {
-      await supabase.auth.signOut();
-    } finally {
-      window.location.replace('../index.html');
-    }
-  });
-
-  cargarUsuario();
-</script>
-</body>
-</html>
+import { supabase } from '../assets/js/supabase.js';
+import { requireAuth,requestPasswordReset,deleteCurrentAccount } from '../assets/js/auth.js';
+const $=id=>document.getElementById(id);let user;
+async function init(){
+ const session=await requireAuth('../index.html');if(!session)return;user=session.user;
+ $('accountContact').textContent=user.email||user.phone||'Sin contacto';
+ const {data,error}=await supabase.from('profiles').select('*').eq('user_id',user.id).single();
+ if(error){$('status').textContent='No se pudo cargar el perfil.';return;}
+ $('displayName').value=data.display_name||user.user_metadata?.full_name||'';
+ $('address').value=data.address||'';$('gender').value=data.gender||'';$('birthdate').value=data.birthdate||'';
+ $('bio').value=data.bio||'';$('publicProfile').checked=data.public_profile;$('smsAlerts').checked=data.sms_alerts;
+}
+$('profileForm').addEventListener('submit',async e=>{e.preventDefault();$('status').textContent='Guardando…';
+ const {error}=await supabase.from('profiles').update({display_name:$('displayName').value.trim(),address:$('address').value.trim()||null,gender:$('gender').value.trim()||null,birthdate:$('birthdate').value||null,bio:$('bio').value.trim()||null,public_profile:$('publicProfile').checked,sms_alerts:$('smsAlerts').checked}).eq('user_id',user.id);
+ $('status').textContent=error?'No se pudieron guardar los cambios.':'Cambios guardados.';$('status').style.color=error?'red':'green';});
+$('resetPassword').onclick=async()=>{if(!user?.email)return alert('Esta cuenta no tiene correo para recuperación.');try{await requestPasswordReset(user.email);alert('Si la cuenta puede recuperar contraseña, recibirás un enlace.')}catch{alert('No se pudo solicitar la recuperación.')}};
+$('deleteAccount').onclick=async()=>{if(!confirm('Esta acción elimina la cuenta de forma irreversible. ¿Continuar?'))return;try{await deleteCurrentAccount();location.replace('../index.html')}catch(e){console.error(e);alert('No se pudo eliminar la cuenta.')}};
+$('logout').onclick=async()=>{await supabase.auth.signOut();location.replace('../index.html')};
+init();
+</script></body></html>
