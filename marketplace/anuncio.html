@@ -1,43 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detalle del Anuncio - ZELETAS</title>
-  <link rel="stylesheet" href="../assets/css/styles.css">
-  <style>
-    .anuncio-container { max-width: 800px; margin: 40px auto; padding: 20px; }
-    .galeria { display: flex; gap: 10px; margin: 20px 0; overflow-x: auto; }
-    .galeria img { width: 100%; max-width: 400px; border-radius: 12px; border: 1px solid #333; }
-    .precio { font-size: 2rem; color: #00c853; font-weight: bold; margin: 10px 0; }
-  </style>
-</head>
-<body>
-
-<header>
-  <div class="header-inner">
-    <div class="logo">ZELETAS <span>Anuncio</span></div>
-    <a href="index.html" class="btn-cuenta">Volver</a>
-  </div>
-</header>
-
-<main class="anuncio-container">
-  <div class="badge">Segunda Mano</div>
-  <h1>BMW Serie 3 2019</h1>
-  <p class="precio">18.500€</p>
-  
-  <div class="galeria">
-    <img src="../assets/img/car1.jpg" alt="Vista frontal">
-    <img src="../assets/img/car2.jpg" alt="Interior">
-  </div>
-
-  <div class="card">
-    <h3>Descripción</h3>
-    <p>60.000 km, excelente estado, todas las revisiones al día en casa oficial. Un solo dueño.</p>
-    <hr style="border: 0.5px solid #333; margin: 20px 0;">
-    <button class="btn btn-primary" onclick="window.location.href='../chat/index.html'">💬 Contactar con el vendedor</button>
-  </div>
-</main>
-
-</body>
-</html>
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Anuncio - ZELETAS</title><link rel="stylesheet" href="../assets/css/styles.css"></head><body><main class="section"><article id="card" class="card" style="max-width:850px;margin:auto"><p>Cargando…</p></article></main><script type="module">
+import {supabase} from '../assets/js/supabase.js';import {requireAuth} from '../assets/js/auth.js';
+const id=new URLSearchParams(location.search).get('id'),card=document.getElementById('card');if(!id){card.textContent='Anuncio no encontrado.'}else{const {data:x,error}=await supabase.from('listings').select('id,owner_id,title,description,price,city,category').eq('id',id).single();if(error||!x){card.textContent='Anuncio no encontrado.'}else{card.innerHTML='<h1></h1><p></p><strong></strong><p></p><div id="actions"></div>';card.children[0].textContent=x.title;card.children[1].textContent=x.description;card.children[2].textContent=x.price==null?'Precio a consultar':Number(x.price).toLocaleString('es-ES',{style:'currency',currency:'EUR'});card.children[3].textContent=x.city?'Ubicación: '+x.city:'';const actions=document.getElementById('actions');const session=await requireAuth('../index.html');if(session&&session.user.id!==x.owner_id){const b=document.createElement('button');b.className='btn btn-primary';b.textContent='Contactar con el vendedor';b.onclick=async()=>{b.disabled=true;const c=await supabase.from('conversations').insert({listing_id:x.id,created_by:session.user.id}).select('id').single();if(c.error){alert('No se pudo iniciar la conversación.');b.disabled=false;return}const m=await supabase.from('conversation_members').insert([{conversation_id:c.data.id,user_id:session.user.id},{conversation_id:c.data.id,user_id:x.owner_id}]);if(m.error){alert('No se pudo abrir el chat.');return}location.href='../chat/?conversation='+c.data.id};actions.appendChild(b)}}}
+</script></body></html>
