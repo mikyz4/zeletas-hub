@@ -17,13 +17,14 @@ Deno.serve(async req=>{
  const object=event.data.object as any;
  const orderId=object?.metadata?.order_id||object?.client_reference_id||null;
 
- const recorded=await admin.from("payment_events").upsert({external_event_id:event.id,event_type:event.type,order_id:orderId,payload:event,processed_at:new Date().toISOString()},{onConflict:"external_event_id"});
- if(recorded.error){console.error(recorded.error);return new Response("Database error",{status:500})}
+ const recorded=await admin.from("payment_events").insert({external_event_id:event.id,event_type:event.type,order_id:orderId,payload:event,processed_at:new Date().toISOString()});
+ if(recorded.error){if(recorded.error.code==="23505")return Response.json({received:true});console.error(recorded.error);return new Response("Database error",{status:500})}
  if(!orderId)return Response.json({received:true});
 
  if(event.type==="checkout.session.completed"){
    const confirmed=await admin.rpc("confirm_checkout_payment",{p_order_id:orderId,p_payment_intent_id:object.payment_intent||null});
-   if(confirmed.error||confirmed.data!==true){console.error(confirmed.error);return new Response("Order confirmation failed",{status:500})}
+   if(confirmed.error){console.error(confirmed.error);return new Response("Order confirmation failed",{status:500})}
+   if(confirmed.data!==true)return Response.json({received:true})
    const order=await admin.from("orders").select("buyer_id,total").eq("id",orderId).single();
    if(order.data?.buyer_id){
      const note=await admin.from("notifications").insert({user_id:order.data.buyer_id,type:"payment",title:"Pago confirmado",body:"Tu pedido ha sido pagado correctamente.",data:{order_id:orderId,total:order.data.total}});
