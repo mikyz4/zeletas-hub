@@ -1,2 +1,5 @@
-/acceso/* /acceso/index.html  200
-/perfil/* /perfil/index.html  200
+/acceso/* /acceso/index.html 200
+/perfil/* /perfil/index.html 200
+/seguridad/* /seguridad/index.html 200
+/gestion/* /gestion/index.html 200
+/notificaciones/* /notificaciones/index.html 200
