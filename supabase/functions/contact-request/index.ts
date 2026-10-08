@@ -7,16 +7,14 @@ Deno.serve(async(req)=>{
  if(req.method==="OPTIONS")return new Response("ok",{headers:cors});
  if(req.method!=="POST"||req.headers.get("origin")!==ORIGIN)return json({error:"Not allowed"},403);
  let p:any;try{p=await req.json()}catch{return json({error:"Invalid JSON"},400)}
- const name=String(p.name??"").trim(),email=String(p.email??"").trim().toLowerCase(),phone=String(p.phone??"").trim(),subject=String(p.subject??"").trim(),message=String(p.message??"").trim();
+ const honeypot=String(p.website??"").trim();if(honeypot)return json({ok:true});const name=String(p.name??"").trim(),email=String(p.email??"").trim().toLowerCase(),phone=String(p.phone??"").trim(),subject=String(p.subject??"").trim(),message=String(p.message??"").trim();
  if(name.length<2||name.length>120||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||message.length<10||message.length>5000)return json({error:"Datos no válidos."},400);
  const admin=createClient(Deno.env.get("SUPABASE_URL")!,Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
- const key=await hash((req.headers.get("x-forwarded-for")??"unknown").split(",")[0]+"|"+email);
- const {data:old}=await admin.from("contact_rate_limits").select("last_request_at").eq("key_hash",key).maybeSingle();
- if(old&&Date.now()-new Date(old.last_request_at).getTime()<60000)return json({error:"Espera un minuto antes de enviar otra consulta."},429);
+ const ip=(req.headers.get("x-forwarded-for")??"unknown").split(",")[0].trim();const keys=[await hash("ip|"+ip),await hash("email|"+email)];const {data:limits}=await admin.from("contact_rate_limits").select("key_hash,last_request_at").in("key_hash",keys);if((limits||[]).some(x=>Date.now()-new Date(x.last_request_at).getTime()<60000))return json({error:"Espera un minuto antes de enviar otra consulta."},429);
  let userId=null;const auth=req.headers.get("Authorization");
  if(auth?.startsWith("Bearer ")){const c=createClient(Deno.env.get("SUPABASE_URL")!,Deno.env.get("SUPABASE_ANON_KEY")!,{global:{headers:{Authorization:auth}}});const u=await c.auth.getUser();userId=u.data.user?.id??null;}
  const {error}=await admin.from("contact_requests").insert({user_id:userId,name,email,phone:phone||null,subject:subject||null,message});
  if(error){console.error(error);return json({error:"No se pudo registrar la consulta."},500);}
- await admin.from("contact_rate_limits").upsert({key_hash:key,last_request_at:new Date().toISOString()});
+ await admin.from("contact_rate_limits").upsert(keys.map(key_hash=>({key_hash,last_request_at:new Date().toISOString()})));
  return json({ok:true});
 });
