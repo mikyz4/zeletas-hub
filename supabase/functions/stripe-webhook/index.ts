@@ -21,7 +21,7 @@ Deno.serve(async req=>{
  if(recorded.error){if(recorded.error.code==="23505")return Response.json({received:true});console.error(recorded.error);return new Response("Database error",{status:500})}
  if(!orderId)return Response.json({received:true});
 
- if(event.type==="checkout.session.completed"){
+ if(event.type==="checkout.session.completed" && object.payment_status==="paid" || event.type==="checkout.session.async_payment_succeeded"){
    const confirmed=await admin.rpc("confirm_checkout_payment",{p_order_id:orderId,p_payment_intent_id:object.payment_intent||null});
    if(confirmed.error){console.error(confirmed.error);return new Response("Order confirmation failed",{status:500})}
    if(confirmed.data!==true)return Response.json({received:true})
@@ -32,6 +32,11 @@ Deno.serve(async req=>{
    }
  }
 
+ if(event.type==="checkout.session.async_payment_failed"){
+   const released=await admin.rpc("release_order_stock",{p_order_id:orderId});
+   if(released.error){console.error(released.error);return new Response("Order cancellation failed",{status:500})}
+ }
+ 
  if(event.type==="payment_intent.payment_failed"){
    const released=await admin.rpc("release_order_stock",{p_order_id:orderId});
    if(released.error){console.error(released.error);return new Response("Order cancellation failed",{status:500})}
