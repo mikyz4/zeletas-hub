@@ -207,50 +207,6 @@
   
 <!-- Scripts -->
 <script type="module" src="assets/js/ui.js"></script>
-<script type="module">
-  import { supabase } from './assets/js/supabase.js';
 
-  async function gestionarAcceso() {
-    const { data: { session }, error } = await supabase.auth.getSession();
-    if (error) {
-      console.error('Error comprobando la sesión:', error);
-      return;
-    }
-
-    const btnCuenta = document.getElementById('btnCuenta');
-    const btnCuentaMobile = document.getElementById('btnCuentaMobile');
-
-    if (session) {
-      document.body.classList.add('logged-in');
-
-      const nombre =
-        session.user.user_metadata?.full_name ||
-        session.user.email ||
-        'Usuario';
-
-      [btnCuenta, btnCuentaMobile].forEach(btn => {
-        if (!btn) return;
-        btn.textContent = btn.id === 'btnCuenta'
-          ? 'Hola, ' + nombre
-          : 'Ver mi Perfil';
-        btn.onclick = event => {
-          event.preventDefault();
-          window.location.replace('/perfil/');
-        };
-      });
-    }
-
-    supabase.auth.onAuthStateChange((event, currentSession) => {
-      if (event === 'SIGNED_OUT' || !currentSession) {
-        document.body.classList.remove('logged-in');
-        window.dispatchEvent(new CustomEvent('zeletas:auth-change', {
-          detail: { event, session: null }
-        }));
-      }
-    });
-  }
-
-  gestionarAcceso();
-</script>
 </body>
 </html>

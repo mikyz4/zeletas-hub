@@ -69,3 +69,14 @@ export async function updatePassword(password) {
   const { error } = await supabase.auth.updateUser({ password });
   if (error) throw error;
 }
+
+export async function submitContactRequest(payload) {
+  const { error } = await supabase.functions.invoke('contact-request', { body: payload });
+  if (error) throw error;
+}
+
+export async function deleteCurrentAccount() {
+  const { error } = await supabase.functions.invoke('delete-account', { body: {} });
+  if (error) throw error;
+  await supabase.auth.signOut();
+}
