@@ -37,6 +37,6 @@ Deno.serve(async req=>{
    await admin.from("notifications").insert({user_id:order.data.buyer_id,type:"payment",title:"Pago confirmado",body:"Tu pedido ha sido pagado correctamente.",data:{order_id:orderId}});
  }
  if(event.type==="payment_intent.payment_failed"&&orderId)await admin.from("orders").update({status:"cancelled"}).eq("id",orderId);
- if(event.type==="charge.refunded"&&orderId)await admin.from("orders").update({status:"refunded"}).eq("id",orderId);
+ if(event.type==="charge.refunded"&&orderId){const order=await admin.from("orders").select("id,buyer_id,status").eq("id",orderId).single();if(order.data&&order.data.status!=="refunded"){await admin.rpc("restore_order_stock",{target_order_id:orderId});await admin.from("orders").update({status:"refunded"}).eq("id",orderId);await admin.from("notifications").insert({user_id:order.data.buyer_id,type:"payment",title:"Pago reembolsado",body:"Tu pedido ha sido reembolsado.",data:{order_id:orderId}})}}
  return Response.json({received:true});
 });
