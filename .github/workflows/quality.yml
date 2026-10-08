@@ -12,6 +12,15 @@ jobs:
       - name: Check JavaScript syntax
         run: |
           for f in assets/js/*.js; do node --check "$f"; done
+      - name: Check Edge Function TypeScript
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: Type-check Edge Functions
+        run: |
+          for f in supabase/functions/*/index.ts; do
+            deno check "$f"
+          done
       - name: Check local HTML links and assets
         run: |
           python - <<'PY'
