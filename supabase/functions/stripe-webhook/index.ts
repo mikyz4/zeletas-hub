@@ -1,4 +1,4 @@
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.117.3";
 function adminKey(){const raw=Deno.env.get("SUPABASE_SECRET_KEYS");if(raw){try{return JSON.parse(raw).default}catch{}}return Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!}
 async function hmacHex(keyText:string,data:string){const key=await crypto.subtle.importKey("raw",new TextEncoder().encode(keyText),{name:"HMAC",hash:"SHA-256"},false,["sign"]);const out=await crypto.subtle.sign("HMAC",key,new TextEncoder().encode(data));return Array.from(new Uint8Array(out)).map(x=>x.toString(16).padStart(2,"0")).join("")}
 function sameHex(a:string,b:string){if(a.length!==b.length)return false;let d=0;for(let i=0;i<a.length;i++)d|=a.charCodeAt(i)^b.charCodeAt(i);return d===0}
