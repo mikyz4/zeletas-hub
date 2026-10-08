@@ -1,7 +1,7 @@
 import { supabase } from './supabase.js';
 
 export async function getSession(){const {data,error}=await supabase.auth.getSession();if(error)throw error;return data.session;}
-export async function routeAfterAuth(path='/perfil/'){const {data,error}=await supabase.auth.mfa.getAuthenticatorAssuranceLevel();if(!error&&data?.nextLevel==='aal2'&&data.currentLevel!=='aal2'){window.location.replace('/mfa/?next='+encodeURIComponent(path));return}window.location.replace(path)}
+export async function routeAfterAuth(path='/perfil/'){const {data,error}=await supabase.auth.mfa.getAuthenticatorAssuranceLevel();if(!error&&data?.nextLevel==='aal2'&&data.currentLevel!=='aal2'){window.location.replace('/seguridad/?next='+encodeURIComponent(path));return}window.location.replace(path)}
 export async function redirectIfAuthenticated(path='/perfil/'){try{const session=await getSession();if(session)await routeAfterAuth(path)}catch(error){console.error(error)}}
 export async function requireAuth(path='/'){try{const session=await getSession();if(!session){window.location.replace(path);return null}return session}catch(error){console.error(error);window.location.replace(path);return null}}
 export async function signInWithGoogle(){const {error}=await supabase.auth.signInWithOAuth({provider:'google',options:{redirectTo:new URL('/acceso/',window.location.origin).toString(),queryParams:{prompt:'select_account'}}});if(error)throw error}
