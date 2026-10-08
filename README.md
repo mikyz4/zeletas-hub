@@ -24,3 +24,17 @@ La clave publishable de Supabase se usa en el navegador por diseño. Nunca deben
 
 ## Estado
 Auth y el primer núcleo de Marketplace/contacto/mensajería están conectados. Pagos, multi-tienda real y los gestores avanzados de vehículos/inmuebles/servicios todavía requieren implementación de negocio adicional.
+
+## Enterprise security model
+
+- Media bucket is private. Public listing/product images are served through the signed media-url Edge Function after database visibility checks.
+- Media upload URLs are short-lived, resource-scoped and rate-limited.
+- Protected routes and sensitive Edge Functions enforce Supabase MFA/AAL2 for users who have enrolled a factor.
+- Stripe webhooks are verified with Stripe's official signature verifier and processed idempotently.
+- Checkout reserves product stock atomically in PostgreSQL before creating a Stripe session and releases it on cancellation/expiry/failure.
+- Playwright smoke and security tests run in GitHub Actions against the public Netlify deployment.
+- Edge Function TypeScript is type-checked in CI.
+
+## External production configuration
+
+Stripe requires STRIPE_SECRET_KEY and STRIPE_WEBHOOK_SECRET in Supabase Edge Function Secrets. They must never be committed to GitHub.
