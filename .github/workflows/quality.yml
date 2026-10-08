@@ -1,0 +1,36 @@
+name: Quality gate
+on:
+  push:
+    branches: [main, hardening-and-backend]
+  pull_request:
+    branches: [main]
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check JavaScript syntax
+        run: |
+          for f in assets/js/*.js; do node --check "$f"; done
+      - name: Check local HTML links and assets
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re, sys
+          root=Path('.').resolve()
+          files=set(p.relative_to(root).as_posix() for p in root.rglob('*') if p.is_file())
+          bad=[]
+          for html in root.rglob('*.html'):
+              text=html.read_text(encoding='utf-8')
+              for attr,ref in re.findall(r'\b(href|src)\s*=\s*["\']([^"\']+)',text,re.I):
+                  if ref.startswith(('#','http:','https:','mailto:','tel:','data:','javascript:')): continue
+                  clean=ref.split('#',1)[0].split('?',1)[0]
+                  target=(root / clean.lstrip('/')) if clean.startswith('/') else (html.parent / clean)
+                  if clean.endswith('/'): target=target/'index.html'
+                  try: rel=target.resolve().relative_to(root).as_posix()
+                  except ValueError:
+                      bad.append(f'{html.relative_to(root)} -> {ref}'); continue
+                  if rel not in files: bad.append(f'{html.relative_to(root)} -> {ref}')
+          if bad: print('\n'.join(bad)); sys.exit(1)
+          print('All local HTML href/src targets resolve.')
+          PY
