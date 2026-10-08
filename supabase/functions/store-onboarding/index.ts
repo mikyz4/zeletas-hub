@@ -1,4 +1,4 @@
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.117.3.117.3";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.117.3";
 const ORIGIN="https://zeletas.netlify.app";const cors={"Access-Control-Allow-Origin":ORIGIN,"Access-Control-Allow-Headers":"authorization,apikey,content-type","Access-Control-Allow-Methods":"POST,OPTIONS"};
 function key(){const r=Deno.env.get("SUPABASE_SECRET_KEYS");if(r)try{return JSON.parse(r).default}catch{}return Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!}
 function pub(){const r=Deno.env.get("SUPABASE_PUBLISHABLE_KEYS");if(r)try{return JSON.parse(r).default}catch{}return Deno.env.get("SUPABASE_ANON_KEY")!}
