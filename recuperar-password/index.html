@@ -7,41 +7,36 @@
   <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body>
-
 <section class="hero">
   <h2>Recuperar contraseña</h2>
   <form id="recuperarForm">
-    <input type="email" id="email" placeholder="Correo electrónico" required>
+    <input type="email" id="email" placeholder="Correo electrónico" autocomplete="email" required>
     <button type="submit">Enviar enlace de recuperación</button>
   </form>
-  <p>¿Recordaste tu contraseña? <a href="../login/">Iniciar sesión</a></p>
+  <p><a href="../index.html">Volver al inicio</a></p>
   <div id="mensaje"></div>
 </section>
+<script type="module">
+import { requestPasswordReset } from '../assets/js/auth.js';
 
-<script src="../assets/js/supabase.js"></script>
-<script>
-const recuperarForm = document.getElementById('recuperarForm');
+const form = document.getElementById('recuperarForm');
 const mensaje = document.getElementById('mensaje');
 
-recuperarForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
+form.addEventListener('submit', async event => {
+  event.preventDefault();
+  const email = document.getElementById('email').value.trim();
 
-  const email = document.getElementById('email').value;
-
-  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: window.location.origin + '/login/'
-  });
-
-  if (error) {
-    mensaje.textContent = error.message;
-    mensaje.style.color = 'red';
-  } else {
-    mensaje.textContent = 'Se ha enviado un enlace de recuperación a tu correo.';
+  try {
+    await requestPasswordReset(email);
+    mensaje.textContent = 'Si la cuenta existe, recibirás un enlace de recuperación por correo.';
     mensaje.style.color = 'green';
-    recuperarForm.reset();
+    form.reset();
+  } catch (error) {
+    console.error('Error solicitando recuperación:', error);
+    mensaje.textContent = 'No se pudo solicitar la recuperación. Inténtalo de nuevo.';
+    mensaje.style.color = 'red';
   }
 });
 </script>
-
 </body>
 </html>
