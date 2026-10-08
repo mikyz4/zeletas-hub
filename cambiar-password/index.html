@@ -1,7 +1,7 @@
 <!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Cambiar contraseña - ZELETAS</title><link rel="stylesheet" href="../assets/css/styles.css"></head><body><section class="hero"><h2>Crear nueva contraseña</h2><p id="guard" role="status">Esperando un enlace de recuperación válido…</p><form id="passwordForm" hidden><input id="password" type="password" autocomplete="new-password" minlength="8" placeholder="Nueva contraseña" required><input id="passwordConfirm" type="password" autocomplete="new-password" minlength="8" placeholder="Repite la contraseña" required><button type="submit">Guardar contraseña</button></form><p id="mensaje"></p><a href="../index.html">Volver al inicio</a></section><script type="module">
 import {supabase} from '../assets/js/supabase.js';import {updatePassword} from '../assets/js/auth.js';
 const form=document.getElementById('passwordForm'),mensaje=document.getElementById('mensaje'),guard=document.getElementById('guard');let recovery=false;
-if(new URLSearchParams(location.search).get('type')==='recovery'||location.hash.includes('type=recovery'))recovery=true;
+if(location.hash.includes('type=recovery'))recovery=true;
 supabase.auth.onAuthStateChange((event,session)=>{if(event==='PASSWORD_RECOVERY'&&session){recovery=true;form.hidden=false;guard.textContent='Enlace válido. Crea tu nueva contraseña.'}});
 const session=(await supabase.auth.getSession()).data.session;
 if(recovery&&session){form.hidden=false;guard.textContent='Enlace válido. Crea tu nueva contraseña.'}
