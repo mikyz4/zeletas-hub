@@ -1,4 +1,4 @@
-import Stripe from "npm:stripe@22.11.0";
+import Stripe from "npm:stripe@^22";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.117.3";
 
 const stripeKey=Deno.env.get("STRIPE_SECRET_KEY")||"";
